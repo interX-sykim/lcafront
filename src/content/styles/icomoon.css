@@ -1,0 +1,243 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('../fonts/icomoon.eot?tuljgy');
+  src:  url('../fonts/icomoon.eot?tuljgy#iefix') format('embedded-opentype'),
+    url('../fonts/icomoon.ttf?tuljgy') format('truetype'),
+    url('../fonts/icomoon.woff?tuljgy') format('woff'),
+    url('../fonts/icomoon.svg?tuljgy#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  position: relative;
+}
+
+.icon-arrow_move_left:before {
+  content: "\e940";
+}
+.icon-file_certificate:before {
+  content: "\e941";
+}
+.icon-alert_triangle:before {
+  content: "\e900";
+}
+.icon-apps:before {
+  content: "\e901";
+}
+.icon-arrow_down:before {
+  content: "\e902";
+}
+.icon-atom:before {
+  content: "\e903";
+}
+.icon-bookmark:before {
+  content: "\e904";
+}
+.icon-bookmarks:before {
+  content: "\e905";
+}
+.icon-browser:before {
+  content: "\e906";
+}
+.icon-business:before {
+  content: "\e907";
+}
+.icon-calendar_check:before {
+  content: "\e908";
+}
+.icon-card:before {
+  content: "\e909";
+}
+.icon-cctv:before {
+  content: "\e90a";
+}
+.icon-chart:before {
+  content: "\e90b";
+}
+.icon-chart_bar:before {
+  content: "\e90c";
+}
+.icon-chart_donut:before {
+  content: "\e90d";
+}
+.icon-chart_pie:before {
+  content: "\e90e";
+}
+.icon-chart_radar:before {
+  content: "\e90f";
+}
+.icon-check:before {
+  content: "\e910";
+}
+.icon-chevron_left:before {
+  content: "\e911";
+}
+.icon-chevron_right:before {
+  content: "\e912";
+}
+.icon-clipboard:before {
+  content: "\e913";
+}
+.icon-coins:before {
+  content: "\e914";
+}
+.icon-computer_cam_off:before {
+  content: "\e915";
+}
+.icon-computer_cog:before {
+  content: "\e916";
+}
+.icon-cooker:before {
+  content: "\e917";
+}
+.icon-cpu:before {
+  content: "\e918";
+}
+.icon-database:before {
+  content: "\e919";
+}
+.icon-database_cog:before {
+  content: "\e91a";
+}
+.icon-database_x:before {
+  content: "\e91b";
+}
+.icon-datagrid:before {
+  content: "\e91c";
+}
+.icon-detail:before {
+  content: "\e91d";
+}
+.icon-device_analytics:before {
+  content: "\e91e";
+}
+.icon-edit:before {
+  content: "\e91f";
+}
+.icon-file_description:before {
+  content: "\e920";
+}
+.icon-file_search:before {
+  content: "\e921";
+}
+.icon-FwEtc:before {
+  content: "\e922";
+}
+.icon-FwItems:before {
+  content: "\e923";
+}
+.icon-FwMachines:before {
+  content: "\e924";
+}
+.icon-FwMasters:before {
+  content: "\e925";
+}
+.icon-FwMenus:before {
+  content: "\e926";
+}
+.icon-FwOperations:before {
+  content: "\e927";
+}
+.icon-FwQualitys:before {
+  content: "\e928";
+}
+.icon-FwRaws:before {
+  content: "\e929";
+}
+.icon-FwSecuritys:before {
+  content: "\e92a";
+}
+.icon-FwUsers:before {
+  content: "\e92b";
+}
+.icon-image:before {
+  content: "\e92c";
+}
+.icon-info_circle:before {
+  content: "\e92d";
+}
+.icon-info_hexagon:before {
+  content: "\e92e";
+}
+.icon-language:before {
+  content: "\e92f";
+}
+.icon-menu:before {
+  content: "\e930";
+}
+.icon-menu_open:before {
+  content: "\e931";
+}
+.icon-minus:before {
+  content: "\e932";
+}
+.icon-mouse:before {
+  content: "\e933";
+  color: #344054;
+}
+.icon-null:before {
+  content: "\e934";
+}
+.icon-plus:before {
+  content: "\e935";
+}
+.icon-QltAnalysises:before {
+  content: "\e936";
+}
+.icon-QltMasters:before {
+  content: "\e937";
+}
+.icon-RcpAnalysises:before {
+  content: "\e938";
+}
+.icon-RcpMasters:before {
+  content: "\e939";
+}
+.icon-search:before {
+  content: "\e93a";
+}
+.icon-text:before {
+  content: "\e93b";
+}
+.icon-trash:before {
+  content: "\e93c";
+}
+.icon-triangle_square_circle:before {
+  content: "\e93d";
+}
+.icon-user_circle:before {
+  content: "\e93e";
+}
+.icon-x:before {
+  content: "\e93f";
+}
+
+
+.icon-null:after {
+  content: attr(initial);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #0F172A;
+  font-size: 13px;
+  font-weight: bold;
+  line-height: 1;
+  padding-bottom: 3px;
+}

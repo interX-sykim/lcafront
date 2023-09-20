@@ -1,0 +1,77 @@
+row
+.rdg-header-row {
+    background-color: #F8FAFC;
+}
+.rdg-row:nth-child(odd) {
+    background-color: #FAFAFA;
+}
+.rdg-row:hover {
+    background-color: #F2F2F2;
+}
+
+/* cell */
+.rdg-cell {
+    color: #667085;
+    font-size: 14px;
+    border-bottom: 1px solid #E5E7EB;
+    padding: 0px 20px !important;
+    cursor: pointer;
+    /* text-overflow: unset; */
+}
+.rdg-header-row .rdg-cell {
+    color: #101828;
+    border-top: 1px solid #E5E7EB;
+}
+.rdg-cell:has(button) {
+    display: flex;
+    gap: 4px;
+    justify-content: center;
+    align-items: center;
+}
+.rdg-cell.no {
+    padding: 0px 0px 0px 0px;
+}
+@layer rdg.Cell {.c1wupbe7-0-0-beta-34 {
+    padding: 0px 20px !important;
+}}
+
+/* checkbox */
+.rdg-checkbox {
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border: 1px solid #E2E4E7;
+    border-radius: 4px;
+}
+/* .rdg-checkbox-input:checked + .rdg-checkbox {
+    border: none;
+    outline: none;
+    background: center/ contain url("../images/icon-check.svg") no-repeat #13C690;
+} */
+
+/* division */
+.c1730fa47-0-0-beta-34 {
+    border-right: 1px solid #A9AFBC;
+    box-shadow: none;
+}
+
+/* when row select */
+.rdg-row[aria-selected='true'] {
+    background-color: #F3FCF9;
+    position: relative;
+}
+.rdg-row[aria-selected='true'] .rdg-cell:first-child {
+    position: relative;
+}
+.rdg-row[aria-selected='true'] .rdg-cell:first-child:before {
+    content: "";
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 3px;
+    height: 100%;
+    background-color: #13C690;
+}
+.rdg-cell[aria-selected='true'] {
+    outline: none !important;
+}
