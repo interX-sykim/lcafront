@@ -36,7 +36,6 @@ const Home = () => {
             key: "super", name: "Update request from SUPER", cellClass: "text-center", headerCellClass: "text-center",
             renderCell({ row }) {
                 console.log(row);
-                // return <Badge text={productList["superCompanyUpdateRequest"] "YES" : "NO"} mode={`${productList["superCompanyUpdateRequest"]? "primary" : "disabled"}`} />;
                 return <Badge text={row.super} mode={`${row.super === "YES" ? "primary" : ""}${row.super === "NO" ? "error": ""}${row.super === "DONE" ? "disabled": ""}`} />;
             },
         },
@@ -49,14 +48,26 @@ const Home = () => {
     ];
 
     const rows = [
-        { no: 3, product: "BP-201", product_ID: "23459090", CO2EQ: "3.45", last_update: "2022.12.31", super: "YES", sub: "NO", click: "/Page200" },
-        { no: 2, product: "BP-701", product_ID: "23458872", CO2EQ: "2.71", last_update: "2022.03.05", super: "DONE", sub: "DONE", click: false },
-        { no: 1, product: "BP-772", product_ID: "23459081", CO2EQ: "5.12", last_update: "2022.07.31", super: "DONE", sub: "DONE", click: false },
+        // { no: 3, product: "BP-201", product_ID: "23459090", CO2EQ: "3.45", last_update: "2022.12.31", super: "YES", sub: "NO", click: "/Page200" },
+        // { no: 2, product: "BP-701", product_ID: "23458872", CO2EQ: "2.71", last_update: "2022.03.05", super: "DONE", sub: "DONE", click: false },
+        // { no: 1, product: "BP-772", product_ID: "23459081", CO2EQ: "5.12", last_update: "2022.07.31", super: "DONE", sub: "DONE", click: false },
     ];
 
     for (var i=0; i<productList.length; i++) {
-        rows[i]["product"] = productList[i]["name"]
-        rows[i]["CO2EQ"] = productList[i]["co2EQ"]
+        rows.push(
+            {
+                no: i+1,
+                product: productList[i]["name"],
+                product_ID: "23459090",
+                CO2EQ: productList[i]["co2EQ"],
+                last_update: productList[i]['lastUpdate'].substring(0, 10).replaceAll('-', '.'),
+                super: productList[i]["superCompanyUpdateRequest"],
+                sub: productList[i]["subCompanyUpdateRequest"],
+                click: false
+            }
+        )};
+    if (rows.length > 0) {
+        rows[0]["click"] = "/Page200"
     }
 
     const totalCount = productList.length;

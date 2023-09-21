@@ -5,7 +5,31 @@ import DataGrid from "../component/common/DataGrid";
 import SankeyChart from "../component/common/SankeyChart";
 import machine from "../content/images/img-machine.jpg";
 
+import React, { useEffect, useRef, useState } from 'react';
+import axios from 'axios'
+
 const Page201 = () => {
+    const [product, setProduct] = useState([]);
+    const [superTierList, setSuperTierList] = useState([]);
+    const [componentList, setComponentList] = useState([]);
+    const [resourceList, setResourceList] = useState([]);
+    const [processList, setProcessList] = useState([]);
+
+    useEffect(() => {
+        axios.get('/Page200/6/')
+        .then((response) => {
+            setProduct(response.data.product);
+            setSuperTierList(response.data.superTierList);
+            setComponentList(response.data.componentList);
+            setResourceList(response.data.resourcesList);
+            setProcessList(response.data.processesList);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    }, []);
+
+
     const navigate = useNavigate();
     const STRHeader = [
         { key: "no", name: "NO", width: 61, cellClass: "text-center", headerCellClass: "text-center" },
@@ -22,9 +46,28 @@ const Page201 = () => {
     ];
 
     const STRRows = [
-        { no: 2, buyer: "알파에너지솔루션", buyer_ID: "ID#75AC872", last_request: "2023.08.15", TX_done: "NOT YET", send: true, click: "/Page400" },
-        { no: 1, buyer: "미래베터리", buyer_ID: "ID#CK23541", last_request: "2023.07.12", TX_done: "DONE", send: false },
+        // { no: 2, buyer: "알파에너지솔루션", buyer_ID: "ID#75AC872", last_request: "2023.08.15", TX_done: "NOT YET", send: true, click: "/Page400" },
+        // { no: 1, buyer: "미래베터리", buyer_ID: "ID#CK23541", last_request: "2023.07.12", TX_done: "DONE", send: false },
     ];
+
+    for (var i=0; i<superTierList.length; i++) {
+        STRRows.push(
+            {
+                no: i+1,
+                buyer: superTierList[i].product.company.name,
+                buyer_ID: "ID#75AC872",
+                last_request: superTierList[i].component.lastUpdate.substring(0, 10).replaceAll('-', '.'),
+                TX_done: "DONE", 
+                send: false
+            }
+        )};
+
+    if (STRRows.length > 0) {
+        STRRows[0].TX_done = "NOT YET"
+        STRRows[0].send = true
+        STRRows[0].click = "/Page400"
+    }
+
 
     const STRTotalCount = STRRows.length;
 
@@ -46,11 +89,27 @@ const Page201 = () => {
     ]
 
     const PCRows = [
-        { no: 4, component: "ETL-304", component_ID: "27374005", supplier: "카이케미컬", supplier_ID: "ID#30AB117", Qnty: "4 Liter", CO2EQ: "2.40", last_update: "2023.08.19", update: false},
-        { no: 3, component: "INS-303", component_ID: "99851101", supplier: "제타화학", supplier_ID: "ID#11KF757", Qnty: "1 EA", CO2EQ: "1.40", last_update: "2023.08.20", update: false},
-        { no: 2, component: "CDE-302", component_ID: "12341234", supplier: "델타프로", supplier_ID: "ID#QR372AFK", Qnty: "1 KG", CO2EQ: "0.30", last_update: "2023.08.24", update: false},
-        { no: 1, component: "ADE-301", component_ID: "81124550", supplier: "델타프로", supplier_ID: "ID#QR372AFK", Qnty: "2 KG", CO2EQ: "1.50", last_update: "2023.08.21", update: false},
+        // { no: 4, component: "ETL-304", component_ID: "27374005", supplier: "카이케미컬", supplier_ID: "ID#30AB117", Qnty: "4 Liter", CO2EQ: "2.40", last_update: "2023.08.19", update: false},
+        // { no: 3, component: "INS-303", component_ID: "99851101", supplier: "제타화학", supplier_ID: "ID#11KF757", Qnty: "1 EA", CO2EQ: "1.40", last_update: "2023.08.20", update: false},
+        // { no: 2, component: "CDE-302", component_ID: "12341234", supplier: "델타프로", supplier_ID: "ID#QR372AFK", Qnty: "1 KG", CO2EQ: "0.30", last_update: "2023.08.24", update: false},
+        // { no: 1, component: "ADE-301", component_ID: "81124550", supplier: "델타프로", supplier_ID: "ID#QR372AFK", Qnty: "2 KG", CO2EQ: "1.50", last_update: "2023.08.21", update: false},
     ]
+
+    for (var i=0; i < componentList.length; i++) {
+        PCRows.push(
+            {
+                no: i+1,
+                component: componentList[i].component.name,
+                component_ID: "27374005",
+                supplier: componentList[i].component.company.name,
+                supplier_ID: "ID#30AB117",
+                Qnty: componentList[i].qnty + " " + componentList[i].unit,
+                CO2EQ: componentList[i].component.co2EQ,
+                last_update: componentList[i].component.lastUpdate.substring(0, 10).replaceAll('-', '.'),
+                update: false
+            }
+        )
+    }
 
     const PCTotalCount = PCRows.length;
 
@@ -69,9 +128,23 @@ const Page201 = () => {
     ]
 
     const PRRows = [
-        { no: 2, resource: "Elec Power", Qnty: "1.2 KWh", CO2EQ: "0.22", last_update: "2023.08.19", update: false},
-        { no: 1, resource: "Water", Qnty: "2.3 Liter", CO2EQ: "0.33", last_update: "2023.08.19", update: false},
+        // { no: 2, resource: "Elec Power", Qnty: "1.2 KWh", CO2EQ: "0.22", last_update: "2023.08.19", update: false},
+        // { no: 1, resource: "Water", Qnty: "2.3 Liter", CO2EQ: "0.33", last_update: "2023.08.19", update: false},
     ]
+
+    for (var i=0; i < resourceList.length; i++) {
+        PRRows.push(
+            {
+                no: i+1,
+                resource: resourceList[i].resource.name,
+                Qnty: resourceList[i].qnty + " " + resourceList[i].unit,
+                CO2EQ: resourceList[i].resource.co2EQ,
+                last_update: resourceList[i].resource.lastUpdate.substring(0, 10).replaceAll("-", "."),
+                update: false
+            }
+        )
+    }
+
 
     const PRTotalCount = PRRows.length;
 
@@ -90,10 +163,24 @@ const Page201 = () => {
     ]
 
     const MPRows = [
-        { no: 3, process: "Heating", process_ID: "PR#125633F", CO2EQ: "1.19", last_update: "2023.08.19", update: false},
-        { no: 2, process: "Press", process_ID: "PR#905633K", CO2EQ: "2.93", last_update: "2023.08.19", update: false},
-        { no: 1, process: "Charging", process_ID: "PR#885632L", CO2EQ: "5.31", last_update: "2023.08.19", update: false},
+        // { no: 3, process: "Heating", process_ID: "PR#125633F", CO2EQ: "1.19", last_update: "2023.08.19", update: false},
+        // { no: 2, process: "Press", process_ID: "PR#905633K", CO2EQ: "2.93", last_update: "2023.08.19", update: false},
+        // { no: 1, process: "Charging", process_ID: "PR#885632L", CO2EQ: "5.31", last_update: "2023.08.19", update: false},
     ]
+
+    for (var i=0; i < processList.length; i++) {
+        MPRows.push(
+            {
+                no: i+1,
+                process: processList[i].process.name,
+                process_ID: "PR#125633F",
+                CO2EQ: processList[i].process.co2EQ,
+                last_update: processList[i].process.lastUpdate.substring(0, 10).replaceAll("-", "."),
+                update: false
+            }
+        )
+    }
+
 
     const MPTotalCount = MPRows.length;
 
