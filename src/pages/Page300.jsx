@@ -5,9 +5,36 @@ import DataGrid from "../component/common/DataGrid";
 import BetaElectronics from "../content/images/logo-beta_electronics.svg"
 import DeltaPro from "../content/images/logo-deltapro.svg";
 
-
+import React, { useEffect, useRef, useState } from 'react';
+import axios from 'axios'
 
 const Page300 = () => {
+    const [contract, setContract] = useState([]);
+    const [valueProvider, setValueProvider] = useState([]);
+    const [infoProvider, setInfoProvider] = useState([]);
+    const [signing, setSigning] = useState("");
+    const [end, setEnd] = useState("");
+    const [paymentTerms, setPaymentTerms] = useState([]);
+    const [dataTransScope, setDataTransScope] = useState("");
+    const [dataTransHistory, setDataTransHistory] = useState([]);
+
+    useEffect(() => {
+        axios.get("/Page300/")
+        .then((response) => {
+            setContract(response.data.contract);
+            setValueProvider(response.data.contract.valueProvider);
+            setInfoProvider(response.data.contract.informationProvider);
+            setSigning(response.data.contract.signingDate.substring(0, 10).replaceAll('-', '.'));
+            setEnd(response.data.contract.endDate.substring(0, 10).replaceAll('-', '.'));
+            setDataTransScope(response.data.contract.dataTransactionScope)
+            setDataTransHistory(response.data.history)
+            setPaymentTerms(response.data.contract.paymentTerms.split("\n"))
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+    }, []);
+
     const navigate = useNavigate();
     const gridHeader = [
         { key: "no", name: "NO", width: 61, cellClass: "text-center", headerCellClass: "text-center" },
@@ -16,15 +43,38 @@ const Page300 = () => {
     ]
 
     const rows = [
-        { no: 8, process_ID: "Payment for renewed data done. (100 USD for 100,000 calls)", date: "2023.08.31"},
-        { no: 7, process_ID: "CO2EQ aggregation completed and transferred.", date: "2023.08.24"},
-        { no: 6, process_ID: "CO2EQ aggregation started by DelaPro.", date: "2023.08.22"},
-        { no: 5, process_ID: "CO2EQ requested by BETA electronics.", date: "2023.08.22"},
-        { no: 4, process_ID: "Payment for renewed data done. (50 USD for 50,000 calls)", date: "2023.01.31"},
-        { no: 3, process_ID: "CO2EQ aggregation completed and transferred.", date: "2023.01.12"},
-        { no: 2, process_ID: "CO2EQ aggregation started by DelaPro.", date: "2023.01.11"},
-        { no: 1, process_ID: "CO2EQ requested by BETA electronics.", date: "2023.01.11"},
+        // { no: 8, process_ID: "Payment for renewed data done. (100 USD for 100,000 calls)", date: "2023.08.31"},
+        // { no: 7, process_ID: "CO2EQ aggregation completed and transferred.", date: "2023.08.24"},
+        // { no: 6, process_ID: "CO2EQ aggregation started by DelaPro.", date: "2023.08.22"},
+        // { no: 5, process_ID: "CO2EQ requested by BETA electronics.", date: "2023.08.22"},
+        // { no: 4, process_ID: "Payment for renewed data done. (50 USD for 50,000 calls)", date: "2023.01.31"},
+        // { no: 3, process_ID: "CO2EQ aggregation completed and transferred.", date: "2023.01.12"},
+        // { no: 2, process_ID: "CO2EQ aggregation started by DelaPro.", date: "2023.01.11"},
+        // { no: 1, process_ID: "CO2EQ requested by BETA electronics.", date: "2023.01.11"},
     ]
+
+    for (var i=0; i < dataTransHistory.length; i++) {
+        rows.push({
+            no: i+1,
+            process_ID: dataTransHistory[i].content,
+            date: dataTransHistory[i].transferDate.substring(0, 10).replaceAll('-', '.')
+        })
+    }
+
+    const dataScopeList = dataTransScope.split("\n");
+    const scopeRenderList = []
+    for (var i = 0; i < dataScopeList.length; i++) {
+        scopeRenderList.push(<li className="[&:not(:last-child)]:mb-2"><span className="font-bold">{dataScopeList[i].split(":")[0]}</span>:{dataScopeList[i].split(":")[1]}</li>)
+    }
+
+    const paymentRenderList = []
+    for (var i = 0; i < paymentTerms.length; i++) {
+        if (i === 0) {
+            paymentRenderList.push(<span>{paymentTerms[i]}</span>)
+        } else {
+            paymentRenderList.push(<span className="mt-2">{paymentTerms[i]}</span>)
+        }
+    }
 
     const totalCount = rows.length;
 
@@ -44,11 +94,13 @@ const Page300 = () => {
                             <ul>
                                 <li className="mb-2 pb-2 flex flex-col">
                                     <span className="text-default text-sm mb-1 leading-none">Company</span>
-                                    <p className="text-text-dark text-xl font-extrabold leading-none">베타전자</p>
+                                    {/* <p className="text-text-dark text-xl font-extrabold leading-none">베타전자</p> */}
+                                    <p className="text-text-dark text-xl font-extrabold leading-none">{valueProvider.name}</p>
                                 </li>
                                 <li className="mb-2 flex flex-col">
                                     <span className="text-default text-sm leading-none">Web Site</span>
-                                    <p className="text-text-default text-15 leading-6">www.beta_electronics.com</p>
+                                    {/* <p className="text-text-default text-15 leading-6">www.beta_electronics.com</p> */}
+                                    <p className="text-text-default text-15 leading-6">{valueProvider.website}</p>
                                 </li>
                                 <li className="flex flex-col">
                                     <span className="text-default text-sm leading-none">Tier ID</span>
@@ -72,11 +124,13 @@ const Page300 = () => {
                             <ul>
                                 <li className="mb-2 pb-2 flex flex-col">
                                     <span className="text-default text-sm mb-1 leading-none">Company</span>
-                                    <p className="text-text-dark text-xl font-extrabold leading-none">Delta Pro</p>
+                                    {/* <p className="text-text-dark text-xl font-extrabold leading-none">Delta Pro</p> */}
+                                    <p className="text-text-dark text-xl font-extrabold leading-none">{infoProvider.name}</p>
                                 </li>
                                 <li className="mb-2 flex flex-col">
                                     <span className="text-default text-sm leading-none">Web Site</span>
-                                    <p className="text-text-default text-15 leading-6">www.delta_pro.com</p>
+                                    {/* <p className="text-text-default text-15 leading-6">www.delta_pro.com</p> */}
+                                    <p className="text-text-default text-15 leading-6">{infoProvider.website}</p>
                                 </li>
                                 <li className="flex flex-col">
                                     <span className="text-default text-sm leading-none">Tier ID</span>
@@ -113,31 +167,36 @@ const Page300 = () => {
                             <li className="border-b border-border-light">
                                 <div className="w-full pb-7 flex items-center">
                                     <p className="w-60 pr-5 text-text-dark text-base font-bold leading-none">Contract Signing Date</p>
-                                    <p className="w-[calc(100%_-_15rem)] text-text-default text-base leading-none">2021.11.05</p>
+                                    {/* <p className="w-[calc(100%_-_15rem)] text-text-default text-base leading-none">2021.11.05</p> */}
+                                    <p className="w-[calc(100%_-_15rem)] text-text-default text-base leading-none">{signing}</p>
                                 </div>
                                 <div className="w-full pb-7 flex items-center">
                                     <p className="w-60 pr-5 text-text-dark text-base font-bold leading-none">Contract End Date</p>
-                                    <p className="w-[calc(100%_-_15rem)] text-text-default text-base leading-none">2025.11.04</p>
+                                    {/* <p className="w-[calc(100%_-_15rem)] text-text-default text-base leading-none">2025.11.04</p> */}
+                                    <p className="w-[calc(100%_-_15rem)] text-text-default text-base leading-none">{end}</p> 
                                 </div>
                             </li>
                             <li className="py-7 border-b border-border-light">
                                 <div className="flex">
                                     <p className="w-60 pr-5 text-text-dark text-base font-bold leading-none">Data Transaction Scope</p>
                                     <ul className="list-decimal pl-4 text-text-default text-base">
-                                        <li className="[&:not(:last-child)]:mb-2"><span className="font-bold">CO2Eq</span>: CO2 footprint equivalent emitted per one product.</li>
+                                        {/* <li className="[&:not(:last-child)]:mb-2"><span className="font-bold">CO2Eq</span>: CO2 footprint equivalent emitted per one product.</li>
                                         <li className="[&:not(:last-child)]:mb-2"><span className="font-bold">BOM</span>: Bill of Materials, listing the type and the number of all parts included in one product</li>
-                                        <li className="[&:not(:last-child)]:mb-2"><span className="font-bold">Routing Data</span>: describing the processes and the resources needed to complete one product.</li>
+                                        <li className="[&:not(:last-child)]:mb-2"><span className="font-bold">Routing Data</span>: describing the processes and the resources needed to complete one product.</li> */}
+                                        {scopeRenderList}
                                     </ul>
                                 </div>
                             </li>
                             <li>
                                 <div className="w-full pt-7 flex items-center">
                                     <p className="w-60 pr-5 text-text-dark text-base font-bold leading-none">Data Transaction Cost</p>
-                                    <p className="w-[calc(100%_-_15rem)] text-text-default text-base leading-none">100 USD / 100,000 Calls</p>
+                                    {/* <p className="w-[calc(100%_-_15rem)] text-text-default text-base leading-none">100 USD / 100,000 Calls</p> */}
+                                    <p className="w-[calc(100%_-_15rem)] text-text-default text-base leading-none">{contract.dataTransactionCost}</p>
                                 </div>
                                 <div className="w-full pt-7 flex">
                                     <p className="w-60 pr-5 text-text-dark text-base font-bold leading-none">Payment Terms</p>
-                                    <p className="w-[calc(100%_-_15rem)] text-text-default text-base leading-none flex flex-col"><span>USD or equivalent tokens</span><span className="mt-2">On end date of every month</span></p>
+                                    {/* <p className="w-[calc(100%_-_15rem)] text-text-default text-base leading-none flex flex-col"><span>USD or equivalent tokens</span><span className="mt-2">On end date of every month</span></p> */}
+                                    <p className="w-[calc(100%_-_15rem)] text-text-default text-base leading-none flex flex-col">{paymentRenderList}</p>
                                 </div>
                             </li>
                         </ul>
