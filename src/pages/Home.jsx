@@ -11,13 +11,32 @@ const Home = () => {
     const [productList, setProductList] = useState([]);
     const [companyName, setCompanyName] = useState([]);
     const [companyWebsite, setCompanyWebsite] = useState([]);
-
+    const [companyList , setCompanyList] = useState([]);
+    
     useEffect(() => {
-        axios.get('/')
+        axios.post('/company/list', {
+            id : 3
+        })
         .then((response) => {
-            setProductList(response.data["productList"]);
-            setCompanyName(response.data["companyName"]);
-            setCompanyWebsite(response.data["companyWebsite"]);
+            //console.log(response);
+            setCompanyList(response.data["rsltList"][0]);
+            //setProductList(response.data["productList"]);
+            //setCompanyName(response.data["companyName"]);
+            //setCompanyWebsite(response.data["companyWebsite"]);
+        })
+        .catch((error) => {
+            console.log(error);
+            setProductList([]);
+        });
+
+        axios.post("/product/list", { 
+            companyId : 3
+            ,strPageNum : 0
+            ,pageSize : 10
+        })
+        .then((response) => {
+            console.log(response);
+            setProductList(response.data["rsltList"]);
         })
         .catch((error) => {
             console.log(error);
@@ -58,8 +77,8 @@ const Home = () => {
             {
                 no: i+1,
                 product: productList[i]["name"],
-                product_ID: "23459090",
-                CO2EQ: productList[i]["co2EQ"],
+                product_ID: productList[i]["id"],
+                CO2EQ: productList[i]["co2eq"],
                 last_update: productList[i]['lastUpdate'].substring(0, 10).replaceAll('-', '.'),
                 super: productList[i]["superCompanyUpdateRequest"],
                 sub: productList[i]["subCompanyUpdateRequest"],
@@ -81,11 +100,11 @@ const Home = () => {
                     <ul>
                         <li className="mb-2 pb-2 flex flex-col">
                             <span className="text-default text-sm mb-1 leading-none">Company</span>
-                            <p className="text-text-dark text-xl font-extrabold leading-none">{companyName}</p>
+                            <p className="text-text-dark text-xl font-extrabold leading-none">{companyList["name"]}</p>
                         </li>
                         <li className="mb-2 flex flex-col">
                             <span className="text-default text-sm leading-none">Web Site</span>
-                            <p className="text-text-default text-15 leading-6">{companyWebsite}</p>
+                            <p className="text-text-default text-15 leading-6">{companyList["website"]}</p>
                         </li>
                         <li className="flex flex-col">
                             <span className="text-default text-sm leading-none">Tier ID</span>
@@ -93,11 +112,6 @@ const Home = () => {
                         </li>
                     </ul>
                     <div className="flex">
-                        <div className="h-full px-10 min-w-[18.75rem] flex flex-col items-center justify-center border-l border-border-light">
-                            <p className="text-primary font-bold text-xl leading-none mb-1">Total CO2eq</p>
-                            <p className="text-text-dark text-[3.75rem] font-extrabold leading-none mb-1">8,952.32</p>
-                            <p className="text-default text-xl">Ton</p>
-                        </div>
                         <div className="h-full w-[18.75rem] pl-[1.875rem] flex flex-col items-center justify-center border-l border-border-light">
                             <img src={BetaElectronics} alt="beta electronics" className="w-[12.5rem]" />
                         </div>
