@@ -49,7 +49,7 @@ const Home = () => {
         { key: "no", name: "NO", width: 61, cellClass: "text-center", headerCellClass: "text-center" },
         { key: "product", name: "Product"},
         { key: "product_ID", name: "Product ID" },
-        { key: "CO2EQ", name: "CO2EQ [kg/prd]", cellClass: "text-right", headerCellClass: "text-right"  },
+        { key: "CO2EQ", name: "CO2EQ ", cellClass: "text-right", headerCellClass: "text-right"  },
         { key: "last_update", name: "Last update", cellClass: "text-center", headerCellClass: "text-center"  },
         { 
             key: "super", name: "Update request from SUPER", cellClass: "text-center", headerCellClass: "text-center",
