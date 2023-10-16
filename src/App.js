@@ -8,7 +8,10 @@ import Page201 from './pages/Page201';
 import Page202 from './pages/Page202';
 import Page300 from './pages/Page300';
 import Page400 from './pages/Page400';
+import CompanyRegister from './pages/CompanyRegister';
+
 import ResizablePanel from './component/layer/ResizablePanel';
+
 
 
 function Root() {
@@ -24,6 +27,7 @@ function Root() {
                     <Route path="/Page202" element={<Page202 />} />
                     <Route path="/Page300" element={<Page300 />} />
                     <Route path="/Page400" element={<Page400 />} />
+                    <Route path="/CompanyRegister" element={<CompanyRegister />} />
                 </Route>
             </Routes>
         </div>);
