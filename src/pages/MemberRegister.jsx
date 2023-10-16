@@ -1,18 +1,18 @@
 import React, { useEffect } from "react";
 import PageTitle from "../component/common/PageTitle";
-import CompanyForm from "../userForm/CompanyForm";
+import MemberForm from "../userForm/MemberForm";
 import "../userCss/userCss.css";
 import axios from 'axios';
 
-const CompanyRegister = () => {
+const MemberRegister = () => {
     const submit = values => {
-        console.log("submit" , values["name"]);
+        console.log("submit" , values);
 
 
-        axios.post('/company/insert', {
+        axios.post('/member/insert', {
             name : values["name"]
-            , website : values["website"]
-            ,logImageUrl : values["logoImageUrl"]
+            ,pwd : values["password"]
+            ,id : values["id"]
             ,email : values["email"]
         })
         .then((response) => {
@@ -26,7 +26,7 @@ const CompanyRegister = () => {
         });
     };
 
-    const { state, handleChange, handleSubmit } = CompanyForm(submit);
+    const { state, handleChange, handleSubmit } = MemberForm(submit);
     return (
         <>
             <PageTitle />
@@ -34,7 +34,7 @@ const CompanyRegister = () => {
                 <div className="bg-white ">
                     <ul>
                         <li className="mb-2 pb-2 flex flex-col">
-                            <p className="text-text-dark text-xl font-extrabold leading-none">Company Info Register</p>
+                            <p className="text-text-dark text-xl font-extrabold leading-none">Member Info Register</p>
                         </li>
                     </ul>
                 </div>
@@ -42,7 +42,27 @@ const CompanyRegister = () => {
                 <div className="card h-auto mb-5">
                     <div className="p-4 flex items-center justify-between">
                         <div>
-                            <CompanyInput
+                            <MemberInput
+                                state={state}
+                                handleChange={handleChange}
+                                name="id"
+                                label="ID"
+                            />
+                        </div>
+                    </div>
+                    <div className="p-4 flex items-center justify-between">
+                        <div>
+                            <MemberInput
+                                state={state}
+                                handleChange={handleChange}
+                                name="password"
+                                label="Password"
+                            />
+                        </div>
+                    </div>
+                    <div className="p-4 flex items-center justify-between">
+                        <div>
+                            <MemberInput
                                 state={state}
                                 handleChange={handleChange}
                                 name="name"
@@ -52,27 +72,7 @@ const CompanyRegister = () => {
                     </div>
                     <div className="p-4 flex items-center justify-between">
                         <div>
-                            <CompanyInput
-                                state={state}
-                                handleChange={handleChange}
-                                name="website"
-                                label="Website"
-                            />
-                        </div>
-                    </div>
-                    <div className="p-4 flex items-center justify-between">
-                        <div>
-                            <CompanyInput
-                                state={state}
-                                handleChange={handleChange}
-                                name="logoImageUrl"
-                                label="LogoImageUrl"
-                            />
-                        </div>
-                    </div>
-                    <div className="p-4 flex items-center justify-between">
-                        <div>
-                            <CompanyInput
+                            <MemberInput
                                 state={state}
                                 handleChange={handleChange}
                                 name="email"
@@ -92,9 +92,9 @@ const CompanyRegister = () => {
     );
 };
 
-export default CompanyRegister;
+export default MemberRegister;
 
-const CompanyInput = ({ name , label, state, handleChange}) => {
+const MemberInput = ({ name , label, state, handleChange}) => {
     return(
         <label>
             {label}

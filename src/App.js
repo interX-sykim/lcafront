@@ -9,9 +9,11 @@ import Page202 from './pages/Page202';
 import Page300 from './pages/Page300';
 import Page400 from './pages/Page400';
 import CompanyRegister from './pages/CompanyRegister';
+import Login from './pages/Login';
+import MemberRegister from './pages/MemberRegister';
+import MemberDetail from './pages/MemberDetail';
 
 import ResizablePanel from './component/layer/ResizablePanel';
-
 
 
 function Root() {
@@ -28,6 +30,9 @@ function Root() {
                     <Route path="/Page300" element={<Page300 />} />
                     <Route path="/Page400" element={<Page400 />} />
                     <Route path="/CompanyRegister" element={<CompanyRegister />} />
+                    <Route path="/Login" element={<Login />} />
+                    <Route path="/MemberRegister" element={<MemberRegister />} />
+                    <Route path="/MemberDetail" element={<MemberDetail />} />
                 </Route>
             </Routes>
         </div>);

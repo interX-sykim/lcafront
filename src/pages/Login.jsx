@@ -1,19 +1,17 @@
 import React, { useEffect } from "react";
-import PageTitle from "../component/common/PageTitle";
-import CompanyForm from "../userForm/CompanyForm";
+import LoginForm from "../userForm/loginForm";
 import "../userCss/userCss.css";
 import axios from 'axios';
 
-const CompanyRegister = () => {
+const Login = () => {
     const submit = values => {
-        console.log("submit" , values["name"]);
+        console.log("id" , values["id"]);
+        console.log("password" , values["password"]);
 
-
-        axios.post('/company/insert', {
-            name : values["name"]
-            , website : values["website"]
-            ,logImageUrl : values["logoImageUrl"]
-            ,email : values["email"]
+/*
+        axios.post('/user/login', {
+            id : values["id"]
+            , pwd : values["password"]
         })
         .then((response) => {
             if(response.data["rsltCode"] === "F")
@@ -22,19 +20,19 @@ const CompanyRegister = () => {
                 alert(response.data["rsltMsg"]);
         })
         .catch((error) => {
-            alert("등록실패")
+            alert("로그인실패")
         });
+*/        
     };
 
-    const { state, handleChange, handleSubmit } = CompanyForm(submit);
+    const { state, handleChange, handleSubmit } = LoginForm(submit);
     return (
         <>
-            <PageTitle />
             <div className="p-[1.875rem]">
                 <div className="bg-white ">
                     <ul>
                         <li className="mb-2 pb-2 flex flex-col">
-                            <p className="text-text-dark text-xl font-extrabold leading-none">Company Info Register</p>
+                            <p className="text-text-dark text-xl font-extrabold leading-none">LOGIN</p>
                         </li>
                     </ul>
                 </div>
@@ -42,47 +40,27 @@ const CompanyRegister = () => {
                 <div className="card h-auto mb-5">
                     <div className="p-4 flex items-center justify-between">
                         <div>
-                            <CompanyInput
+                            <LoginInput
                                 state={state}
                                 handleChange={handleChange}
-                                name="name"
-                                label="Name"
+                                name="id"
+                                label="ID"
                             />
                         </div>
                     </div>
                     <div className="p-4 flex items-center justify-between">
                         <div>
-                            <CompanyInput
+                            <LoginInput
                                 state={state}
                                 handleChange={handleChange}
-                                name="website"
-                                label="Website"
-                            />
-                        </div>
-                    </div>
-                    <div className="p-4 flex items-center justify-between">
-                        <div>
-                            <CompanyInput
-                                state={state}
-                                handleChange={handleChange}
-                                name="logoImageUrl"
-                                label="LogoImageUrl"
-                            />
-                        </div>
-                    </div>
-                    <div className="p-4 flex items-center justify-between">
-                        <div>
-                            <CompanyInput
-                                state={state}
-                                handleChange={handleChange}
-                                name="email"
-                                label="Email"
+                                name="password"
+                                label="PASSWORD"
                             />
                         </div>
                     </div>
                     <div className="p-4 flex items-center justify-between">
                         <div className='form-actions'>
-                            <button type="submit" className="submit-btn">Register</button>
+                            <button type="submit" className="submit-btn">Login</button>
                         </div>
                     </div>
                 </div>
@@ -92,9 +70,9 @@ const CompanyRegister = () => {
     );
 };
 
-export default CompanyRegister;
+export default Login;
 
-const CompanyInput = ({ name , label, state, handleChange}) => {
+const LoginInput = ({ name , label, state, handleChange}) => {
     return(
         <label>
             {label}
