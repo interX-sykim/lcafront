@@ -83,6 +83,7 @@ const Home = () => {
                 super: productList[i]["superCompanyUpdateRequest"],
                 sub: productList[i]["subCompanyUpdateRequest"],
                 params: {
+                    id: productList[i]["id"],
                     name: productList[i]["name"],
                     company: companyList["name"],
                     CO2EQ: productList[i]["co2eq"],

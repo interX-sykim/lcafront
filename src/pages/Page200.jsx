@@ -17,6 +17,33 @@ const Page200 = ({route}) => {
     const [processList, setProcessList] = useState([]);
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        axios.post('/product/component/List', {
+            id : state.id
+            ,strPageNum : 0
+            ,pageSize : 10
+        })
+        .then((response) => {
+            setComponentList(response.data["rsltList"]);
+        })
+        .catch((error) => {
+            console.log(error);
+            setComponentList([]);
+        });
+
+        axios.post("/resource/ListByProduct", { 
+            id : state.id
+        })
+        .then((response) => {
+            setResourceList(response.data["rsltList"]);
+        })
+        .catch((error) => {
+            console.log(error);
+            setResourceList([]);
+        });
+    }, []);
+
     const STRHeader = [
         { key: "no", name: "NO", width: 61, cellClass: "text-center", headerCellClass: "text-center" },
         { key: "buyer", name: "Buyer"},
@@ -78,17 +105,18 @@ const Page200 = ({route}) => {
         // { no: 1, component: "ADE-301", component_ID: "81124550", supplier: "델타프로", supplier_ID: "ID#QR372AFK", Qnty: "2 KG", CO2EQ: "1.50", last_update: "2023.08.21", update: false},
     ]
 
+    console.log(componentList)
     for (var i=0; i < componentList.length; i++) {
         PCRows.push(
             {
                 no: i+1,
-                component: componentList[i].component.name,
+                component: componentList[i].name,
                 component_ID: "27374005",
-                supplier: componentList[i].component.company.name,
+                supplier: componentList[i].supplierName,
                 supplier_ID: "ID#30AB117",
                 Qnty: componentList[i].qnty + " " + componentList[i].unit,
-                CO2EQ: componentList[i].component.co2EQ,
-                last_update: componentList[i].component.lastUpdate.substring(0, 10).replaceAll('-', '.'),
+                CO2EQ: componentList[i].co2eq,
+                last_update: componentList[i].lastUpdate.substring(0, 10).replaceAll('-', '.'),
                 update: false
             }
         )
@@ -121,14 +149,15 @@ const Page200 = ({route}) => {
         // { no: 1, resource: "Water", Qnty: "2.3 Liter", CO2EQ: "0.33", last_update: "2023.08.19", update: false},
     ]
 
+    console.log(resourceList)
     for (var i=0; i < resourceList.length; i++) {
         PRRows.push(
             {
                 no: i+1,
-                resource: resourceList[i].resource.name,
+                resource: resourceList[i].name,
                 Qnty: resourceList[i].qnty + " " + resourceList[i].unit,
-                CO2EQ: resourceList[i].resource.co2EQ,
-                last_update: resourceList[i].resource.lastUpdate.substring(0, 10).replaceAll("-", "."),
+                CO2EQ: resourceList[i].co2eq,
+                last_update: resourceList[i].lastUpdate.substring(0, 10).replaceAll("-", "."),
                 update: false
             }
         )
@@ -156,18 +185,18 @@ const Page200 = ({route}) => {
         // { no: 1, process: "Charging", process_ID: "PR#885632L", CO2EQ: "5.31", last_update: "2023.08.19", update: false},
     ]
 
-    for (var i=0; i < processList.length; i++) {
-        MPRows.push(
-            {
-                no: i+1,
-                process: processList[i].process.name,
-                process_ID: "PR#125633F",
-                CO2EQ: processList[i].process.co2EQ,
-                last_update: processList[i].process.lastUpdate.substring(0, 10).replaceAll("-", "."),
-                update: false
-            }
-        )
-    }
+    // for (var i=0; i < processList.length; i++) {
+    //     MPRows.push(
+    //         {
+    //             no: i+1,
+    //             process: processList[i].process.name,
+    //             process_ID: "PR#125633F",
+    //             CO2EQ: processList[i].process.co2EQ,
+    //             last_update: processList[i].process.lastUpdate.substring(0, 10).replaceAll("-", "."),
+    //             update: false
+    //         }
+    //     )
+    // }
 
     const MPTotalCount = MPRows.length;
 
