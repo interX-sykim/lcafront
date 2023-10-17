@@ -42,6 +42,18 @@ const Page200 = ({route}) => {
             console.log(error);
             setResourceList([]);
         });
+
+        axios.post("/process/ListByProduct", { 
+            id : state.id
+        })
+        .then((response) => {
+            setProcessList(response.data["rsltList"]);
+        })
+        .catch((error) => {
+            console.log(error);
+            setProcessList([]);
+        });
+
     }, []);
 
     const STRHeader = [
@@ -185,18 +197,19 @@ const Page200 = ({route}) => {
         // { no: 1, process: "Charging", process_ID: "PR#885632L", CO2EQ: "5.31", last_update: "2023.08.19", update: false},
     ]
 
-    // for (var i=0; i < processList.length; i++) {
-    //     MPRows.push(
-    //         {
-    //             no: i+1,
-    //             process: processList[i].process.name,
-    //             process_ID: "PR#125633F",
-    //             CO2EQ: processList[i].process.co2EQ,
-    //             last_update: processList[i].process.lastUpdate.substring(0, 10).replaceAll("-", "."),
-    //             update: false
-    //         }
-    //     )
-    // }
+    console.log(processList)
+    for (var i=0; i < processList.length; i++) {
+        MPRows.push(
+            {
+                no: i+1,
+                process: processList[i].name,
+                process_ID: "PR#125633F",
+                CO2EQ: processList[i].co2eq,
+                last_update: processList[i].lastUpdate.substring(0, 10).replaceAll("-", "."),
+                update: false
+            }
+        )
+    }
 
     const MPTotalCount = MPRows.length;
 
