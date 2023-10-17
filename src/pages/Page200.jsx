@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import Badge from "../component/common/atom/Badge";
 import Textbox from "../component/common/atom/Textbox";
 import DataGrid from "../component/common/DataGrid";
@@ -8,27 +9,12 @@ import machine from "../content/images/img-machine.jpg";
 import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios'
 
-const Page200 = () => {
-    const [product, setProduct] = useState([]);
+const Page200 = ({route}) => {
+    const state = useLocation().state
     const [superTierList, setSuperTierList] = useState([]);
     const [componentList, setComponentList] = useState([]);
     const [resourceList, setResourceList] = useState([]);
     const [processList, setProcessList] = useState([]);
-
-    useEffect(() => {
-        axios.get('/Page200/6/')
-        .then((response) => {
-            setProduct(response.data.product);
-            setSuperTierList(response.data.superTierList);
-            setComponentList(response.data.componentList);
-            setResourceList(response.data.resourcesList);
-            setProcessList(response.data.processesList);
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-    }, []);
-
 
     const navigate = useNavigate();
     const STRHeader = [
@@ -197,11 +183,11 @@ const Page200 = () => {
                     <ul>
                         <li className="mb-2 pb-2 flex flex-col">
                             <span className="text-default text-sm mb-1 leading-none">Product</span>
-                            <p className="text-text-dark text-xl font-extrabold leading-none">BP-201 Battery Pack</p>
+                            <p className="text-text-dark text-xl font-extrabold leading-none">{state.name}</p>
                         </li>
                         <li className="mb-2 flex flex-col">
                             <span className="text-default text-sm leading-none">Company</span>
-                            <p className="text-text-default text-15 leading-6 h-6"></p>
+                            <p className="text-text-default text-15 leading-6 h-6">{state.company}</p>
                         </li>
                         <li className="mb-2 flex flex-col">
                             <span className="text-default text-sm leading-none">Product ID</span>
@@ -209,13 +195,13 @@ const Page200 = () => {
                         </li>
                         <li className="flex flex-col">
                             <span className="text-default text-sm leading-none">Last Update</span>
-                            <p className="text-text-default text-15 leading-6 h-6">2022.12.31</p>
+                            <p className="text-text-default text-15 leading-6 h-6">{state.lastUpdate}</p>
                         </li>
                     </ul>
                     <div className="flex">
                         <div className="h-full px-10 min-w-[18.75rem] flex flex-col items-center justify-center border-l border-border-light">
                             <p className="text-primary font-bold text-xl leading-none mb-1">CO2eq</p>
-                            <p className="text-text-dark text-[3.75rem] font-extrabold leading-none mb-1">3.45</p>
+                            <p className="text-text-dark text-[3.75rem] font-extrabold leading-none mb-1">{state.CO2EQ}</p>
                             <p className="text-default text-xl">kg/ea</p>
                         </div>
                         <div className="h-full w-[18.75rem] flex flex-col items-center justify-center">

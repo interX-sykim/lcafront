@@ -82,7 +82,13 @@ const Home = () => {
                 last_update: productList[i]['lastUpdate'].substring(0, 10).replaceAll('-', '.'),
                 super: productList[i]["superCompanyUpdateRequest"],
                 sub: productList[i]["subCompanyUpdateRequest"],
-                click: false
+                params: {
+                    name: productList[i]["name"],
+                    company: companyList["name"],
+                    CO2EQ: productList[i]["co2eq"],
+                    lastUpdate: productList[i]['lastUpdate'].substring(0, 10).replaceAll('-', '.')
+                },
+                click: "/Page200"
             }
         )};
     if (rows.length > 0) {

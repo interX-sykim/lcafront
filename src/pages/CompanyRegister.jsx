@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import PageTitle from "../component/common/PageTitle";
-import CompanyForm from "../userForm/CompanyForm";
+import CompanyForm from "../userForm/companyForm";
 import "../userCss/userCss.css";
 import axios from 'axios';
 
