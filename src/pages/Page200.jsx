@@ -19,41 +19,42 @@ const Page200 = ({route}) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.post('/product/component/List', {
-            id : state.id
-            ,strPageNum : 0
-            ,pageSize : 10
-        })
-        .then((response) => {
-            setComponentList(response.data["rsltList"]);
-        })
-        .catch((error) => {
-            console.log(error);
-            setComponentList([]);
-        });
-
-        axios.post("/resource/ListByProduct", { 
-            id : state.id
-        })
-        .then((response) => {
-            setResourceList(response.data["rsltList"]);
-        })
-        .catch((error) => {
-            console.log(error);
-            setResourceList([]);
-        });
-
-        axios.post("/process/ListByProduct", { 
-            id : state.id
-        })
-        .then((response) => {
-            setProcessList(response.data["rsltList"]);
-        })
-        .catch((error) => {
-            console.log(error);
-            setProcessList([]);
-        });
-
+        if (state != null) {
+            axios.post('/product/component/List', {
+                id : state.id
+                ,strPageNum : 0
+                ,pageSize : 10
+            })
+            .then((response) => {
+                setComponentList(response.data["rsltList"]);
+            })
+            .catch((error) => {
+                console.log(error);
+                setComponentList([]);
+            });
+    
+            axios.post("/resource/ListByProduct", { 
+                id : state.id
+            })
+            .then((response) => {
+                setResourceList(response.data["rsltList"]);
+            })
+            .catch((error) => {
+                console.log(error);
+                setResourceList([]);
+            });
+    
+            axios.post("/process/ListByProduct", { 
+                id : state.id
+            })
+            .then((response) => {
+                setProcessList(response.data["rsltList"]);
+            })
+            .catch((error) => {
+                console.log(error);
+                setProcessList([]);
+            });
+        }
     }, []);
 
     const STRHeader = [
@@ -81,7 +82,7 @@ const Page200 = ({route}) => {
                 no: i+1,
                 buyer: superTierList[i].product.company.name,
                 buyer_ID: "ID#75AC872",
-                last_request: superTierList[i].component.lastUpdate.substring(0, 10).replaceAll('-', '.'),
+                last_request: superTierList[i].component.lastUpdate?.substring(0, 10).replaceAll('-', '.'),
                 TX_done: "DONE", 
                 send: false
             }
@@ -117,7 +118,6 @@ const Page200 = ({route}) => {
         // { no: 1, component: "ADE-301", component_ID: "81124550", supplier: "델타프로", supplier_ID: "ID#QR372AFK", Qnty: "2 KG", CO2EQ: "1.50", last_update: "2023.08.21", update: false},
     ]
 
-    console.log(componentList)
     for (var i=0; i < componentList.length; i++) {
         PCRows.push(
             {
@@ -128,13 +128,13 @@ const Page200 = ({route}) => {
                 supplier_ID: "ID#30AB117",
                 Qnty: componentList[i].qnty + " " + componentList[i].unit,
                 CO2EQ: componentList[i].co2eq,
-                last_update: componentList[i].lastUpdate.substring(0, 10).replaceAll('-', '.'),
+                last_update: componentList[i].lastUpdate.substring(0, 10).replaceAll('-', '.') || "",
                 update: false
             }
         )
     }
 
-    if (PCRows.length > 0) {
+    if (PCRows.length > 1) {
         PCRows[1].last_update = "NOT YET"
         PCRows[1].update = true
         PCRows[1].click = "/Page300"
@@ -161,7 +161,6 @@ const Page200 = ({route}) => {
         // { no: 1, resource: "Water", Qnty: "2.3 Liter", CO2EQ: "0.33", last_update: "2023.08.19", update: false},
     ]
 
-    console.log(resourceList)
     for (var i=0; i < resourceList.length; i++) {
         PRRows.push(
             {
@@ -169,7 +168,7 @@ const Page200 = ({route}) => {
                 resource: resourceList[i].name,
                 Qnty: resourceList[i].qnty + " " + resourceList[i].unit,
                 CO2EQ: resourceList[i].co2eq,
-                last_update: resourceList[i].lastUpdate.substring(0, 10).replaceAll("-", "."),
+                last_update: resourceList[i].lastUpdate.substring(0, 10).replaceAll("-", ".") || "",
                 update: false
             }
         )
@@ -197,7 +196,6 @@ const Page200 = ({route}) => {
         // { no: 1, process: "Charging", process_ID: "PR#885632L", CO2EQ: "5.31", last_update: "2023.08.19", update: false},
     ]
 
-    console.log(processList)
     for (var i=0; i < processList.length; i++) {
         MPRows.push(
             {
@@ -205,7 +203,7 @@ const Page200 = ({route}) => {
                 process: processList[i].name,
                 process_ID: "PR#125633F",
                 CO2EQ: processList[i].co2eq,
-                last_update: processList[i].lastUpdate.substring(0, 10).replaceAll("-", "."),
+                last_update: processList[i].lastUpdate.substring(0, 10).replaceAll("-", ".") || "",
                 update: false
             }
         )
@@ -225,11 +223,11 @@ const Page200 = ({route}) => {
                     <ul>
                         <li className="mb-2 pb-2 flex flex-col">
                             <span className="text-default text-sm mb-1 leading-none">Product</span>
-                            <p className="text-text-dark text-xl font-extrabold leading-none">{state.name}</p>
+                            <p className="text-text-dark text-xl font-extrabold leading-none">{state? state.name : ""}</p>
                         </li>
                         <li className="mb-2 flex flex-col">
                             <span className="text-default text-sm leading-none">Company</span>
-                            <p className="text-text-default text-15 leading-6 h-6">{state.company}</p>
+                            <p className="text-text-default text-15 leading-6 h-6">{state? state.company : ""}</p>
                         </li>
                         <li className="mb-2 flex flex-col">
                             <span className="text-default text-sm leading-none">Product ID</span>
@@ -237,13 +235,13 @@ const Page200 = ({route}) => {
                         </li>
                         <li className="flex flex-col">
                             <span className="text-default text-sm leading-none">Last Update</span>
-                            <p className="text-text-default text-15 leading-6 h-6">{state.lastUpdate}</p>
+                            <p className="text-text-default text-15 leading-6 h-6">{state? state.lastUpdate : ""}</p>
                         </li>
                     </ul>
                     <div className="flex">
                         <div className="h-full px-10 min-w-[18.75rem] flex flex-col items-center justify-center border-l border-border-light">
                             <p className="text-primary font-bold text-xl leading-none mb-1">CO2eq</p>
-                            <p className="text-text-dark text-[3.75rem] font-extrabold leading-none mb-1">{state.CO2EQ}</p>
+                            <p className="text-text-dark text-[3.75rem] font-extrabold leading-none mb-1">{state? state.CO2EQ : ""}</p>
                             <p className="text-default text-xl">kg/ea</p>
                         </div>
                         <div className="h-full w-[18.75rem] flex flex-col items-center justify-center">

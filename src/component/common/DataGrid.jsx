@@ -38,7 +38,6 @@ export default function DataGrid(props) {
                             navigate(args.row?.click, {
                                 state: args.row?.params
                             })
-                            console.log(args.row)
                         };
                     }}
                 />
