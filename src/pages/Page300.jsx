@@ -19,16 +19,16 @@ const Page300 = () => {
     const [dataTransHistory, setDataTransHistory] = useState([]);
 
     useEffect(() => {
-        axios.get("/Page300/")
+        axios.post("/contract/list", {
+            id : 1
+        })
         .then((response) => {
-            setContract(response.data.contract);
-            setValueProvider(response.data.contract.valueProvider);
-            setInfoProvider(response.data.contract.informationProvider);
-            setSigning(response.data.contract.signingDate.substring(0, 10).replaceAll('-', '.'));
-            setEnd(response.data.contract.endDate.substring(0, 10).replaceAll('-', '.'));
-            setDataTransScope(response.data.contract.dataTransactionScope)
-            setDataTransHistory(response.data.history)
-            setPaymentTerms(response.data.contract.paymentTerms.split("\n"))
+            setContract(response.data.rsltList[0]);
+            setSigning(response.data.rsltList[0].signingDate.substring(0, 10).replaceAll('-', '.'));
+            setEnd(response.data.rsltList[0].endDate.substring(0, 10).replaceAll('-', '.'));
+            setDataTransScope(response.data.rsltList[0].dataTransactionScope)
+            // setDataTransHistory(response.data.history)
+            setPaymentTerms(response.data.rsltList[0].paymentTerms.split("\n"))
         })
         .catch((error) => {
             console.log(error);
@@ -95,12 +95,12 @@ const Page300 = () => {
                                 <li className="mb-2 pb-2 flex flex-col">
                                     <span className="text-default text-sm mb-1 leading-none">Company</span>
                                     {/* <p className="text-text-dark text-xl font-extrabold leading-none">베타전자</p> */}
-                                    <p className="text-text-dark text-xl font-extrabold leading-none">{valueProvider.name}</p>
+                                    <p className="text-text-dark text-xl font-extrabold leading-none">{contract.valueProviderName}</p>
                                 </li>
                                 <li className="mb-2 flex flex-col">
                                     <span className="text-default text-sm leading-none">Web Site</span>
                                     {/* <p className="text-text-default text-15 leading-6">www.beta_electronics.com</p> */}
-                                    <p className="text-text-default text-15 leading-6">{valueProvider.website}</p>
+                                    <p className="text-text-default text-15 leading-6">{contract.valueProviderWebsite}</p>
                                 </li>
                                 <li className="flex flex-col">
                                     <span className="text-default text-sm leading-none">Tier ID</span>
@@ -125,12 +125,12 @@ const Page300 = () => {
                                 <li className="mb-2 pb-2 flex flex-col">
                                     <span className="text-default text-sm mb-1 leading-none">Company</span>
                                     {/* <p className="text-text-dark text-xl font-extrabold leading-none">Delta Pro</p> */}
-                                    <p className="text-text-dark text-xl font-extrabold leading-none">{infoProvider.name}</p>
+                                    <p className="text-text-dark text-xl font-extrabold leading-none">{contract.informationProviderName}</p>
                                 </li>
                                 <li className="mb-2 flex flex-col">
                                     <span className="text-default text-sm leading-none">Web Site</span>
                                     {/* <p className="text-text-default text-15 leading-6">www.delta_pro.com</p> */}
-                                    <p className="text-text-default text-15 leading-6">{infoProvider.website}</p>
+                                    <p className="text-text-default text-15 leading-6">{contract.informationProviderWebsite}</p>
                                 </li>
                                 <li className="flex flex-col">
                                     <span className="text-default text-sm leading-none">Tier ID</span>
