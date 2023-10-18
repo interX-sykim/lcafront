@@ -54,6 +54,17 @@ const Page200 = ({route}) => {
                 console.log(error);
                 setProcessList([]);
             });
+
+            axios.post("/company/superTierList", { 
+                id : state.id
+            })
+            .then((response) => {
+                setSuperTierList(response.data["rsltList"]);
+            })
+            .catch((error) => {
+                console.log(error);
+                setSuperTierList([]);
+            });
         }
     }, []);
 
@@ -76,17 +87,19 @@ const Page200 = ({route}) => {
         // { no: 1, buyer: "미래베터리", buyer_ID: "ID#CK23541", last_request: "2023.07.12", TX_done: "DONE", send: false },
     ];
 
+    console.log("super tier : ")
+    console.log(superTierList)
     for (var i=0; i<superTierList.length; i++) {
         STRRows.push(
             {
                 no: i+1,
-                buyer: superTierList[i].product.company.name,
+                buyer: superTierList[i].name,
                 buyer_ID: "ID#75AC872",
-                last_request: superTierList[i].component.lastUpdate?.substring(0, 10).replaceAll('-', '.'),
+                last_request: "2023-10-18",
                 TX_done: "DONE", 
                 send: false
             }
-        )};
+    )};
 
     if (STRRows.length > 0) {
         STRRows[0].TX_done = "NOT YET";
