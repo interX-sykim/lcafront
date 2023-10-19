@@ -27,11 +27,17 @@ const Page300 = () => {
             setSigning(response.data.rsltList[0].signingDate.substring(0, 10).replaceAll('-', '.'));
             setEnd(response.data.rsltList[0].endDate.substring(0, 10).replaceAll('-', '.'));
             setDataTransScope(response.data.rsltList[0].dataTransactionScope)
-            // setDataTransHistory(response.data.history)
             setPaymentTerms(response.data.rsltList[0].paymentTerms.split("\n"))
         })
         .catch((error) => {
             console.log(error);
+        })
+
+        axios.post("/contract/dataHistoryList", {
+            id : 1
+        })
+        .then((response) => {
+            setDataTransHistory(response.data.rsltList)
         })
     }, []);
 
