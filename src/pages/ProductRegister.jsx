@@ -7,10 +7,10 @@ import axios from 'axios';
 const ProductRegister = () => {
 
     const submit = values => {
-        console.log("submit" , values["name"]);
+        console.log("submit" , values);
 
         axios.post('/product/insert', {
-            name : values["name"]
+            name : values["product name"]
             , co2eq : values["co2eq"]
             , companyId : 3
         })

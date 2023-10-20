@@ -35,7 +35,6 @@ const Home = () => {
             ,pageSize : 10
         })
         .then((response) => {
-            console.log(response);
             setProductList(response.data["rsltList"]);
         })
         .catch((error) => {
@@ -54,7 +53,6 @@ const Home = () => {
         { 
             key: "super", name: "Update request from SUPER", cellClass: "text-center", headerCellClass: "text-center",
             renderCell({ row }) {
-                console.log(row);
                 return <Badge text={row.super} mode={`${row.super === "YES" ? "primary" : ""}${row.super === "NO" ? "error": ""}${row.super === "DONE" ? "disabled": ""}`} />;
             },
         },
