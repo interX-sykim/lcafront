@@ -136,7 +136,7 @@ const Page200 = ({route}) => {
             {
                 no: i+1,
                 component: componentList[i].name,
-                component_ID: "27374005",
+                component_ID: componentList[i].id,
                 supplier: componentList[i].supplierName,
                 supplier_ID: "ID#30AB117",
                 Qnty: componentList[i].qnty + " " + componentList[i].unit,
@@ -225,15 +225,62 @@ const Page200 = ({route}) => {
     const MPTotalCount = MPRows.length;
 
 
-    // component 추가 팝업
+    // component 추가 팝업 modal start
 
-    let modalOpen = true
+    const [modalOpen, setmodalOpen] = useState(false);
+    const [checkedIdList, setCheckedIdList] = useState([]);
+    const [checkedQntyList, setCheckedQntyList] = useState([]);
+    const modalToggleClose = () => setmodalOpen(false);
+    const modalToggleOpen = () => {
+        setCheckedIdList(new Array(PCRows.length).fill(0))
+        setCheckedQntyList(new Array(PCRows.length).fill(0))
+        setmodalOpen(true)
+    };
+    const toggleListelement = (index, component_ID, qnty) => {
+        if (checkedIdList[index] == 0) {
+            checkedIdList[index] = component_ID;
+        } else {
+            checkedIdList[index] = 0;
+        }
+    }
+    const printList = () =>{
+        for (let i = 0; i < PCRows.length; i++) {
+            checkedQntyList[i] = document.getElementsByName("qnty_input")[i].value
+        }
+        for (let i = 0; i < PCRows.length; i++) {
+            if (checkedIdList[i] !== 0 && checkedQntyList[i] !== 0) {
+                axios.post('/product/component/insert', {
+                    productId : 3,
+                    componentId : checkedIdList[i] ,
+                    qnty : checkedQntyList[i] ,
+                    unit : "EA"
+                })
+                .then((response) => {
+                    if(response.data["rsltCode"] === "F")
+                        alert(response.data["rsltMsg"]);
+                    else if(response.data["rsltCode"] === "S")
+                        alert(response.data["rsltMsg"]);
+                })
+                .catch((error) => {
+                    alert("등록실패")
+                });
+            } else {
+                
+            }
+        }
+    }
+
+    const componentRegister = () => {
+        checkedIdList.forEach((componentId) => {
+            axios.post()
+        })
+    }
 
     function componentModal() {
         if (modalOpen) {
             return (
                 <div class="modal z-50 fixed w-full h-full top-0 left-0 flex items-center justify-center p-8 lg:p-0">
-                    <div class="modal-overlay fixed w-full h-full bg-gray-900 opacity-50"></div>
+                    <div class="modal-overlay fixed w-full h-full bg-gray-900 opacity-50" onClick={modalToggleClose}></div>
                     <div class="bg-white w-full lg:h-max lg:w-1/2  mx-auto rounded-lg shadow-xl z-50 overflow-y-auto">
                     <div class="flex justify-between items-center head bg-gray-100 py-5 px-8 text-2xl font-extrabold">
                     <p className="text-base font-bold text-text-dark">Select Components to add</p>
@@ -249,14 +296,15 @@ const Page200 = ({route}) => {
                                 <th scope="col" class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap text-left">
                                     <div class="inline-flex items-center gap-x-3">
                                         <input type="checkbox" class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700"/>
-                                        <span>Product Id</span>
+                                        <span>No.</span>
                                     </div>
                                 </th>
+                                <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Product Id</th>
                                 <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Product Name</th>
                                 <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">CO2EQ</th>
 
                                 <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Company</th>
-
+                                <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">qnty</th>
                                 <th scope="col" class="relative py-3.5 px-4">
                                     <span class="sr-only">Edit</span>
                                 </th>
@@ -270,7 +318,7 @@ const Page200 = ({route}) => {
                         </div>
                         </div>
                         <div style={{float:"right"}} className="p-4 flex items-center justify-between">
-                            <button>Add</button>
+                            <button onClick={printList}>Add</button>
                         </div>
                     </div>
                     </div>
@@ -280,25 +328,36 @@ const Page200 = ({route}) => {
         return null;
     }
 
-    const componentTableRow = PCRows.map((row) => {
+    const modalOpenButton = (type) => {
         return (
-            <tr>
+            <button className='block' onClick={modalToggleOpen}>add {type}</button>
+        )
+    }
+
+    const componentTableRow = PCRows.map((row, index) => {
+        return (
+            <tr key={index}>
                 <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
                     <div class="inline-flex items-center gap-x-3">
-                        <input type="checkbox" class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700"/>
+                        <input type="checkbox" class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" onChange={() => {toggleListelement(index, row.component_ID)}}/>
                         <div class="flex items-center gap-x-2">
                             <div>
-                                <p class="text-sm font-normal text-gray-600 dark:text-gray-400">ID#75AC872</p>
+                                <p class="text-sm font-normal text-gray-600 dark:text-gray-400">&nbsp;{index+1}</p>
                             </div>
                         </div>
                     </div>
                 </td>
+                <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">ID#75AC872</td>
                 <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{row.component}</td>
                 <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{row.CO2EQ}</td>
                 <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{row.supplier}</td>
+                <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"><input name='qnty_input' type='number' style={{ width:"58px" }} min={0}></input></td>
             </tr>
         )
     })
+
+    
+    // component 추가 팝업 modal end
 
 
 
@@ -356,7 +415,7 @@ const Page200 = ({route}) => {
                     <div className="p-4 flex items-center justify-between">
                         <p className="text-base font-bold text-text-dark pl-[0.875rem]">Product Component</p>
                         <div className='flex items-center justify-between'>
-                            <button className='block'>add component</button>
+                            {modalOpenButton("component")}
                             <Textbox isSearchbox={true} placeholder="search" />  
                         </div>
                     </div>
