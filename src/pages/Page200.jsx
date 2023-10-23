@@ -9,6 +9,8 @@ import machine from "../content/images/img-machine.jpg";
 import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios'
 
+import { useTable } from "react-table";
+
 const Page200 = ({route}) => {
     const state = useLocation().state
     const [superTierList, setSuperTierList] = useState([]);
@@ -87,8 +89,6 @@ const Page200 = ({route}) => {
         // { no: 1, buyer: "미래베터리", buyer_ID: "ID#CK23541", last_request: "2023.07.12", TX_done: "DONE", send: false },
     ];
 
-    console.log("super tier : ")
-    console.log(superTierList)
     for (var i=0; i<superTierList.length; i++) {
         STRRows.push(
             {
@@ -225,12 +225,90 @@ const Page200 = ({route}) => {
     const MPTotalCount = MPRows.length;
 
 
+    // component 추가 팝업
+
+    let modalOpen = true
+
+    function componentModal() {
+        if (modalOpen) {
+            return (
+                <div class="modal z-50 fixed w-full h-full top-0 left-0 flex items-center justify-center p-8 lg:p-0">
+                    <div class="modal-overlay fixed w-full h-full bg-gray-900 opacity-50"></div>
+                    <div class="bg-white w-full lg:h-max lg:w-1/2  mx-auto rounded-lg shadow-xl z-50 overflow-y-auto">
+                    <div class="flex justify-between items-center head bg-gray-100 py-5 px-8 text-2xl font-extrabold">
+                    <p className="text-base font-bold text-text-dark">Select Components to add</p>
+                    </div>
+                    <div class="content p-8">
+                        <slot name="body" />
+                        <div class="flex flex-col">
+                    <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                        <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+                            <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
+                        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                            <thead>
+                                <th scope="col" class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap text-left">
+                                    <div class="inline-flex items-center gap-x-3">
+                                        <input type="checkbox" class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700"/>
+                                        <span>Product Id</span>
+                                    </div>
+                                </th>
+                                <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Product Name</th>
+                                <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">CO2EQ</th>
+
+                                <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Company</th>
+
+                                <th scope="col" class="relative py-3.5 px-4">
+                                    <span class="sr-only">Edit</span>
+                                </th>
+                            </thead>
+                            <tbody>
+                                {componentTableRow}
+                            </tbody>
+                        </table>
+                        </div>
+                        </div>
+                        </div>
+                        </div>
+                        <div style={{float:"right"}} className="p-4 flex items-center justify-between">
+                            <button>Add</button>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            )
+        }
+        return null;
+    }
+
+    const componentTableRow = PCRows.map((row) => {
+        return (
+            <tr>
+                <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+                    <div class="inline-flex items-center gap-x-3">
+                        <input type="checkbox" class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700"/>
+                        <div class="flex items-center gap-x-2">
+                            <div>
+                                <p class="text-sm font-normal text-gray-600 dark:text-gray-400">ID#75AC872</p>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{row.component}</td>
+                <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{row.CO2EQ}</td>
+                <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{row.supplier}</td>
+            </tr>
+        )
+    })
+
+
+
     return (
         <>
             <div className="card h-[3.75rem] px-5 flex items-center cursor-pointer select-none" onClick={() => navigate('/')}>
                 <i className="icon-chevron_left w-[2.125rem] h-[2.125rem] text-2xl flex items-center justify-center text-default cursor-pointer select-none mr-2"></i>
                 <p className="text-base font-bold">Product</p>
             </div>
+            {componentModal()}
             <div className="p-[1.875rem]">
                 <div className="bg-white w-full h-[15.438rem] py-7 px-[1.875rem] mb-5 shadow-ix rounded flex justify-between">
                     <ul>
@@ -277,8 +355,9 @@ const Page200 = ({route}) => {
                 <div className="card h-auto mb-5">
                     <div className="p-4 flex items-center justify-between">
                         <p className="text-base font-bold text-text-dark pl-[0.875rem]">Product Component</p>
-                        <div>
-                            <Textbox isSearchbox={true} placeholder="search"/>  
+                        <div className='flex items-center justify-between'>
+                            <button className='block'>add component</button>
+                            <Textbox isSearchbox={true} placeholder="search" />  
                         </div>
                     </div>
                     <DataGrid header={PCHeader} rows={PCRows} totalCount={PCTotalCount} />
@@ -303,7 +382,7 @@ const Page200 = ({route}) => {
                                     <Textbox isSearchbox={true} placeholder="search"/>
                                 </div>
                             </div>
-                            <DataGrid header={MPHeader} rows={MPRows} totalCount={MPTotalCount} />
+                            <DataGrid header={MPHeader} rows={MPRows} totalCount={MPTotalCount} addElement={true}/>
                         </div>
                     </div>
                 </div>
