@@ -49,11 +49,12 @@ body {
     border: none;
     border-radius: 5px;
   }
-  
   .validation-errors {
     font-size: 0.8em;
     color: rgb(212, 18, 18);
     line-height: 1;
     margin-top: 0;
   }
-  
+  .block {
+    margin-right: 17px;
+  }
