@@ -84,6 +84,8 @@ export default ProductForm;
 function validateOnSubmit(state) {
     const { input } = state;
     let validationErrs = {};
+    if (!input["product name"]) validationErrs["product name"] = "Product name is required";
+    if(!input["co2eq"]) validationErrs["co2eq"] = "CO2EQ is required";
     return validationErrs;
 }
 
