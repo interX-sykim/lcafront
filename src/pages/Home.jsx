@@ -70,6 +70,7 @@ const Home = () => {
         // { no: 1, product: "BP-772", product_ID: "23459081", CO2EQ: "5.12", last_update: "2022.07.31", super: "DONE", sub: "DONE", click: false },
     ];
 
+    console.log(productList)
     for (var i=0; i<productList.length; i++) {
         rows.push(
             {
@@ -77,7 +78,7 @@ const Home = () => {
                 product: productList[i]["name"],
                 product_ID: productList[i]["id"],
                 CO2EQ: productList[i]["co2eq"],
-                last_update: productList[i]['lastUpdate'].substring(0, 10).replaceAll('-', '.'),
+                last_update: productList[i]['lastUpdate']?.substring(0, 10).replaceAll('-', '.'),
                 super: productList[i]["superCompanyUpdateRequest"],
                 sub: productList[i]["subCompanyUpdateRequest"],
                 params: {
@@ -85,7 +86,7 @@ const Home = () => {
                     name: productList[i]["name"],
                     company: companyList["name"],
                     CO2EQ: productList[i]["co2eq"],
-                    lastUpdate: productList[i]['lastUpdate'].substring(0, 10).replaceAll('-', '.')
+                    lastUpdate: productList[i]['lastUpdate']?.substring(0, 10).replaceAll('-', '.')
                 },
                 click: "/Page200"
             }

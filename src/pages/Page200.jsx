@@ -17,6 +17,7 @@ const Page200 = ({route}) => {
     const [componentList, setComponentList] = useState([]);
     const [resourceList, setResourceList] = useState([]);
     const [processList, setProcessList] = useState([]);
+    const [componentCadidateList, setComponentCandidateList] = useState([]);
 
     const navigate = useNavigate();
 
@@ -66,6 +67,17 @@ const Page200 = ({route}) => {
             .catch((error) => {
                 console.log(error);
                 setSuperTierList([]);
+            });
+
+            axios.post("/product/component/candid/list", { 
+                id : state.id
+            })
+            .then((response) => {
+                setComponentCandidateList(response.data["rsltList"]);
+            })
+            .catch((error) => {
+                console.log(error);
+                setComponentCandidateList([]);
             });
         }
     }, []);
@@ -141,7 +153,7 @@ const Page200 = ({route}) => {
                 supplier_ID: "ID#30AB117",
                 Qnty: componentList[i].qnty + " " + componentList[i].unit,
                 CO2EQ: componentList[i].co2eq,
-                last_update: componentList[i].lastUpdate.substring(0, 10).replaceAll('-', '.') || "",
+                last_update: componentList[i].lastUpdate?.substring(0, 10).replaceAll('-', '.') || "",
                 update: false
             }
         )
@@ -209,7 +221,7 @@ const Page200 = ({route}) => {
         // { no: 1, process: "Charging", process_ID: "PR#885632L", CO2EQ: "5.31", last_update: "2023.08.19", update: false},
     ]
 
-    for (var i=0; i < processList.length; i++) {
+    for (var i=0; i < processList?.length; i++) {
         MPRows.push(
             {
                 no: i+1,
@@ -224,6 +236,24 @@ const Page200 = ({route}) => {
 
     const MPTotalCount = MPRows.length;
 
+    const CCRows = []
+
+    for (var i=0; i < componentCadidateList?.length; i++) {
+        CCRows.push(
+            {
+                no: i+1,
+                component: componentCadidateList[i].name,
+                component_ID: componentCadidateList[i].id,
+                supplier: componentCadidateList[i].supplierName,
+                supplier_ID: "ID#30AB117",
+                Qnty: componentCadidateList[i].qnty + " " + componentCadidateList[i].unit,
+                CO2EQ: componentCadidateList[i].co2eq,
+                last_update: componentCadidateList[i].lastUpdate?.substring(0, 10).replaceAll('-', '.') || "",
+                update: false
+            }
+        )
+    }
+
 
     // component 추가 팝업 modal start
 
@@ -232,8 +262,8 @@ const Page200 = ({route}) => {
     const [checkedQntyList, setCheckedQntyList] = useState([]);
     const modalToggleClose = () => setmodalOpen(false);
     const modalToggleOpen = () => {
-        setCheckedIdList(new Array(PCRows.length).fill(0))
-        setCheckedQntyList(new Array(PCRows.length).fill(0))
+        setCheckedIdList(new Array(CCRows.length).fill(0))
+        setCheckedQntyList(new Array(CCRows.length).fill(0))
         setmodalOpen(true)
     };
     const toggleListelement = (index, component_ID, qnty) => {
@@ -244,10 +274,10 @@ const Page200 = ({route}) => {
         }
     }
     const printList = () =>{
-        for (let i = 0; i < PCRows.length; i++) {
+        for (let i = 0; i < CCRows.length; i++) {
             checkedQntyList[i] = document.getElementsByName("qnty_input")[i].value
         }
-        for (let i = 0; i < PCRows.length; i++) {
+        for (let i = 0; i < CCRows.length; i++) {
             if (checkedIdList[i] !== 0 && checkedQntyList[i] !== 0) {
                 axios.post('/product/component/insert', {
                     productId : 3,
@@ -268,12 +298,6 @@ const Page200 = ({route}) => {
                 
             }
         }
-    }
-
-    const componentRegister = () => {
-        checkedIdList.forEach((componentId) => {
-            axios.post()
-        })
     }
 
     function componentModal() {
@@ -334,7 +358,7 @@ const Page200 = ({route}) => {
         )
     }
 
-    const componentTableRow = PCRows.map((row, index) => {
+    const componentTableRow = CCRows.map((row, index) => {
         return (
             <tr key={index}>
                 <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
