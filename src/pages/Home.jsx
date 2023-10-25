@@ -4,6 +4,7 @@ import Textbox from "../component/common/atom/Textbox";
 import DataGrid from "../component/common/DataGrid";
 import PageTitle from "../component/common/PageTitle";
 import BetaElectronics from "../content/images/logo-beta_electronics.svg"
+import { useNavigate } from 'react-router-dom';
 
 import axios from 'axios';
 
@@ -12,6 +13,9 @@ const Home = () => {
     const [companyName, setCompanyName] = useState([]);
     const [companyWebsite, setCompanyWebsite] = useState([]);
     const [companyList , setCompanyList] = useState([]);
+    const [processList, setProcessList] = useState([]);
+
+    const navigate = useNavigate();
     
     useEffect(() => {
         axios.post('/company/list', {
@@ -40,6 +44,19 @@ const Home = () => {
         .catch((error) => {
             console.log(error);
             setProductList([]);
+        });
+
+        axios.post("/process/list", { 
+            companyId : 7
+            ,strPageNum : 0
+            ,pageSize : 10
+        })
+        .then((response) => {
+            setProcessList(response.data["rsltList"]);
+        })
+        .catch((error) => {
+            console.log(error);
+            setProcessList([]);
         });
     }, []);
 
@@ -97,6 +114,30 @@ const Home = () => {
 
     const totalCount = productList.length;
 
+    const PCgridHeader = [
+        { key: "no", name: "NO", width: 61, cellClass: "text-center", headerCellClass: "text-center" },
+        { key: "process", name: "Process"},
+        { key: "process_ID", name: "Process ID" },
+        { key: "CO2EQ", name: "CO2EQ ", cellClass: "text-right", headerCellClass: "text-right"  },
+        { key: "last_update", name: "Last update", cellClass: "text-center", headerCellClass: "text-center"  },
+    ];
+    
+    const PCRows = []
+    for (var i=0; i < processList.length; i++) {
+        PCRows.push(
+            {
+                no: i+1,
+                process: processList[i]["name"],
+                process_ID: processList[i]["id"],
+                CO2EQ: processList[i]["co2eq"],
+                last_update: processList[i]['lastUpdate']?.substring(0, 10).replaceAll('-', '.'),
+            }
+        )
+    }
+
+    const PCcount = processList.length;
+
+
     
     return (
         <>
@@ -126,11 +167,22 @@ const Home = () => {
                 <div className="card h-auto">
                     <div className="p-4 flex items-center justify-between">
                         <p className="text-base font-bold text-text-dark pl-[0.875rem]">Product</p>
-                        <div>
+                        <div className='flex items-center justify-between'>
+                            <button className='block' onClick={() => navigate("/ProductRegister")}>register product</button>
                             <Textbox isSearchbox={true} placeholder="search"/> 
                         </div>
                     </div>
                     <DataGrid header={gridHeader} rows={rows} totalCount={totalCount} />
+                </div>
+                <br></br>
+                <div className="card h-auto mb-5">
+                    <div className="p-4 flex items-center justify-between">
+                        <p className="text-base font-bold text-text-dark pl-[0.875rem]">Process</p>
+                        <div>
+                            <Textbox isSearchbox={true} placeholder="search"/> 
+                        </div>
+                    </div>
+                    <DataGrid header={PCgridHeader} rows={PCRows} totalCount={PCcount} />
                 </div>
             </div>
         </>
