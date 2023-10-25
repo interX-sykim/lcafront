@@ -22,15 +22,12 @@ const Home = () => {
             id : 3
         })
         .then((response) => {
-            //console.log(response);
-            setCompanyList(response.data["rsltList"][0]);
-            //setProductList(response.data["productList"]);
-            //setCompanyName(response.data["companyName"]);
-            //setCompanyWebsite(response.data["companyWebsite"]);
+            if(response.data["rsltCode"] === "F") setCompanyList([])
+            else setCompanyList(response.data["rsltList"][0]);
         })
         .catch((error) => {
             console.log(error);
-            setProductList([]);
+            setCompanyList([]);
         });
 
         axios.post("/product/list", { 
@@ -39,7 +36,8 @@ const Home = () => {
             ,pageSize : 10
         })
         .then((response) => {
-            setProductList(response.data["rsltList"]);
+            if(response.data["rsltCode"] === "F") setProductList([])
+            else setProductList(response.data["rsltList"]);
         })
         .catch((error) => {
             console.log(error);
@@ -52,10 +50,10 @@ const Home = () => {
             ,pageSize : 10
         })
         .then((response) => {
-            setProcessList(response.data["rsltList"]);
+            if(response.data["rsltCode"] === "F") setProcessList([])
+            else setProcessList(response.data["rsltList"]);
         })
         .catch((error) => {
-            console.log(error);
             setProcessList([]);
         });
     }, []);
@@ -87,7 +85,7 @@ const Home = () => {
         // { no: 1, product: "BP-772", product_ID: "23459081", CO2EQ: "5.12", last_update: "2022.07.31", super: "DONE", sub: "DONE", click: false },
     ];
 
-    console.log(productList)
+    console.log(processList)
     for (var i=0; i<productList.length; i++) {
         rows.push(
             {
