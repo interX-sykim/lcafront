@@ -116,6 +116,7 @@ const Home = () => {
         { key: "no", name: "NO", width: 61, cellClass: "text-center", headerCellClass: "text-center" },
         { key: "process", name: "Process"},
         { key: "process_ID", name: "Process ID" },
+        { key: "equipment", name: "Equipment"},
         { key: "CO2EQ", name: "CO2EQ ", cellClass: "text-right", headerCellClass: "text-right"  },
         { key: "last_update", name: "Last update", cellClass: "text-center", headerCellClass: "text-center"  },
     ];
@@ -127,6 +128,7 @@ const Home = () => {
                 no: i+1,
                 process: processList[i]["name"],
                 process_ID: processList[i]["id"],
+                equipment: processList[i]["equipmentName"],
                 CO2EQ: processList[i]["co2eq"],
                 last_update: processList[i]['lastUpdate']?.substring(0, 10).replaceAll('-', '.'),
             }
