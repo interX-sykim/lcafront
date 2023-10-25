@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-export default function ComponentModal(props) {
+export default function ProcessModal(props) {
     const {rows} = props;
 
     const componentTableRow = rows.map((row, index) => {
@@ -17,18 +17,17 @@ export default function ComponentModal(props) {
                 </div>
             </td>
             <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">ID#75AC872</td>
-            <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{row.component}</td>
+            <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{row.process}</td>
             <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{row.CO2EQ}</td>
-            <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{row.supplier}</td>
-            <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"><input name='qnty_input' type='number' style={{ width:"58px" }} min={0}></input></td>
+            <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{row.equipment}</td>
         </tr>
     )
 })
 
     return (
-        <div id='componentModal' class="modal hidden z-50 fixed w-full h-full top-0 left-0 flex items-center justify-center p-8 lg:p-0">
+        <div id='processModal' class="modal hidden z-50 fixed w-full h-full top-0 left-0 flex items-center justify-center p-8 lg:p-0">
             <div class="modal-overlay fixed w-full h-full bg-gray-900 opacity-50" onClick={() => {
-                document.getElementById("componentModal").classList.add("hidden");
+                document.getElementById("processModal").classList.add("hidden");
             }}></div>
             <div class="bg-white w-full lg:h-max lg:w-1/2  mx-auto rounded-lg shadow-xl z-50 overflow-y-auto">
             <div class="flex justify-between items-center head bg-gray-100 py-5 px-8 text-2xl font-extrabold">
@@ -48,12 +47,11 @@ export default function ComponentModal(props) {
                                 <span>No.</span>
                             </div>
                         </th>
-                        <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Product Id</th>
-                        <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Product Name</th>
+                        <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Process Id</th>
+                        <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Process Name</th>
                         <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">CO2EQ</th>
 
-                        <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Company</th>
-                        <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">qnty</th>
+                        <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Equipment</th>
                         <th scope="col" class="relative py-3.5 px-4">
                             <span class="sr-only">Edit</span>
                         </th>

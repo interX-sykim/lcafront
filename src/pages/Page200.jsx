@@ -7,11 +7,11 @@ import SankeyChart from "../component/common/SankeyChart";
 import machine from "../content/images/img-machine.jpg";
 
 import ComponentModal from '../component/modals/ComponentModal';
+import ProcessModal from '../component/modals/ProcessModal';
+import ResourceModal from '../component/modals/ResourceModal';
 
 import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios'
-
-import { useTable } from "react-table";
 
 const Page200 = ({route}) => {
     const state = useLocation().state
@@ -231,6 +231,7 @@ const Page200 = ({route}) => {
                 process_ID: "PR#125633F",
                 CO2EQ: processList[i].co2eq,
                 last_update: processList[i].lastUpdate.substring(0, 10).replaceAll("-", ".") || "",
+                equipment: "sdfk",
                 update: false
             }
         )
@@ -263,6 +264,8 @@ const Page200 = ({route}) => {
                 <p className="text-base font-bold">Product</p>
             </div>
             <ComponentModal rows={CCRows}></ComponentModal>
+            <ProcessModal rows={MPRows}></ProcessModal>
+            <ResourceModal rows={PRRows}></ResourceModal>
             <div className="p-[1.875rem]">
                 <div className="bg-white w-full h-[15.438rem] py-7 px-[1.875rem] mb-5 shadow-ix rounded flex justify-between">
                     <ul>
@@ -324,7 +327,9 @@ const Page200 = ({route}) => {
                             <div className="p-4 flex items-center justify-between">
                                 <p className="text-base font-bold text-text-dark pl-[0.875rem]">Product Resource</p>
                                 <div className='flex items-center justify-between'>
-                                    <button className='block' onClick={() => {}}>add resource</button>
+                                    <button className='block' onClick={() => {
+                                        document.getElementById("resourceModal").classList.remove("hidden");
+                                    }}>add resource</button>
                                     <Textbox isSearchbox={true} placeholder="search"/>
                                 </div>
                             </div>
@@ -336,7 +341,9 @@ const Page200 = ({route}) => {
                             <div className="p-4 flex items-center justify-between">
                                 <p className="text-base font-bold text-text-dark pl-[0.875rem]">Manufacturing Process</p>
                                 <div className='flex items-center justify-between'>
-                                    <button className='block' onClick={() => {}}>add process</button>
+                                    <button className='block' onClick={() => {
+                                        document.getElementById("processModal").classList.remove("hidden");
+                                    }}>add process</button>
                                     <Textbox isSearchbox={true} placeholder="search"/>
                                 </div>
                             </div>
