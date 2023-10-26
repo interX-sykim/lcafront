@@ -178,7 +178,8 @@ const Home = () => {
                 <div className="card h-auto mb-5">
                     <div className="p-4 flex items-center justify-between">
                         <p className="text-base font-bold text-text-dark pl-[0.875rem]">Process</p>
-                        <div>
+                        <div className='flex items-center justify-between'>
+                            <button className='block'>register process</button>
                             <Textbox isSearchbox={true} placeholder="search"/> 
                         </div>
                     </div>

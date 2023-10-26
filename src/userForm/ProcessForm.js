@@ -1,13 +1,13 @@
 import { useReducer, useEffect } from "react";
 
-const ProductForm = callback => {
+const ProcessForm = callback => {
     const initState = {
         input: {
-            "product name": "",
+            "process name": "",
             co2eq: ""
         },
         validationErrs: {
-            "product name": "",
+            "process name": "",
             co2eq: ""
         },
         isSubmiting: false 
@@ -31,7 +31,7 @@ const ProductForm = callback => {
                 return {
                     ...state,
                     validationErrs: {
-                        "product name": "",
+                        "process name": "",
                         co2eq: "",
                         ...validateOnSubmit(state)
                     },
@@ -79,12 +79,12 @@ const ProductForm = callback => {
     return {state, handleChange, handleSubmit}
 }
 
-export default ProductForm;
+export default ProcessForm;
 
 function validateOnSubmit(state) {
     const { input } = state;
     let validationErrs = {};
-    if (!input["product name"]) validationErrs["product name"] = "Product name is required";
+    if (!input["process name"]) validationErrs["process name"] = "Process name is required";
     if(!input["co2eq"]) validationErrs["co2eq"] = "CO2EQ is required";
     return validationErrs;
 }
