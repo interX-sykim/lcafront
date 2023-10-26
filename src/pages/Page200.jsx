@@ -303,10 +303,9 @@ const Page200 = ({route}) => {
                     <SankeyChart />
                 </div>
                 <div className="card h-auto mb-5">
-                    <div className="p-4 flex items-center justify-between">
+                    <div className="h-11 p-4 flex items-center justify-between">
                         <p className="text-base font-bold text-text-dark pl-[0.875rem]">Super Tier Request</p>
                         <div>
-                            <Textbox isSearchbox={true} placeholder="search"/>  
                         </div>
                     </div>
                     <DataGrid header={STRHeader} rows={STRRows} totalCount={STRTotalCount} />
@@ -314,11 +313,10 @@ const Page200 = ({route}) => {
                 <div className="card h-auto mb-5">
                     <div className="p-4 flex items-center justify-between">
                         <p className="text-base font-bold text-text-dark pl-[0.875rem]">Product Component</p>
-                        <div className='flex items-center justify-between'>
+                        <div className='h-11 flex items-center justify-between'>
                             <button className='block' onClick={() => {
                                 document.getElementById("componentModal").classList.remove("hidden");
-                            }}>add component</button>
-                            <Textbox isSearchbox={true} placeholder="search" />  
+                            }}>add component</button> 
                         </div>
                     </div>
                     <DataGrid header={PCHeader} rows={PCRows} totalCount={PCTotalCount} />
@@ -328,11 +326,10 @@ const Page200 = ({route}) => {
                         <div className="card h-auto">
                             <div className="p-4 flex items-center justify-between">
                                 <p className="text-base font-bold text-text-dark pl-[0.875rem]">Product Resource</p>
-                                <div className='flex items-center justify-between'>
+                                <div className='h-11 flex items-center justify-between'>
                                     <button className='block' onClick={() => {
                                         document.getElementById("resourceModal").classList.remove("hidden");
                                     }}>add resource</button>
-                                    <Textbox isSearchbox={true} placeholder="search"/>
                                 </div>
                             </div>
                             <DataGrid header={PRHeader} rows={PRRows} totalCount={PRTotalCount} />
@@ -342,11 +339,10 @@ const Page200 = ({route}) => {
                         <div className="card h-auto">
                             <div className="p-4 flex items-center justify-between">
                                 <p className="text-base font-bold text-text-dark pl-[0.875rem]">Manufacturing Process</p>
-                                <div className='flex items-center justify-between'>
+                                <div className='h-11 flex items-center justify-between'>
                                     <button className='block' onClick={() => {
                                         document.getElementById("processModal").classList.remove("hidden");
                                     }}>add process</button>
-                                    <Textbox isSearchbox={true} placeholder="search"/>
                                 </div>
                             </div>
                             <DataGrid header={MPHeader} rows={MPRows} totalCount={MPTotalCount} addElement={true}/>
