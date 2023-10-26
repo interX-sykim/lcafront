@@ -20,6 +20,8 @@ const Page200 = ({route}) => {
     const [resourceList, setResourceList] = useState([]);
     const [processList, setProcessList] = useState([]);
     const [componentCadidateList, setComponentCandidateList] = useState([]);
+    const [resourceCadidateList, setResourceCandidateList] = useState([]);
+    const [processCadidateList, setProcessCandidateList] = useState([]);
 
     const navigate = useNavigate();
 
@@ -263,9 +265,9 @@ const Page200 = ({route}) => {
                 <i className="icon-chevron_left w-[2.125rem] h-[2.125rem] text-2xl flex items-center justify-center text-default cursor-pointer select-none mr-2"></i>
                 <p className="text-base font-bold">Product</p>
             </div>
-            <ComponentModal rows={CCRows}></ComponentModal>
-            <ProcessModal rows={MPRows}></ProcessModal>
-            <ResourceModal rows={PRRows}></ResourceModal>
+            <ComponentModal rows={CCRows} productId={state.id}></ComponentModal>
+            <ProcessModal rows={MPRows} productId={state.id}></ProcessModal>
+            <ResourceModal rows={PRRows} productId={state.id}></ResourceModal>
             <div className="p-[1.875rem]">
                 <div className="bg-white w-full h-[15.438rem] py-7 px-[1.875rem] mb-5 shadow-ix rounded flex justify-between">
                     <ul>

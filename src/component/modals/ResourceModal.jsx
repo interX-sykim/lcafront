@@ -31,7 +31,7 @@ export default function ResourceModal(props) {
             }}></div>
             <div class="bg-white w-full lg:h-max lg:w-1/2  mx-auto rounded-lg shadow-xl z-50 overflow-y-auto">
             <div class="flex justify-between items-center head bg-gray-100 py-5 px-8 text-2xl font-extrabold">
-            <p className="text-base font-bold text-text-dark">Select components to add</p>
+            <p className="text-base font-bold text-text-dark">Select resources to add</p>
             </div>
             <div class="content p-8">
                 <slot name="body" />

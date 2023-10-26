@@ -1,14 +1,60 @@
 import React, { useEffect, useRef, useState } from 'react';
+import axios from 'axios'; 
 
 export default function ComponentModal(props) {
-    const {rows} = props;
+    const {rows, productId} = props;
+
+    const newComponentIdList = []
+    const newComponentQntyList = []
+
+    const modalClose = () => {
+        const componentCheckbox = document.getElementsByName("componentCheckbox")
+        const comopnentQntyInput = document.getElementsByName("qnty_input")
+
+        for (let i=0; i<componentCheckbox.length; i++) {
+            componentCheckbox[i].checked = false;
+            comopnentQntyInput[i].value = null;
+        }
+        document.getElementById("componentModal").classList.add("hidden");
+    }
+
+    const addComponent = () => {
+        const componentCheckbox = document.getElementsByName("componentCheckbox")
+        const comopnentQntyInput = document.getElementsByName("qnty_input")
+
+        for (let i=0; i<rows.length; i++) {
+            if (componentCheckbox[i].checked) {
+                newComponentIdList.push(rows[i].component_ID)
+                newComponentQntyList.push(comopnentQntyInput[i].value)
+            } 
+        }
+        console.log("new component ID list : ")
+        console.log(newComponentIdList)
+        console.log("new component qnty list :")
+        console.log(newComponentQntyList)
+
+        for (let i = 0; i<newComponentIdList.length; i++) {
+            axios.post("/product/component/insert", {
+                productId : productId,
+                componentId : newComponentIdList[i],
+                qnty: newComponentQntyList[i]
+            })
+            .then((response) => {
+                console.log(response)
+                modalClose();
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        }
+    }
 
     const componentTableRow = rows.map((row, index) => {
     return (
         <tr key={index}>
             <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
                 <div class="inline-flex items-center gap-x-3">
-                    <input type="checkbox" class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700"/>
+                    <input name="componentCheckbox" type="checkbox" class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700"/>
                     <div class="flex items-center gap-x-2">
                         <div>
                             <p class="text-sm font-normal text-gray-600 dark:text-gray-400">&nbsp;{index+1}</p>
@@ -27,9 +73,7 @@ export default function ComponentModal(props) {
 
     return (
         <div id='componentModal' class="modal hidden z-50 fixed w-full h-full top-0 left-0 flex items-center justify-center p-8 lg:p-0">
-            <div class="modal-overlay fixed w-full h-full bg-gray-900 opacity-50" onClick={() => {
-                document.getElementById("componentModal").classList.add("hidden");
-            }}></div>
+            <div class="modal-overlay fixed w-full h-full bg-gray-900 opacity-50" onClick={modalClose}></div>
             <div class="bg-white w-full lg:h-max lg:w-1/2  mx-auto rounded-lg shadow-xl z-50 overflow-y-auto">
             <div class="flex justify-between items-center head bg-gray-100 py-5 px-8 text-2xl font-extrabold">
             <p className="text-base font-bold text-text-dark">Select components to add</p>
@@ -54,7 +98,7 @@ export default function ComponentModal(props) {
 
                         <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Company</th>
                         <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">qnty</th>
-                        <th scope="col" class="relative py-3.5 px-4">
+                        <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400 ">
                             <span class="sr-only">Edit</span>
                         </th>
                     </thead>
@@ -67,7 +111,7 @@ export default function ComponentModal(props) {
                 </div>
                 </div>
                 <div style={{float:"right"}} className="p-4 flex items-center justify-between">
-                    <button>Add</button>
+                    <button onClick={addComponent}>Add</button>
                 </div>
             </div>
             </div>

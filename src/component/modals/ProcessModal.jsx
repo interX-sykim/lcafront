@@ -19,7 +19,6 @@ export default function ProcessModal(props) {
             <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">ID#75AC872</td>
             <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{row.process}</td>
             <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{row.CO2EQ}</td>
-            <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{row.equipment}</td>
         </tr>
     )
 })
@@ -31,7 +30,7 @@ export default function ProcessModal(props) {
             }}></div>
             <div class="bg-white w-full lg:h-max lg:w-1/2  mx-auto rounded-lg shadow-xl z-50 overflow-y-auto">
             <div class="flex justify-between items-center head bg-gray-100 py-5 px-8 text-2xl font-extrabold">
-            <p className="text-base font-bold text-text-dark">Select components to add</p>
+            <p className="text-base font-bold text-text-dark">Select process to add</p>
             </div>
             <div class="content p-8">
                 <slot name="body" />
@@ -51,7 +50,6 @@ export default function ProcessModal(props) {
                         <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Process Name</th>
                         <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">CO2EQ</th>
 
-                        <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Equipment</th>
                         <th scope="col" class="relative py-3.5 px-4">
                             <span class="sr-only">Edit</span>
                         </th>
