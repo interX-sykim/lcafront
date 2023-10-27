@@ -11,7 +11,6 @@ import Page400 from './pages/Page400';
 import CompanyRegister from './pages/CompanyRegister';
 import Login from './pages/Login';
 import MemberRegister from './pages/MemberRegister';
-import MemberDetail from './pages/MemberDetail';
 import ProductRegister from './pages/ProductRegister';
 
 import ResizablePanel from './component/layer/ResizablePanel';
@@ -22,7 +21,7 @@ function Root() {
         <div>
             <Routes>
                 <Route path="/" element={<ResizablePanel />}>
-                    <Route path="/" element={<Home />} />
+                    <Route path="/:id" element={<Home />} />
                     <Route path="/Dashboard" element={<Home />} />
                     <Route path="/Page101" element={<Page101 />} />
                     <Route path="/Page200" element={<Page200 />} />
@@ -33,7 +32,6 @@ function Root() {
                     <Route path="/CompanyRegister" element={<CompanyRegister />} />
                     <Route path="/Login" element={<Login />} />
                     <Route path="/MemberRegister" element={<MemberRegister />} />
-                    <Route path="/MemberDetail" element={<MemberDetail />} />
                     <Route path="/ProductRegister" element={<ProductRegister />} />
                 </Route>
             </Routes>
@@ -51,3 +49,5 @@ const App = () => {
 };
 
 export default App;
+
+

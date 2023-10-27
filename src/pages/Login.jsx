@@ -1,28 +1,41 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import LoginForm from "../userForm/loginForm";
 import "../userCss/userCss.css";
 import axios from 'axios';
 
 const Login = () => {
-    const submit = values => {
+
+    console.log("login access page :::" + localStorage.getItem("accessToken"));
+    function successLoginProcess(response){
+
+        console.log(response.data["rsltList"][0]["companyId"]);
+
+        localStorage.setItem("accessToken", response.data["rsltList"][0]["jwtTokenDTO"]["accessToken"]);
+        localStorage.setItem("refreshToken",response.data["rsltList"][0]["jwtTokenDTO"]["refreshToken"]);
+
+        document.location.href = "/dxai/"+response.data["rsltList"][0]["companyId"];
+    }
+   const submit = values => {
         console.log("id" , values["id"]);
         console.log("password" , values["password"]);
 
-/*
-        axios.post('/user/login', {
-            id : values["id"]
+        axios.post('/member/login', {
+            id : values["id"] 
             , pwd : values["password"]
         })
         .then((response) => {
-            if(response.data["rsltCode"] === "F")
-                alert(response.data["rsltMsg"]);
-            else if(response.data["rsltCode"] === "S")
-                alert(response.data["rsltMsg"]);
+            //console.log(response);
+
+            if(response.data["rsltCode"] == "S"){
+                successLoginProcess(response);
+            }else{
+                alert("로그인실패" + response.data["rsltMsg"]);
+            }
         })
         .catch((error) => {
-            alert("로그인실패")
+            alert("로그인실패" + error)
         });
-*/        
+      
     };
 
     const { state, handleChange, handleSubmit } = LoginForm(submit);
@@ -40,7 +53,7 @@ const Login = () => {
                 <div className="card h-auto mb-5">
                     <div className="p-4 flex items-center justify-between">
                         <div>
-                            <LoginInput
+                           <LoginInput
                                 state={state}
                                 handleChange={handleChange}
                                 name="id"

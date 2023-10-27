@@ -4,6 +4,7 @@ import Textbox from "../component/common/atom/Textbox";
 import DataGrid from "../component/common/DataGrid";
 import PageTitle from "../component/common/PageTitle";
 import BetaElectronics from "../content/images/logo-beta_electronics.svg"
+import { useParams } from 'react-router-dom'
 
 import axios from 'axios';
 
@@ -13,9 +14,17 @@ const Home = () => {
     const [companyWebsite, setCompanyWebsite] = useState([]);
     const [companyList , setCompanyList] = useState([]);
     
+    let {id} = useParams();
+    console.log(id);
     useEffect(() => {
+        console.log("accessToken:::::::::::::" + localStorage.getItem("accessToken"));
+        if(localStorage.getItem("accessToken") === null){
+            document.location.href = "/dxai/login";
+            return ;
+        }
+
         axios.post('/company/list', {
-            id : 3
+            id : id
         })
         .then((response) => {
             //console.log(response);
@@ -30,7 +39,7 @@ const Home = () => {
         });
 
         axios.post("/product/list", { 
-            companyId : 3
+            companyId : id
             ,strPageNum : 0
             ,pageSize : 10
         })
@@ -77,7 +86,7 @@ const Home = () => {
                 product: productList[i]["name"],
                 product_ID: productList[i]["id"],
                 CO2EQ: productList[i]["co2eq"],
-                last_update: productList[i]['lastUpdate'].substring(0, 10).replaceAll('-', '.'),
+                last_update: productList[i]['lastUpdate'],
                 super: productList[i]["superCompanyUpdateRequest"],
                 sub: productList[i]["subCompanyUpdateRequest"],
                 params: {
@@ -85,7 +94,7 @@ const Home = () => {
                     name: productList[i]["name"],
                     company: companyList["name"],
                     CO2EQ: productList[i]["co2eq"],
-                    lastUpdate: productList[i]['lastUpdate'].substring(0, 10).replaceAll('-', '.')
+                    lastUpdate: productList[i]['lastUpdate']
                 },
                 click: "/Page200"
             }
