@@ -5,7 +5,6 @@ import DataGrid from "../component/common/DataGrid";
 import PageTitle from "../component/common/PageTitle";
 import BetaElectronics from "../content/images/logo-beta_electronics.svg"
 import { useParams, useNavigate } from 'react-router-dom'
-import { useNavigate } from 'react-router-dom';
 
 import axios from 'axios';
 
