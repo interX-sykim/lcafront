@@ -10,8 +10,6 @@ import axios from 'axios';
 
 const Home = () => {
     const [productList, setProductList] = useState([]);
-    const [companyName, setCompanyName] = useState([]);
-    const [companyWebsite, setCompanyWebsite] = useState([]);
     const [companyList , setCompanyList] = useState([]);
     const [processList, setProcessList] = useState([]);
 
@@ -68,18 +66,13 @@ const Home = () => {
         { 
             key: "sub", name: "Update", cellClass: "text-center", headerCellClass: "text-center",
             renderCell({ row }) {
-                return <Badge value={true} isBoolean={true}  text="Update" dest="/Page200" navigateState={row.state} />;
+                return <Badge value={(row.updateYn === "1")} isBoolean={(row.updateYn === "1")}  text="Update" dest="/Page200" navigateState={row.state} />;
             },
         },
     ];
 
-    const rows = [
-        // { no: 3, product: "BP-201", product_ID: "23459090", CO2EQ: "3.45", last_update: "2022.12.31", super: "YES", sub: "NO", click: "/Page200" },
-        // { no: 2, product: "BP-701", product_ID: "23458872", CO2EQ: "2.71", last_update: "2022.03.05", super: "DONE", sub: "DONE", click: false },
-        // { no: 1, product: "BP-772", product_ID: "23459081", CO2EQ: "5.12", last_update: "2022.07.31", super: "DONE", sub: "DONE", click: false },
-    ];
+    const rows = [];
 
-    console.log(processList)
     for (var i=0; i<productList.length; i++) {
         rows.push(
             {
@@ -88,8 +81,7 @@ const Home = () => {
                 product_ID: productList[i]["id"],
                 CO2EQ: productList[i]["co2eq"],
                 last_update: productList[i]['lastUpdate']?.substring(0, 10).replaceAll('-', '.'),
-                super: productList[i]["superCompanyUpdateRequest"],
-                sub: productList[i]["subCompanyUpdateRequest"],
+                updateYn: productList[i]["updateYn"],
                 state: {
                     id: productList[i]["id"],
                     name: productList[i]["name"],
