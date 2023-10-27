@@ -1,6 +1,6 @@
 import { useReducer, useEffect } from "react";
 
-const companyForm = callback => {
+const CompanyForm = callback => {
     const initState = {
         input: {
             name: "",
@@ -83,7 +83,7 @@ const companyForm = callback => {
     return {state, handleChange, handleSubmit};
 };
 
-export default companyForm;
+export default CompanyForm;
 
 
 function validateOnSubmit(state){

@@ -4,7 +4,8 @@ import Textbox from "../component/common/atom/Textbox";
 import DataGrid from "../component/common/DataGrid";
 import PageTitle from "../component/common/PageTitle";
 import BetaElectronics from "../content/images/logo-beta_electronics.svg"
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 
 import axios from 'axios';
 
@@ -13,6 +14,9 @@ const Home = () => {
     const [companyName, setCompanyName] = useState([]);
     const [companyWebsite, setCompanyWebsite] = useState([]);
     const [companyList , setCompanyList] = useState([]);
+    const [processList, setProcessList] = useState([]);
+
+    const navigate = useNavigate();
     
     let {id} = useParams();
     console.log(id);
@@ -27,15 +31,12 @@ const Home = () => {
             id : id
         })
         .then((response) => {
-            //console.log(response);
-            setCompanyList(response.data["rsltList"][0]);
-            //setProductList(response.data["productList"]);
-            //setCompanyName(response.data["companyName"]);
-            //setCompanyWebsite(response.data["companyWebsite"]);
+            if(response.data["rsltCode"] === "F") setCompanyList([])
+            else setCompanyList(response.data["rsltList"][0]);
         })
         .catch((error) => {
             console.log(error);
-            setProductList([]);
+            setCompanyList([]);
         });
 
         axios.post("/product/list", { 
@@ -44,11 +45,25 @@ const Home = () => {
             ,pageSize : 10
         })
         .then((response) => {
-            setProductList(response.data["rsltList"]);
+            if(response.data["rsltCode"] === "F") setProductList([])
+            else setProductList(response.data["rsltList"]);
         })
         .catch((error) => {
             console.log(error);
             setProductList([]);
+        });
+
+        axios.post("/process/list", { 
+            companyId : 7
+            ,strPageNum : 0
+            ,pageSize : 10
+        })
+        .then((response) => {
+            if(response.data["rsltCode"] === "F") setProcessList([])
+            else setProcessList(response.data["rsltList"]);
+        })
+        .catch((error) => {
+            setProcessList([]);
         });
     }, []);
 
@@ -79,6 +94,7 @@ const Home = () => {
         // { no: 1, product: "BP-772", product_ID: "23459081", CO2EQ: "5.12", last_update: "2022.07.31", super: "DONE", sub: "DONE", click: false },
     ];
 
+    console.log(processList)
     for (var i=0; i<productList.length; i++) {
         rows.push(
             {
@@ -104,6 +120,32 @@ const Home = () => {
     }
 
     const totalCount = productList.length;
+
+    const PCgridHeader = [
+        { key: "no", name: "NO", width: 61, cellClass: "text-center", headerCellClass: "text-center" },
+        { key: "process", name: "Process"},
+        { key: "process_ID", name: "Process ID" },
+        { key: "equipment", name: "Equipment"},
+        { key: "CO2EQ", name: "CO2EQ ", cellClass: "text-right", headerCellClass: "text-right"  },
+        { key: "last_update", name: "Last update", cellClass: "text-center", headerCellClass: "text-center"  },
+    ];
+    
+    const PCRows = []
+    for (var i=0; i < processList.length; i++) {
+        PCRows.push(
+            {
+                no: i+1,
+                process: processList[i]["name"],
+                process_ID: processList[i]["id"],
+                equipment: processList[i]["equipmentName"],
+                CO2EQ: processList[i]["co2eq"],
+                last_update: processList[i]['lastUpdate']?.substring(0, 10).replaceAll('-', '.'),
+            }
+        )
+    }
+
+    const PCcount = processList.length;
+
 
     
     return (
@@ -134,11 +176,22 @@ const Home = () => {
                 <div className="card h-auto">
                     <div className="p-4 flex items-center justify-between">
                         <p className="text-base font-bold text-text-dark pl-[0.875rem]">Product</p>
-                        <div>
+                        <div className='flex items-center justify-between'>
+                            <button className='block' onClick={() => navigate("/ProductRegister")}>register product</button>
                             <Textbox isSearchbox={true} placeholder="search"/> 
                         </div>
                     </div>
                     <DataGrid header={gridHeader} rows={rows} totalCount={totalCount} />
+                </div>
+                <br></br>
+                <div className="card h-auto mb-5">
+                    <div className="p-4 flex items-center justify-between">
+                        <p className="text-base font-bold text-text-dark pl-[0.875rem]">Process</p>
+                        <div>
+                            <Textbox isSearchbox={true} placeholder="search"/> 
+                        </div>
+                    </div>
+                    <DataGrid header={PCgridHeader} rows={PCRows} totalCount={PCcount} />
                 </div>
             </div>
         </>
