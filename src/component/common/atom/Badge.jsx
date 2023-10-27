@@ -1,11 +1,16 @@
 import React, { useEffect, useLayoutEffect, useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Badge = (props) => {
+    const navigate = useNavigate();
+
     const {
         text,
         isBoolean = false,
         value,
         mode, 
+        dest,
+        navigateState
     } = props;
 
     const [color, setColor] = useState('');
@@ -60,8 +65,14 @@ const Badge = (props) => {
         }
     },)
 
+    const onClick = () => {
+        if (value) {
+            navigate(dest, {state : navigateState})
+        }
+    }
+
     return (
-        <div className={`min-w-[3.5rem] h-[1.875rem] px-3 rounded-full inline-flex items-center justify-center ${color}`}>
+        <div name="button" onClick={onClick} className={`min-w-[3.5rem] h-[1.875rem] px-3 rounded-full inline-flex items-center justify-center ${color}`}>
             <span className="text-sm font-bold">{text}</span>
         </div>
     );

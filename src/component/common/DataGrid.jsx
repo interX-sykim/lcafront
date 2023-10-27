@@ -34,9 +34,9 @@ export default function DataGrid(props) {
                     rowHeight={50}
                     style={{ height: 'auto' }}
                     onCellClick={(args, event)=> {
-                        if(args.row?.click) {
+                        if(args.row?.click && args.row.type == "home") {
                             navigate(args.row?.click, {
-                                state: args.row?.params
+                                state: args.row?.state
                             })
                         };
                     }}

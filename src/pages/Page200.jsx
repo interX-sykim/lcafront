@@ -25,6 +25,8 @@ const Page200 = ({route}) => {
 
     const navigate = useNavigate();
 
+    console.log(state)
+
     useEffect(() => {
         if (state != null) {
             axios.post('/product/component/List', {
@@ -135,17 +137,12 @@ const Page200 = ({route}) => {
         { 
             key: "update", name: "Update", cellClass: "text-center", headerCellClass: "text-center",
             renderCell({ row }) {
-                return <Badge value={row.update} isBoolean={true} text="Update" />;
+                return <Badge value={row.update} isBoolean={true} text="Update" dest="/Page300" navigateState={row.state} />;
             },
         },
     ]
 
-    const PCRows = [
-        // { no: 4, component: "ETL-304", component_ID: "27374005", supplier: "카이케미컬", supplier_ID: "ID#30AB117", Qnty: "4 Liter", CO2EQ: "2.40", last_update: "2023.08.19", update: false},
-        // { no: 3, component: "INS-303", component_ID: "99851101", supplier: "제타화학", supplier_ID: "ID#11KF757", Qnty: "1 EA", CO2EQ: "1.40", last_update: "2023.08.20", update: false},
-        // { no: 2, component: "CDE-302", component_ID: "12341234", supplier: "델타프로", supplier_ID: "ID#QR372AFK", Qnty: "1 KG", CO2EQ: "0.70", last_update: "NOT YET", update: true, click: "/Page300"},
-        // { no: 1, component: "ADE-301", component_ID: "81124550", supplier: "델타프로", supplier_ID: "ID#QR372AFK", Qnty: "2 KG", CO2EQ: "1.50", last_update: "2023.08.21", update: false},
-    ]
+    const PCRows = []
 
     for (var i=0; i < componentList.length; i++) {
         PCRows.push(
@@ -158,14 +155,15 @@ const Page200 = ({route}) => {
                 Qnty: componentList[i].qnty + " " + componentList[i].unit,
                 CO2EQ: componentList[i].co2eq,
                 last_update: componentList[i].lastUpdate?.substring(0, 10).replaceAll('-', '.') || "",
-                update: false
+                update: componentList[i].updateYn === "1"? true : false,
+                unit: componentList[i].unit
             }
         )
     }
 
     if (PCRows.length > 1) {
         PCRows[1].last_update = "NOT YET"
-        PCRows[1].update = true
+        // PCRows[1].update = true
         PCRows[1].click = "/Page300"
     }
 
@@ -180,15 +178,12 @@ const Page200 = ({route}) => {
         { 
             key: "update", name: "Update", cellClass: "text-center", headerCellClass: "text-center",
             renderCell({ row }) {
-                return <Badge value={row.update} isBoolean={true} text="Update" />;
+                return <Badge value={row.update} isBoolean={true} text="Update" dest="/Page300" navigateState={row.state}/>;
             },
         },
     ]
 
-    const PRRows = [
-        // { no: 2, resource: "Elec Power", Qnty: "1.2 KWh", CO2EQ: "0.22", last_update: "2023.08.19", update: false},
-        // { no: 1, resource: "Water", Qnty: "2.3 Liter", CO2EQ: "0.33", last_update: "2023.08.19", update: false},
-    ]
+    const PRRows = []
 
     for (var i=0; i < resourceList.length; i++) {
         PRRows.push(
@@ -214,16 +209,12 @@ const Page200 = ({route}) => {
         { 
             key: "update", name: "Update", cellClass: "text-center", headerCellClass: "text-center",
             renderCell({ row }) {
-                return <Badge value={row.update} isBoolean={true} text="Update" />;
+                return <Badge value={row.update} isBoolean={true} text="Update" dest="/Page300" navigateState={row.state}/>;
             },
         },
     ]
 
-    const MPRows = [
-        // { no: 3, process: "Heating", process_ID: "PR#125633F", CO2EQ: "1.19", last_update: "2023.08.19", update: false},
-        // { no: 2, process: "Press", process_ID: "PR#905633K", CO2EQ: "2.93", last_update: "2023.08.19", update: false},
-        // { no: 1, process: "Charging", process_ID: "PR#885632L", CO2EQ: "5.31", last_update: "2023.08.19", update: false},
-    ]
+    const MPRows = []
 
     for (var i=0; i < processList?.length; i++) {
         MPRows.push(
@@ -234,7 +225,8 @@ const Page200 = ({route}) => {
                 CO2EQ: processList[i].co2eq,
                 last_update: processList[i].lastUpdate.substring(0, 10).replaceAll("-", ".") || "",
                 equipment: "sdfk",
-                update: false
+                update: false,
+                state : {}
             }
         )
     }

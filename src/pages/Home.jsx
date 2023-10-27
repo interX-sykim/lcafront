@@ -66,15 +66,9 @@ const Home = () => {
         { key: "CO2EQ", name: "CO2EQ ", cellClass: "text-right", headerCellClass: "text-right"  },
         { key: "last_update", name: "Last update", cellClass: "text-center", headerCellClass: "text-center"  },
         { 
-            key: "super", name: "Update request from SUPER", cellClass: "text-center", headerCellClass: "text-center",
+            key: "sub", name: "Update", cellClass: "text-center", headerCellClass: "text-center",
             renderCell({ row }) {
-                return <Badge text={row.super} mode={`${row.super === "YES" ? "primary" : ""}${row.super === "NO" ? "error": ""}${row.super === "DONE" ? "disabled": ""}`} />;
-            },
-        },
-        { 
-            key: "sub", name: "Update request to SUB", cellClass: "text-center", headerCellClass: "text-center",
-            renderCell({ row }) {
-                return <Badge text={row.sub} mode={`${row.sub === "YES" ? "primary" : ""}${row.sub === "NO" ? "error" : ""}${row.sub === "DONE" ? "disabled" : ""}`} />;
+                return <Badge value={true} isBoolean={true}  text="Update" dest="/Page200" navigateState={row.state} />;
             },
         },
     ];
@@ -96,13 +90,14 @@ const Home = () => {
                 last_update: productList[i]['lastUpdate']?.substring(0, 10).replaceAll('-', '.'),
                 super: productList[i]["superCompanyUpdateRequest"],
                 sub: productList[i]["subCompanyUpdateRequest"],
-                params: {
+                state: {
                     id: productList[i]["id"],
                     name: productList[i]["name"],
                     company: companyList["name"],
                     CO2EQ: productList[i]["co2eq"],
                     lastUpdate: productList[i]['lastUpdate']?.substring(0, 10).replaceAll('-', '.')
                 },
+                type: "home",
                 click: "/Page200"
             }
         )};
