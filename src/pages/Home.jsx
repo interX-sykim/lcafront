@@ -106,6 +106,12 @@ const Home = () => {
         { key: "equipment", name: "Equipment"},
         { key: "CO2EQ", name: "CO2EQ ", cellClass: "text-right", headerCellClass: "text-right"  },
         { key: "last_update", name: "Last update", cellClass: "text-center", headerCellClass: "text-center"  },
+        { 
+            key: "edit", name: "", width: 100, cellClass: "text-left",
+            renderCell({ row }) {
+                return  <button className='block' onClick={() => navigate("/ProcessUpdate", {state : {id: row.process_ID, name : row.process, co2eq : row.CO2EQ}})}>edit</button>
+            }
+        }
     ];
     
     const PCRows = []

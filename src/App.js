@@ -14,6 +14,7 @@ import MemberRegister from './pages/MemberRegister';
 import MemberDetail from './pages/MemberDetail';
 import ProductRegister from './pages/ProductRegister';
 import ProcessRegister from './pages/ProcessRegister';
+import ProcessUpdate from './pages/ProcessUpdate';
 
 import ResizablePanel from './component/layer/ResizablePanel';
 
@@ -37,6 +38,7 @@ function Root() {
                     <Route path="/MemberDetail" element={<MemberDetail />} />
                     <Route path="/ProductRegister" element={<ProductRegister />} />
                     <Route path='/ProcessRegister' element={<ProcessRegister />} />
+                    <Route path='/ProcessUpdate' element={<ProcessUpdate />} />
                 </Route>
             </Routes>
         </div>);
