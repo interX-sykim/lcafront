@@ -4,7 +4,7 @@ import Textbox from "../component/common/atom/Textbox";
 import DataGrid from "../component/common/DataGrid";
 import PageTitle from "../component/common/PageTitle";
 import BetaElectronics from "../content/images/logo-beta_electronics.svg"
-import { useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom'
 
 import axios from 'axios';
 
@@ -15,9 +15,17 @@ const Home = () => {
 
     const navigate = useNavigate();
     
+    let {id} = useParams();
+    console.log(id);
     useEffect(() => {
+        console.log("accessToken:::::::::::::" + localStorage.getItem("accessToken"));
+        if(localStorage.getItem("accessToken") === null){
+            document.location.href = "/dxai/login";
+            return ;
+        }
+
         axios.post('/company/list', {
-            id : 3
+            id : id
         })
         .then((response) => {
             if(response.data["rsltCode"] === "F") setCompanyList([])
@@ -29,7 +37,7 @@ const Home = () => {
         });
 
         axios.post("/product/list", { 
-            companyId : 3
+            companyId : id
             ,strPageNum : 0
             ,pageSize : 10
         })
@@ -87,7 +95,7 @@ const Home = () => {
                     name: productList[i]["name"],
                     company: companyList["name"],
                     CO2EQ: productList[i]["co2eq"],
-                    lastUpdate: productList[i]['lastUpdate']?.substring(0, 10).replaceAll('-', '.')
+                    lastUpdate: productList[i]['lastUpdate']
                 },
                 type: "home",
                 click: "/Page200"
