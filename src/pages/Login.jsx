@@ -5,13 +5,24 @@ import axios from 'axios';
 
 const Login = () => {
 
+    useEffect(() => {
+        console.log("accessToken:::::::::::::" + sessionStorage.getItem("accessToken"));
+        if(sessionStorage.getItem("accessToken") != null && sessionStorage.getItem("companyId")){
+            document.location.href = "/dxai/"+sessionStorage.getItem("companyId");
+            return ;
+        }
+    }, []);
+
     console.log("login access page :::" + localStorage.getItem("accessToken"));
     function successLoginProcess(response){
 
         console.log(response.data["rsltList"][0]["companyId"]);
 
-        localStorage.setItem("accessToken", response.data["rsltList"][0]["jwtTokenDTO"]["accessToken"]);
-        localStorage.setItem("refreshToken",response.data["rsltList"][0]["jwtTokenDTO"]["refreshToken"]);
+        sessionStorage.setItem("accessToken", response.data["rsltList"][0]["jwtTokenDTO"]["accessToken"]);
+        sessionStorage.setItem("refreshToken",response.data["rsltList"][0]["jwtTokenDTO"]["refreshToken"]);
+
+        sessionStorage.setItem("memberId", response.data["rsltList"][0]["memberId"]);
+        sessionStorage.setItem("companyId", response.data["rsltList"][0]["companyId"]);
 
         document.location.href = "/dxai/"+response.data["rsltList"][0]["companyId"];
     }
