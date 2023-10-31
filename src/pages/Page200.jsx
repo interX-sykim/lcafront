@@ -10,6 +10,8 @@ import ComponentAddModal from '../component/modals/ComponentAddModal';
 import ProcessAddModal from '../component/modals/ProcessAddModal';
 import ResourceAddModal from '../component/modals/ResourceAddModal';
 
+import ComponentModifyModal from '../component/modals/ComponentModifyModal';
+
 import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios'
 
@@ -22,6 +24,7 @@ const Page200 = ({route}) => {
     const [componentCadidateList, setComponentCandidateList] = useState([]);
     const [resourceCadidateList, setResourceCandidateList] = useState([]);
     const [processCadidateList, setProcessCandidateList] = useState([]);
+    const [modifyQnty, setModifyQnty] = useState(0);
 
     const navigate = useNavigate();
 
@@ -143,9 +146,19 @@ const Page200 = ({route}) => {
             },
         },
         { 
-            key: "delete", name: "", width: 100, cellClass: "text-left",
+            key: "modify", name: "", width: 100, cellClass: "text-left",
             renderCell({ row }) {
-                return  <button className='block' onClick={() => {}}>delete</button>
+                return  <button className='block' onClick={() => {
+                    document.getElementById("modifyType").innerHTML = "Process"
+                    document.getElementById("modifyName").innerHTML = componentList[row.no-1].name
+                    document.getElementById("modifyCompany").classList.remove("hidden")
+                    document.getElementById("modifyCompanyName").classList.remove("hidden")
+                    document.getElementById("modifyCompanyName").innerHTML = row.supplier
+                    document.getElementById("modifyCo2eqValue").innerHTML = row.CO2EQ
+                    document.getElementById("modifyQnty").value = componentList[row.no-1].qnty
+                    console.log(row["id"])
+                    document.getElementById("componentModifyModal").classList.remove("hidden");
+                }}>modify</button>
             }
         },
     ]
@@ -190,9 +203,18 @@ const Page200 = ({route}) => {
             },
         },
         { 
-            key: "delete", name: "", width: 100, cellClass: "text-left",
+            key: "modify", name: "", width: 100, cellClass: "text-left",
             renderCell({ row }) {
-                return  <button className='block' onClick={() => {}}>delete</button>
+                return  <button className='block' onClick={() => {
+                    document.getElementById("modifyType").innerHTML = "Resource"
+                    document.getElementById("modifyName").innerHTML = resourceList[row.no-1].name
+                    document.getElementById("modifyCompany").classList.add("hidden")
+                    document.getElementById("modifyCompanyName").classList.add("hidden")
+                    document.getElementById("modifyCo2eqValue").innerHTML = row.CO2EQ
+                    document.getElementById("modifyQnty").value = resourceList[row.no-1].qnty
+                    console.log(row["id"])
+                    document.getElementById("componentModifyModal").classList.remove("hidden");
+                }}>modify</button>
             }
         },
     ]
@@ -227,9 +249,18 @@ const Page200 = ({route}) => {
             },
         },
         { 
-            key: "delete", name: "", width: 100, cellClass: "text-left",
+            key: "modify", name: "", width: 100, cellClass: "text-left",
             renderCell({ row }) {
-                return  <button className='block' onClick={() => {}}>delete</button>
+                return  <button className='block' onClick={() => {
+                    document.getElementById("modifyType").innerHTML = "Process"
+                    document.getElementById("modifyName").innerHTML = processList[row.no-1].name
+                    document.getElementById("modifyCompany").classList.add("hidden")
+                    document.getElementById("modifyCompanyName").classList.add("hidden")
+                    document.getElementById("modifyCo2eqValue").innerHTML = row.CO2EQ
+                    document.getElementById("modifyQnty").value = componentList[row.no-1].qnty
+                    console.log(row["id"])
+                    document.getElementById("componentModifyModal").classList.remove("hidden");
+                }}>modify</button>
             }
         },
     ]
@@ -271,10 +302,6 @@ const Page200 = ({route}) => {
         )
     }
 
-    const removeMapping = (type, id) => {
-
-    }
-
     return (
         <>
             <div className="card h-[3.75rem] px-5 flex items-center cursor-pointer select-none" onClick={() => navigate('/')}>
@@ -284,6 +311,7 @@ const Page200 = ({route}) => {
             <ComponentAddModal rows={CCRows} productId={state.id}></ComponentAddModal>
             <ProcessAddModal rows={MPRows} productId={state.id}></ProcessAddModal>
             <ResourceAddModal rows={PRRows} productId={state.id}></ResourceAddModal>
+            <ComponentModifyModal></ComponentModifyModal>
             <div className="p-[1.875rem]">
                 <div className="bg-white w-full h-[15.438rem] py-7 px-[1.875rem] mb-5 shadow-ix rounded flex justify-between">
                     <ul>
