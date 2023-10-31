@@ -6,9 +6,9 @@ import DataGrid from "../component/common/DataGrid";
 import SankeyChart from "../component/common/SankeyChart";
 import machine from "../content/images/img-machine.jpg";
 
-import ComponentModal from '../component/modals/ComponentModal';
-import ProcessModal from '../component/modals/ProcessModal';
-import ResourceModal from '../component/modals/ResourceModal';
+import ComponentAddModal from '../component/modals/ComponentAddModal';
+import ProcessAddModal from '../component/modals/ProcessAddModal';
+import ResourceAddModal from '../component/modals/ResourceAddModal';
 
 import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios'
@@ -88,6 +88,8 @@ const Page200 = ({route}) => {
         }
     }, []);
 
+
+
     const STRHeader = [
         { key: "no", name: "NO", width: 61, cellClass: "text-center", headerCellClass: "text-center" },
         { key: "buyer", name: "Buyer"},
@@ -131,7 +133,7 @@ const Page200 = ({route}) => {
         { key: "component_ID", name: "Component ID" },
         { key: "supplier", name: "Supplier" },
         { key: "supplier_ID", name: "Supplier ID" },
-        { key: "Qnty", name: "Qnty[unit/prd]", cellClass: "text-right", headerCellClass: "text-right" },
+        { key: "Qnty", name: "Qnty[unit/prd]", width: 100, cellClass: "text-right", headerCellClass: "text-right" },
         { key: "CO2EQ", name: "CO2EQ[kg/prd]", cellClass: "text-right", headerCellClass: "text-right" },
         { key: "last_update", name: "Last update", cellClass: "text-center", headerCellClass: "text-center"  },
         { 
@@ -139,6 +141,12 @@ const Page200 = ({route}) => {
             renderCell({ row }) {
                 return <Badge value={row.update} isBoolean={true} text="Update" dest="/Page300" navigateState={row.state} />;
             },
+        },
+        { 
+            key: "delete", name: "", width: 100, cellClass: "text-left",
+            renderCell({ row }) {
+                return  <button className='block' onClick={() => {}}>delete</button>
+            }
         },
     ]
 
@@ -181,6 +189,12 @@ const Page200 = ({route}) => {
                 return <Badge value={row.update} isBoolean={true} text="Update" dest="/Page300" navigateState={row.state}/>;
             },
         },
+        { 
+            key: "delete", name: "", width: 100, cellClass: "text-left",
+            renderCell({ row }) {
+                return  <button className='block' onClick={() => {}}>delete</button>
+            }
+        },
     ]
 
     const PRRows = []
@@ -211,6 +225,12 @@ const Page200 = ({route}) => {
             renderCell({ row }) {
                 return <Badge value={row.update} isBoolean={true} text="Update" dest="/Page300" navigateState={row.state}/>;
             },
+        },
+        { 
+            key: "delete", name: "", width: 100, cellClass: "text-left",
+            renderCell({ row }) {
+                return  <button className='block' onClick={() => {}}>delete</button>
+            }
         },
     ]
 
@@ -251,15 +271,19 @@ const Page200 = ({route}) => {
         )
     }
 
+    const removeMapping = (type, id) => {
+
+    }
+
     return (
         <>
             <div className="card h-[3.75rem] px-5 flex items-center cursor-pointer select-none" onClick={() => navigate('/')}>
                 <i className="icon-chevron_left w-[2.125rem] h-[2.125rem] text-2xl flex items-center justify-center text-default cursor-pointer select-none mr-2"></i>
                 <p className="text-base font-bold">Product</p>
             </div>
-            <ComponentModal rows={CCRows} productId={state.id}></ComponentModal>
-            <ProcessModal rows={MPRows} productId={state.id}></ProcessModal>
-            <ResourceModal rows={PRRows} productId={state.id}></ResourceModal>
+            <ComponentAddModal rows={CCRows} productId={state.id}></ComponentAddModal>
+            <ProcessAddModal rows={MPRows} productId={state.id}></ProcessAddModal>
+            <ResourceAddModal rows={PRRows} productId={state.id}></ResourceAddModal>
             <div className="p-[1.875rem]">
                 <div className="bg-white w-full h-[15.438rem] py-7 px-[1.875rem] mb-5 shadow-ix rounded flex justify-between">
                     <ul>
@@ -307,7 +331,7 @@ const Page200 = ({route}) => {
                         <p className="text-base font-bold text-text-dark pl-[0.875rem]">Product Component</p>
                         <div className='h-11 flex items-center justify-between'>
                             <button className='block' onClick={() => {
-                                document.getElementById("componentModal").classList.remove("hidden");
+                                document.getElementById("componentAddModal").classList.remove("hidden");
                             }}>add component</button> 
                         </div>
                     </div>
@@ -320,7 +344,7 @@ const Page200 = ({route}) => {
                                 <p className="text-base font-bold text-text-dark pl-[0.875rem]">Product Resource</p>
                                 <div className='h-11 flex items-center justify-between'>
                                     <button className='block' onClick={() => {
-                                        document.getElementById("resourceModal").classList.remove("hidden");
+                                        document.getElementById("resourceAddModal").classList.remove("hidden");
                                     }}>add resource</button>
                                 </div>
                             </div>
@@ -333,7 +357,7 @@ const Page200 = ({route}) => {
                                 <p className="text-base font-bold text-text-dark pl-[0.875rem]">Manufacturing Process</p>
                                 <div className='h-11 flex items-center justify-between'>
                                     <button className='block' onClick={() => {
-                                        document.getElementById("processModal").classList.remove("hidden");
+                                        document.getElementById("processAddModal").classList.remove("hidden");
                                     }}>add process</button>
                                 </div>
                             </div>

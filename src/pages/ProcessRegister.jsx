@@ -18,7 +18,8 @@ const ProcessRegister = () => {
             , co2eq : values["co2eq"]
             , companyId : sessionStorage.getItem("companyId")
             ,updateRequested : 'N'
-            ,createdId : sessionStorage.getItem("memberId")
+            , createdId : sessionStorage.getItem("memberId")
+            , modifiedId : sessionStorage.getItem("memberId")
         })
         .then((response) => {
             if(response.data["rsltCode"] === "F")
