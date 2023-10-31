@@ -49,6 +49,7 @@ export default function ComponentModifyModal() {
         // .catch((error) => {
         //     console.log(error);
         // });
+        modalClose();
     }
 
     return (

@@ -88,6 +88,17 @@ const Page200 = ({route}) => {
                 console.log(error);
                 setComponentCandidateList([]);
             });
+
+            axios.post("/resource/candidList", { 
+                id : state.id
+            })
+            .then((response) => {
+                setResourceCandidateList(response.data["rsltList"]);
+            })
+            .catch((error) => {
+                console.log(error);
+                setResourceCandidateList([]);
+            });
         }
     }, []);
 
@@ -302,6 +313,21 @@ const Page200 = ({route}) => {
         )
     }
 
+    const CRRows = []
+
+    for (var i=0; i < resourceCadidateList?.length; i++) {
+        CRRows.push(
+            {
+                no: i+1,
+                resource: resourceCadidateList[i].name,
+                component_ID: resourceCadidateList[i].id,
+                unit: resourceCadidateList[i].unit,
+                last_update: resourceCadidateList[i].lastUpdate?.substring(0, 10).replaceAll('-', '.') || "",
+                update: false
+            }
+        )
+    }
+
     return (
         <>
             <div className="card h-[3.75rem] px-5 flex items-center cursor-pointer select-none" onClick={() => navigate('/')}>
@@ -310,7 +336,7 @@ const Page200 = ({route}) => {
             </div>
             <ComponentAddModal rows={CCRows} productId={state.id}></ComponentAddModal>
             <ProcessAddModal rows={MPRows} productId={state.id}></ProcessAddModal>
-            <ResourceAddModal rows={PRRows} productId={state.id}></ResourceAddModal>
+            <ResourceAddModal rows={CRRows} productId={state.id}></ResourceAddModal>
             <ComponentModifyModal></ComponentModifyModal>
             <div className="p-[1.875rem]">
                 <div className="bg-white w-full h-[15.438rem] py-7 px-[1.875rem] mb-5 shadow-ix rounded flex justify-between">
