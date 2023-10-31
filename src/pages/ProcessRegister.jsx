@@ -16,8 +16,9 @@ const ProcessRegister = () => {
         axios.post('/process/insert', {
             name : values["Process name"]
             , co2eq : values["co2eq"]
-            , companyId : 3
+            , companyId : sessionStorage.getItem("companyId")
             ,updateRequested : 'N'
+            ,createdId : sessionStorage.getItem("memberId")
         })
         .then((response) => {
             if(response.data["rsltCode"] === "F")

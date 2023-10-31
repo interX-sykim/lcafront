@@ -86,14 +86,14 @@ const Home = () => {
                 product: productList[i]["name"],
                 product_ID: productList[i]["id"],
                 CO2EQ: productList[i]["co2eq"],
-                last_update: productList[i]['lastUpdate']?.substring(0, 10).replaceAll('-', '.'),
+                last_update: productList[i]['modifiedAt']?.substring(0, 10).replaceAll('-', '.'),
                 updateYn: productList[i]["updateYn"],
                 state: {
                     id: productList[i]["id"],
                     name: productList[i]["name"],
                     company: companyList["name"],
                     CO2EQ: productList[i]["co2eq"],
-                    lastUpdate: productList[i]['lastUpdate']
+                    lastUpdate: productList[i]['modifiedAt']
                 },
                 type: "home",
                 click: "/Page200"

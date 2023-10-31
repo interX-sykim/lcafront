@@ -29,8 +29,10 @@ const ProductRegister = () => {
         axios.post('/product/insert', {
             name : values["product name"]
             , co2eq : values["co2eq"]
-            , companyId : 3
+            , companyId : sessionStorage.getItem("companyId")
             , unit: document.getElementById("grid-state").value
+            , createdId : sessionStorage.getItem("memberId")
+            , modifiedId : sessionStorage.getItem("memberId")
         })
         .then((response) => {
             if(response.data["rsltCode"] === "F")
