@@ -31,7 +31,7 @@ const Login = () => {
         console.log("password" , values["password"]);
 
         axios.post('/member/login', {
-            id : values["id"] 
+            id : values["id"]  
             , pwd : values["password"]
         })
         .then((response) => {

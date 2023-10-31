@@ -62,7 +62,7 @@ const Home = () => {
         .catch((error) => {
             setProcessList([]);
         });
-    }, []);
+    }, []); 
 
 
     const gridHeader = [
