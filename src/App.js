@@ -23,8 +23,8 @@ function Root() {
         <div>
             <Routes>
                 <Route path="/" element={<ResizablePanel />}>
+                    <Route path="/" element={<Login />} />
                     <Route path="/:id" element={<Home />} />
-                    <Route path="/Dashboard" element={<Home />} />
                     <Route path="/Page101" element={<Page101 />} />
                     <Route path="/Page200" element={<Page200 />} />
                     <Route path="/Page201" element={<Page201 />} />
@@ -42,7 +42,7 @@ function Root() {
         </div>);
 
 };
-
+    
 
 const App = () => {
     return (
