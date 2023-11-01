@@ -1,14 +1,60 @@
 import React, { useEffect, useRef, useState } from 'react';
+import axios from 'axios'; 
 
 export default function ResourceAddModal(props) {
-    const {rows} = props;
+    const {rows, productId} = props;
+
+    const newResourceIdList = []
+    const newResourceQntyList = []
+
+    const modalClose = () => {
+        const resourceCheckbox = document.getElementsByName("resourceCheckbox")
+        const comopnentQntyInput = document.getElementsByName("resource_qnty_input")
+
+        for (let i=0; i<resourceCheckbox.length; i++) {
+            resourceCheckbox[i].checked = false;
+            comopnentQntyInput[i].value = null;
+        }
+        document.getElementById("resourceAddModal").classList.add("hidden");
+    }
+
+    const addResource = () => {
+        const resourceCheckbox = document.getElementsByName("resourceCheckbox")
+        const comopnentQntyInput = document.getElementsByName("resource_qnty_input")
+
+        for (let i=0; i<rows.length; i++) {
+            if (resourceCheckbox[i].checked) {
+                newResourceIdList.push(rows[i].resource_ID)
+                newResourceQntyList.push(comopnentQntyInput[i].value)
+            } 
+        }
+        console.log("new resource ID list : ")
+        console.log(newResourceIdList)
+        console.log("new resource qnty list :")
+        console.log(newResourceQntyList)
+
+        for (let i = 0; i<newResourceIdList.length; i++) {
+            axios.post("/resource/insertMapping", {
+                productId : productId,
+                resourceId : newResourceIdList[i],
+                qnty: newResourceQntyList[i]
+            })
+            .then((response) => {
+                console.log(response)
+                modalClose();
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        }
+    }
 
     const componentTableRow = rows.map((row, index) => {
     return (
         <tr key={index}>
             <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
                 <div class="inline-flex items-center gap-x-3">
-                    <input type="checkbox" class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700"/>
+                    <input name="resourceCheckbox" type="checkbox" class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700"/>
                     <div class="flex items-center gap-x-2">
                         <div>
                             <p class="text-sm font-normal text-gray-600 dark:text-gray-400">&nbsp;{index+1}</p>
@@ -19,7 +65,7 @@ export default function ResourceAddModal(props) {
             <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">ID#75AC872</td>
             <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{row.resource}</td>
             <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{row.unit}</td>
-            <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"><input name='qnty_input' type='number' style={{ width:"58px" }} min={0}></input></td>
+            <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"><input name='resource_qnty_input' type='number' style={{ width:"58px" }} min={0}></input></td>
         </tr>
     )
 })
@@ -65,7 +111,7 @@ export default function ResourceAddModal(props) {
                 </div>
                 </div>
                 <div style={{float:"right"}} className="p-4 flex items-center justify-between">
-                    <button>Add</button>
+                    <button onClick={addResource}>Add</button>
                 </div>
             </div>
             </div>

@@ -9,7 +9,7 @@ export default function ComponentAddModal(props) {
 
     const modalClose = () => {
         const componentCheckbox = document.getElementsByName("componentCheckbox")
-        const comopnentQntyInput = document.getElementsByName("qnty_input")
+        const comopnentQntyInput = document.getElementsByName("component_qnty_input")
 
         for (let i=0; i<componentCheckbox.length; i++) {
             componentCheckbox[i].checked = false;
@@ -20,7 +20,7 @@ export default function ComponentAddModal(props) {
 
     const addComponent = () => {
         const componentCheckbox = document.getElementsByName("componentCheckbox")
-        const comopnentQntyInput = document.getElementsByName("qnty_input")
+        const comopnentQntyInput = document.getElementsByName("component_qnty_input")
 
         for (let i=0; i<rows.length; i++) {
             if (componentCheckbox[i].checked) {
@@ -66,7 +66,7 @@ export default function ComponentAddModal(props) {
             <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{row.component}</td>
             <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{row.CO2EQ}</td>
             <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{row.supplier}</td>
-            <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"><input name='qnty_input' type='number' style={{ width:"58px" }} min={0}></input></td>
+            <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"><input name='component_qnty_input' type='number' style={{ width:"58px" }} min={0}></input></td>
         </tr>
     )
 })

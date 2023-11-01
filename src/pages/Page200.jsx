@@ -320,7 +320,7 @@ const Page200 = ({route}) => {
             {
                 no: i+1,
                 resource: resourceCadidateList[i].name,
-                component_ID: resourceCadidateList[i].id,
+                resource_ID: resourceCadidateList[i].id,
                 unit: resourceCadidateList[i].unit,
                 last_update: resourceCadidateList[i].lastUpdate?.substring(0, 10).replaceAll('-', '.') || "",
                 update: false

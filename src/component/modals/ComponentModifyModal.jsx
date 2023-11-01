@@ -53,7 +53,7 @@ export default function ComponentModifyModal() {
     }
 
     return (
-        <div id='componentModifyModal' class="modal z-50 fixed w-full h-full top-0 left-0 flex items-center justify-center p-8 lg:p-0">
+        <div id='componentModifyModal' class="hidden modal z-50 fixed w-full h-full top-0 left-0 flex items-center justify-center p-8 lg:p-0">
             <div class="modal-overlay fixed w-full h-full bg-gray-900 opacity-50" onClick={modalClose}></div>
             <div class="bg-white w-full lg:h-max lg:w-1/3  mx-auto rounded-lg shadow-xl z-50 overflow-y-auto">
             <div class="flex justify-between items-center head bg-gray-100 py-5 px-8 text-2xl font-extrabold">
