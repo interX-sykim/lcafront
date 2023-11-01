@@ -119,6 +119,8 @@ const Home = () => {
             }
         }
     ];
+
+    console.log(processList)
     
     const PCRows = []
     for (var i=0; i < processList.length; i++) {

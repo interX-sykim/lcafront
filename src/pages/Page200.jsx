@@ -28,8 +28,6 @@ const Page200 = ({route}) => {
 
     const navigate = useNavigate();
 
-    console.log(state)
-
     useEffect(() => {
         if (state != null) {
             axios.post('/product/component/List', {
@@ -99,6 +97,18 @@ const Page200 = ({route}) => {
                 console.log(error);
                 setResourceCandidateList([]);
             });
+
+            axios.post("/process/candidList", { 
+                companyId: sessionStorage.getItem("companyId"),
+                id : state.id
+            })
+            .then((response) => {
+                setProcessCandidateList(response.data["rsltList"]);
+            })
+            .catch((error) => {
+                console.log(error);
+                setProcessCandidateList([]);
+            });
         }
     }, []);
 
@@ -167,7 +177,6 @@ const Page200 = ({route}) => {
                     document.getElementById("modifyCompanyName").innerHTML = row.supplier
                     document.getElementById("modifyCo2eqValue").innerHTML = row.CO2EQ
                     document.getElementById("modifyQnty").value = componentList[row.no-1].qnty
-                    console.log(row["id"])
                     document.getElementById("componentModifyModal").classList.remove("hidden");
                 }}>modify</button>
             }
@@ -223,7 +232,6 @@ const Page200 = ({route}) => {
                     document.getElementById("modifyCompanyName").classList.add("hidden")
                     document.getElementById("modifyCo2eqValue").innerHTML = row.CO2EQ
                     document.getElementById("modifyQnty").value = resourceList[row.no-1].qnty
-                    console.log(row["id"])
                     document.getElementById("componentModifyModal").classList.remove("hidden");
                 }}>modify</button>
             }
@@ -250,7 +258,7 @@ const Page200 = ({route}) => {
     const MPHeader = [
         { key: "no", name: "NO", width: 61, cellClass: "text-center", headerCellClass: "text-center" },
         { key: "process", name: "Process" },
-        { key: "process_ID", name: "Process ID" },
+        { key: "Qnty", name: "Qnty[unit/prd]", cellClass: "text-right", headerCellClass: "text-right" },
         { key: "CO2EQ", name: "CO2EQ[kg/prd]", cellClass: "text-right", headerCellClass: "text-right" },
         { key: "last_update", name: "Last update", cellClass: "text-center", headerCellClass: "text-center"  },
         { 
@@ -268,8 +276,7 @@ const Page200 = ({route}) => {
                     document.getElementById("modifyCompany").classList.add("hidden")
                     document.getElementById("modifyCompanyName").classList.add("hidden")
                     document.getElementById("modifyCo2eqValue").innerHTML = row.CO2EQ
-                    document.getElementById("modifyQnty").value = componentList[row.no-1].qnty
-                    console.log(row["id"])
+                    document.getElementById("modifyQnty").value = processList[row.no-1].qnty
                     document.getElementById("componentModifyModal").classList.remove("hidden");
                 }}>modify</button>
             }
@@ -283,8 +290,9 @@ const Page200 = ({route}) => {
             {
                 no: i+1,
                 process: processList[i].name,
-                process_ID: "PR#125633F",
+                unit: processList[i].unit,
                 CO2EQ: processList[i].co2eq,
+                Qnty: processList[i].qnty ,
                 last_update: processList[i].lastUpdate.substring(0, 10).replaceAll("-", ".") || "",
                 equipment: "sdfk",
                 update: false,
@@ -321,8 +329,25 @@ const Page200 = ({route}) => {
                 no: i+1,
                 resource: resourceCadidateList[i].name,
                 resource_ID: resourceCadidateList[i].id,
+                CO2EQ: resourceCadidateList[i].co2eq,
                 unit: resourceCadidateList[i].unit,
                 last_update: resourceCadidateList[i].lastUpdate?.substring(0, 10).replaceAll('-', '.') || "",
+                update: false
+            }
+        )
+    }
+
+    const CPRows = []
+
+    for (var i=0; i < processCadidateList?.length; i++) {
+        CPRows.push(
+            {
+                no: i+1,
+                process: processCadidateList[i].name,
+                process_ID: processCadidateList[i].id,
+                CO2EQ: processCadidateList[i].co2eq,
+                unit: processCadidateList[i].unit,
+                last_update: processCadidateList[i].lastUpdate?.substring(0, 10).replaceAll('-', '.') || "",
                 update: false
             }
         )
@@ -335,7 +360,7 @@ const Page200 = ({route}) => {
                 <p className="text-base font-bold">Product</p>
             </div>
             <ComponentAddModal rows={CCRows} productId={state.id}></ComponentAddModal>
-            <ProcessAddModal rows={MPRows} productId={state.id}></ProcessAddModal>
+            <ProcessAddModal rows={CPRows} productId={state.id}></ProcessAddModal>
             <ResourceAddModal rows={CRRows} productId={state.id}></ResourceAddModal>
             <ComponentModifyModal></ComponentModifyModal>
             <div className="p-[1.875rem]">

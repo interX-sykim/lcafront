@@ -28,10 +28,6 @@ export default function ComponentAddModal(props) {
                 newComponentQntyList.push(comopnentQntyInput[i].value)
             } 
         }
-        console.log("new component ID list : ")
-        console.log(newComponentIdList)
-        console.log("new component qnty list :")
-        console.log(newComponentQntyList)
 
         for (let i = 0; i<newComponentIdList.length; i++) {
             axios.post("/product/component/insert", {

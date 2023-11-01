@@ -9,29 +9,25 @@ export default function ResourceAddModal(props) {
 
     const modalClose = () => {
         const resourceCheckbox = document.getElementsByName("resourceCheckbox")
-        const comopnentQntyInput = document.getElementsByName("resource_qnty_input")
+        const resourceQntyInput = document.getElementsByName("resource_qnty_input")
 
         for (let i=0; i<resourceCheckbox.length; i++) {
             resourceCheckbox[i].checked = false;
-            comopnentQntyInput[i].value = null;
+            resourceQntyInput[i].value = null;
         }
         document.getElementById("resourceAddModal").classList.add("hidden");
     }
 
     const addResource = () => {
         const resourceCheckbox = document.getElementsByName("resourceCheckbox")
-        const comopnentQntyInput = document.getElementsByName("resource_qnty_input")
+        const resourceQntyInput = document.getElementsByName("resource_qnty_input")
 
         for (let i=0; i<rows.length; i++) {
             if (resourceCheckbox[i].checked) {
                 newResourceIdList.push(rows[i].resource_ID)
-                newResourceQntyList.push(comopnentQntyInput[i].value)
+                newResourceQntyList.push(resourceQntyInput[i].value)
             } 
         }
-        console.log("new resource ID list : ")
-        console.log(newResourceIdList)
-        console.log("new resource qnty list :")
-        console.log(newResourceQntyList)
 
         for (let i = 0; i<newResourceIdList.length; i++) {
             axios.post("/resource/insertMapping", {
@@ -64,6 +60,7 @@ export default function ResourceAddModal(props) {
             </td>
             <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">ID#75AC872</td>
             <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{row.resource}</td>
+            <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{row.CO2EQ}</td>
             <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{row.unit}</td>
             <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"><input name='resource_qnty_input' type='number' style={{ width:"58px" }} min={0}></input></td>
         </tr>
@@ -73,7 +70,7 @@ export default function ResourceAddModal(props) {
     return (
         <div id='resourceAddModal' class="modal hidden z-50 fixed w-full h-full top-0 left-0 flex items-center justify-center p-8 lg:p-0">
             <div class="modal-overlay fixed w-full h-full bg-gray-900 opacity-50" onClick={() => {
-                document.getElementById("resourceAddModal").classList.add("hidden");
+                modalClose();
             }}></div>
             <div class="bg-white w-full lg:h-max lg:w-1/2  mx-auto rounded-lg shadow-xl z-50 overflow-y-auto">
             <div class="flex justify-between items-center head bg-gray-100 py-5 px-8 text-2xl font-extrabold">
@@ -95,6 +92,7 @@ export default function ResourceAddModal(props) {
                         </th>
                         <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Resource Id</th>
                         <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Resource Name</th>
+                        <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">CO2EQ</th>
                         <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Unit</th>
 
                         <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">qnty</th>
