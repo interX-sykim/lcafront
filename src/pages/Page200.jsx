@@ -27,6 +27,7 @@ const Page200 = ({route}) => {
     const [modifyQnty, setModifyQnty] = useState(0);
 
     const navigate = useNavigate();
+    sessionStorage.setItem("productId", state.id)
 
     useEffect(() => {
         if (state != null) {
@@ -170,14 +171,18 @@ const Page200 = ({route}) => {
             key: "modify", name: "", width: 100, cellClass: "text-left",
             renderCell({ row }) {
                 return  <button className='block' onClick={() => {
-                    document.getElementById("modifyType").innerHTML = "Process"
+                    document.getElementById("modifyType").innerHTML = "Component"
                     document.getElementById("modifyName").innerHTML = componentList[row.no-1].name
                     document.getElementById("modifyCompany").classList.remove("hidden")
                     document.getElementById("modifyCompanyName").classList.remove("hidden")
                     document.getElementById("modifyCompanyName").innerHTML = row.supplier
                     document.getElementById("modifyCo2eqValue").innerHTML = row.CO2EQ
-                    document.getElementById("modifyQnty").value = componentList[row.no-1].qnty
+                    document.getElementById("modifyQnty").classList.add("hidden")
+                    document.getElementById("editButton").classList.add("hidden")
+                    document.getElementById("qntyBold").classList.remove("hidden")
+                    document.getElementById("qntyBold").value = componentList[row.no-1].qnty
                     document.getElementById("componentModifyModal").classList.remove("hidden");
+                    sessionStorage.setItem("modifyId", componentList[row.no-1].id)
                 }}>modify</button>
             }
         },
@@ -233,6 +238,10 @@ const Page200 = ({route}) => {
                     document.getElementById("modifyCo2eqValue").innerHTML = row.CO2EQ
                     document.getElementById("modifyQnty").value = resourceList[row.no-1].qnty
                     document.getElementById("componentModifyModal").classList.remove("hidden");
+                    sessionStorage.setItem("modifyId", resourceList[row.no-1].id)
+                    document.getElementById("modifyQnty").classList.remove("hidden")
+                    document.getElementById("editButton").classList.remove("hidden")
+                    document.getElementById("qntyBold").classList.add("hidden")
                 }}>modify</button>
             }
         },
@@ -278,6 +287,10 @@ const Page200 = ({route}) => {
                     document.getElementById("modifyCo2eqValue").innerHTML = row.CO2EQ
                     document.getElementById("modifyQnty").value = processList[row.no-1].qnty
                     document.getElementById("componentModifyModal").classList.remove("hidden");
+                    sessionStorage.setItem("modifyId", processList[row.no-1].id)
+                    document.getElementById("modifyQnty").classList.remove("hidden")
+                    document.getElementById("editButton").classList.remove("hidden")
+                    document.getElementById("qntyBold").classList.add("hidden")
                 }}>modify</button>
             }
         },
