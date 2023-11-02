@@ -25,11 +25,26 @@ const ProductDetail = ({route}) => {
     const [resourceCadidateList, setResourceCandidateList] = useState([]);
     const [processCadidateList, setProcessCandidateList] = useState([]);
     const [modifyQnty, setModifyQnty] = useState(0);
+    const [productList , setProductList] = useState([]);
 
     const navigate = useNavigate();
     sessionStorage.setItem("productId", state.id)
-
+    
     useEffect(() => {
+
+        axios.post('/product/list', {
+            id : state.id
+            ,companyId : sessionStorage.getItem("companyId")
+        })
+        .then((response) => {
+            if(response.data["rsltCode"] === "F") setProductList([])
+            else setProductList(response.data["rsltList"][0]);
+        })
+        .catch((error) => {
+            console.log(error);
+            setProductList([]);
+        });
+        
         if (state != null) {
             axios.post('/product/component/List', {
                 id : state.id
@@ -384,25 +399,25 @@ const ProductDetail = ({route}) => {
                     <ul>
                         <li className="mb-2 pb-2 flex flex-col">
                             <span className="text-default text-sm mb-1 leading-none">Product</span>
-                            <p className="text-text-dark text-xl font-extrabold leading-none">{state? state.name : ""}</p>
+                            <p className="text-text-dark text-xl font-extrabold leading-none">{productList["name"]}</p>
                         </li>
                         <li className="mb-2 flex flex-col">
                             <span className="text-default text-sm leading-none">Company</span>
-                            <p className="text-text-default text-15 leading-6 h-6">{state? state.company : ""}</p>
+                            <p className="text-text-default text-15 leading-6 h-6">{productList["companyName"]}</p>
                         </li>
                         <li className="mb-2 flex flex-col">
                             <span className="text-default text-sm leading-none">Product ID</span>
-                            <p className="text-text-default text-15 leading-6 h-6">23459090</p>
+                            <p className="text-text-default text-15 leading-6 h-6">{productList["id"]}</p>
                         </li>
                         <li className="flex flex-col">
                             <span className="text-default text-sm leading-none">Last Update</span>
-                            <p className="text-text-default text-15 leading-6 h-6">{state? state.lastUpdate : ""}</p>
+                            <p className="text-text-default text-15 leading-6 h-6">{productList["lastUpdate"]}</p>
                         </li>
                     </ul>
                     <div className="flex">
                         <div className="h-full px-10 min-w-[18.75rem] flex flex-col items-center justify-center border-l border-border-light">
                             <p className="text-primary font-bold text-xl leading-none mb-1">CO2eq</p>
-                            <p className="text-text-dark text-[3.75rem] font-extrabold leading-none mb-1">{state? state.CO2EQ : ""}</p>
+                            <p className="text-text-dark text-[3.75rem] font-extrabold leading-none mb-1">{productList["co2eq"]}</p>
                             <p className="text-default text-xl">kg/ea</p>
                         </div>
                         <div className="h-full w-[18.75rem] flex flex-col items-center justify-center">
