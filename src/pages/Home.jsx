@@ -90,10 +90,6 @@ const Home = () => {
                 updateYn: productList[i]["updateYn"],
                 state: {
                     id: productList[i]["id"],
-                    name: productList[i]["name"],
-                    company: companyList["name"],
-                    CO2EQ: productList[i]["co2eq"],
-                    lastUpdate: productList[i]['modifiedAt']
                 },
                 type: "home",
                 click: "/ProductDetail"

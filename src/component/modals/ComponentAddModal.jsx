@@ -38,6 +38,7 @@ export default function ComponentAddModal(props) {
             .then((response) => {
                 console.log(response)
                 modalClose();
+                window.location.reload();
             })
             .catch((error) => {
                 console.log(error);

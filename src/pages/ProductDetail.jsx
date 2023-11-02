@@ -27,7 +27,7 @@ const ProductDetail = ({route}) => {
     const [componentCadidateList, setComponentCandidateList] = useState([]);
     const [resourceCadidateList, setResourceCandidateList] = useState([]);
     const [processCadidateList, setProcessCandidateList] = useState([]);
-    const [modifyQnty, setModifyQnty] = useState(0);
+    const [renderCnt, setRenderCnt] = useState(0);
     const [productList , setProductList] = useState([]);
 
     const navigate = useNavigate();
@@ -129,7 +129,7 @@ const ProductDetail = ({route}) => {
                 setProcessCandidateList([]);
             });
         }
-    }, []);
+    }, [renderCnt]);
 
 
     function goProcessUpdate(supplierId, prdName , prdId, componentId){
@@ -198,16 +198,16 @@ const ProductDetail = ({route}) => {
     const STRTotalCount = STRRows.length;
 
     const PCHeader = [
-        { key: "no", name: "NO", width: 61, cellClass: "text-center", headerCellClass: "text-center" },
-        { key: "component", name: "Component" },
-        { key: "component_ID", name: "Component ID" },
-        { key: "supplier", name: "Supplier" },
-        { key: "supplier_ID", name: "Supplier ID" },
-        { key: "Qnty", name: "Qnty[unit/prd]", width: 100, cellClass: "text-right", headerCellClass: "text-right" },
-        { key: "CO2EQ", name: "CO2EQ[kg/prd]", cellClass: "text-right", headerCellClass: "text-right" },
-        { key: "last_update", name: "Last update", cellClass: "text-center", headerCellClass: "text-center"  },
+        { key: "no", name: "NO", width: 103, cellClass: "text-center", headerCellClass: "text-center" },
+        { key: "component", name: "Component", width: 222 },
+        { key: "component_ID", name: "Component ID", width: 222 },
+        { key: "supplier", name: "Supplier", width: 250 },
+        { key: "supplier_ID", name: "Supplier ID", width: 180 },
+        { key: "Qnty", name: "Qnty[unit/prd]", width: 180, cellClass: "text-right", headerCellClass: "text-right" },
+        { key: "CO2EQ", name: "CO2EQ[kg/prd]", width: 250, cellClass: "text-right", headerCellClass: "text-right" },
+        { key: "last_update", name: "Last update", width: 250, cellClass: "text-center", headerCellClass: "text-center"  },
         { 
-            key: "update", name: "Update", cellClass: "text-center", headerCellClass: "text-center",
+            key: "update", name: "Update", width: 222, cellClass: "text-center", headerCellClass: "text-center",
             renderCell({ row }) {
                 if(componentList[row.no-1].updateYn > 0){
                     return <button className='block' onClick={() => {goProcessUpdate(row.supplier_ID,row.component,state.id, row.component_ID)}}><b><font color="RED">UPDATE</font></b></button>;
@@ -217,24 +217,42 @@ const ProductDetail = ({route}) => {
             },
         },
         { 
-            key: "modify", name: "", width: 100, cellClass: "text-left",
+            key: "modify", name: "", cellClass: "text-center",
             renderCell({ row }) {
-                return  <button className='block' onClick={() => {
+                return  <i className='inline-block icon-edit h-12 w-5' style={{fontSize:'27px'}} onClick={() => {
                     document.getElementById("modifyType").innerHTML = "Component"
                     document.getElementById("modifyName").innerHTML = componentList[row.no-1].name
                     document.getElementById("modifyCompany").classList.remove("hidden")
                     document.getElementById("modifyCompanyName").classList.remove("hidden")
                     document.getElementById("modifyCompanyName").innerHTML = row.supplier
                     document.getElementById("modifyCo2eqValue").innerHTML = row.CO2EQ
-                    document.getElementById("modifyQnty").classList.add("hidden")
-                    document.getElementById("editButton").classList.add("hidden")
-                    document.getElementById("qntyBold").classList.remove("hidden")
-                    document.getElementById("qntyBold").value = componentList[row.no-1].qnty
+                    document.getElementById("modifyQnty").value = componentList[row.no-1].qnty
                     document.getElementById("componentModifyModal").classList.remove("hidden");
                     sessionStorage.setItem("modifyId", componentList[row.no-1].id)
-                }}>modify</button>
+                }}></i>
             }
         },
+        {
+            key: "delete", width: 60, cellClass: "text-center",
+            renderCell({ row }) {
+                return <i className='inline-block icon-trash h-12' style={{fontSize:'26px', color:'rgb(212, 18, 18)'}} onClick={ () => {
+                    if (window.confirm("정말 삭제하시겠습니까?")) {
+                        axios.post("/product/component/delete", {
+                            productId : state.id,
+                            componentId : componentList[row.no-1].id,
+                        })
+                        .then((response) => {
+                            console.log(response);
+                            setRenderCnt(renderCnt + 1)
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        });
+                    }
+                }
+                }></i>
+            }
+        }
     ]
 
     const PCRows = []
@@ -268,15 +286,15 @@ const ProductDetail = ({route}) => {
     }
 
     const PRHeader = [
-        { key: "no", name: "NO", width: 61, cellClass: "text-center", headerCellClass: "text-center" },
-        { key: "resource", name: "Resource" },
-        { key: "Qnty", name: "Qnty[unit/prd]", cellClass: "text-right", headerCellClass: "text-right" },
-        { key: "CO2EQ", name: "CO2EQ[kg/prd]", cellClass: "text-right", headerCellClass: "text-right" },
-        { key: "last_update", name: "Last update", cellClass: "text-center", headerCellClass: "text-center"  },
+        { key: "no", name: "NO", width: 100, cellClass: "text-center", headerCellClass: "text-center" },
+        { key: "resource", name: "Resource", width: 190 },
+        { key: "Qnty", name: "Qnty[unit/prd]", width: 190, cellClass: "text-right", headerCellClass: "text-right" },
+        { key: "CO2EQ", name: "CO2EQ[kg/prd]", width: 190, cellClass: "text-right", headerCellClass: "text-right" },
+        { key: "last_update", name: "Last update", width: 190, cellClass: "text-center", headerCellClass: "text-center"  },
         { 
-            key: "modify", name: "", width: 100, cellClass: "text-left",
+            key: "modify", name: "", cellClass: "text-left",
             renderCell({ row }) {
-                return  <button className='block' onClick={() => {
+                return  <i className='inline-block icon-edit h-12 w-5' style={{fontSize:'27px'}} onClick={() => {
                     document.getElementById("modifyType").innerHTML = "Resource"
                     document.getElementById("modifyName").innerHTML = resourceList[row.no-1].name
                     document.getElementById("modifyCompany").classList.add("hidden")
@@ -285,12 +303,29 @@ const ProductDetail = ({route}) => {
                     document.getElementById("modifyQnty").value = resourceList[row.no-1].qnty
                     document.getElementById("componentModifyModal").classList.remove("hidden");
                     sessionStorage.setItem("modifyId", resourceList[row.no-1].id)
-                    document.getElementById("modifyQnty").classList.remove("hidden")
-                    document.getElementById("editButton").classList.remove("hidden")
-                    document.getElementById("qntyBold").classList.add("hidden")
-                }}>modify</button>
+                }}></i>
             }
         },
+        {
+            key: "delete", width: 60, cellClass: "text-center",
+            renderCell({ row }) {
+                return <i className='inline-block icon-trash h-12' style={{fontSize:'26px', color:'rgb(212, 18, 18)'}} onClick={ () => {
+                    if (window.confirm("정말 삭제하시겠습니까?")) {
+                        axios.post("/resource/deleteMapping", {
+                            productId : state.id,
+                            resourceId : resourceList[row.no-1].id,
+                        })
+                        .then((response) => {
+                            console.log(response)
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        });
+                    }
+                }
+            }></i>
+            }
+        }
     ]
 
     const PRRows = []
@@ -311,15 +346,15 @@ const ProductDetail = ({route}) => {
     const PRTotalCount = PRRows.length;
 
     const MPHeader = [
-        { key: "no", name: "NO", width: 61, cellClass: "text-center", headerCellClass: "text-center" },
-        { key: "process", name: "Process" },
-        { key: "Qnty", name: "Qnty[unit/prd]", cellClass: "text-right", headerCellClass: "text-right" },
-        { key: "CO2EQ", name: "CO2EQ[kg/prd]", cellClass: "text-right", headerCellClass: "text-right" },
-        { key: "last_update", name: "Last update", cellClass: "text-center", headerCellClass: "text-center"  },
+        { key: "no", name: "NO", width: 100, cellClass: "text-center", headerCellClass: "text-center" },
+        { key: "process", name: "Process", width: 190 },
+        { key: "Qnty", name: "Qnty[unit/prd]", width: 190, cellClass: "text-right", headerCellClass: "text-right" },
+        { key: "CO2EQ", name: "CO2EQ[kg/prd]", width: 190, cellClass: "text-right", headerCellClass: "text-right" },
+        { key: "last_update", name: "Last update", width: 190, cellClass: "text-center", headerCellClass: "text-center"  },
         { 
-            key: "modify", name: "", width: 100, cellClass: "text-left",
+            key: "modify", name: "", cellClass: "text-left",
             renderCell({ row }) {
-                return  <button className='block' onClick={() => {
+                return <i className='inline-block icon-edit h-12 w-5' style={{fontSize:'27px'}} onClick={() => {
                     document.getElementById("modifyType").innerHTML = "Process"
                     document.getElementById("modifyName").innerHTML = processList[row.no-1].name
                     document.getElementById("modifyCompany").classList.add("hidden")
@@ -328,12 +363,30 @@ const ProductDetail = ({route}) => {
                     document.getElementById("modifyQnty").value = processList[row.no-1].qnty
                     document.getElementById("componentModifyModal").classList.remove("hidden");
                     sessionStorage.setItem("modifyId", processList[row.no-1].id)
-                    document.getElementById("modifyQnty").classList.remove("hidden")
-                    document.getElementById("editButton").classList.remove("hidden")
-                    document.getElementById("qntyBold").classList.add("hidden")
-                }}>modify</button>
+                }}></i>
             }
         },
+        {
+            key: "delete", width: 60, cellClass: "text-center",
+            renderCell({ row }) {
+                return <i className='inline-block icon-trash h-12' style={{fontSize:'26px', color:'rgb(212, 18, 18)'}} onClick={ () => {
+                    if (window.confirm("정말 삭제하시겠습니까?")) {
+                        axios.post("/process/deleteMapping", {
+                            productId : state.id,
+                            processId : processList[row.no-1].id,
+                        })
+                        .then((response) => {
+                            console.log(response)
+                            setComponentList([])
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        });
+                    }
+                }
+                }></i>
+            }
+        }
     ]
 
     const MPRows = []
