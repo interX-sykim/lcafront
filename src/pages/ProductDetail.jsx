@@ -317,6 +317,7 @@ const ProductDetail = ({route}) => {
                         })
                         .then((response) => {
                             console.log(response)
+                            setRenderCnt(renderCnt + 1)
                         })
                         .catch((error) => {
                             console.log(error);
@@ -377,7 +378,7 @@ const ProductDetail = ({route}) => {
                         })
                         .then((response) => {
                             console.log(response)
-                            setComponentList([])
+                            setRenderCnt(renderCnt + 1)
                         })
                         .catch((error) => {
                             console.log(error);

@@ -14,7 +14,7 @@ const ProcessRegister = () => {
         console.log("submit" , values);
 
         axios.post('/process/insert', {
-            name : values["Process name"]
+            name : values["process name"]
             , co2eq : values["co2eq"]
             , companyId : sessionStorage.getItem("companyId")
             ,updateRequested : 'N'
