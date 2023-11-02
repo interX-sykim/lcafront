@@ -195,16 +195,16 @@ const ProductDetail = ({route}) => {
     const STRTotalCount = STRRows.length;
 
     const PCHeader = [
-        { key: "no", name: "NO", width: 61, cellClass: "text-center", headerCellClass: "text-center" },
-        { key: "component", name: "Component" },
-        { key: "component_ID", name: "Component ID" },
-        { key: "supplier", name: "Supplier" },
-        { key: "supplier_ID", name: "Supplier ID" },
-        { key: "Qnty", name: "Qnty[unit/prd]", width: 100, cellClass: "text-right", headerCellClass: "text-right" },
-        { key: "CO2EQ", name: "CO2EQ[kg/prd]", cellClass: "text-right", headerCellClass: "text-right" },
-        { key: "last_update", name: "Last update", cellClass: "text-center", headerCellClass: "text-center"  },
+        { key: "no", name: "NO", width: 103, cellClass: "text-center", headerCellClass: "text-center" },
+        { key: "component", name: "Component", width: 222 },
+        { key: "component_ID", name: "Component ID", width: 222 },
+        { key: "supplier", name: "Supplier", width: 250 },
+        { key: "supplier_ID", name: "Supplier ID", width: 180 },
+        { key: "Qnty", name: "Qnty[unit/prd]", width: 180, cellClass: "text-right", headerCellClass: "text-right" },
+        { key: "CO2EQ", name: "CO2EQ[kg/prd]", width: 250, cellClass: "text-right", headerCellClass: "text-right" },
+        { key: "last_update", name: "Last update", width: 250, cellClass: "text-center", headerCellClass: "text-center"  },
         { 
-            key: "update", name: "Update", cellClass: "text-center", headerCellClass: "text-center",
+            key: "update", name: "Update", width: 222, cellClass: "text-center", headerCellClass: "text-center",
             renderCell({ row }) {
                 if(componentList[row.no-1].updateYn > 0){
                     return <button className='block' onClick={() => {goProcessUpdate(row.supplier_ID,row.component,state.id, row.component_ID)}}><b><font color="RED">UPDATE</font></b></button>;
@@ -214,7 +214,7 @@ const ProductDetail = ({route}) => {
             },
         },
         { 
-            key: "modify", name: "", width: 100, cellClass: "text-center",
+            key: "modify", name: "", cellClass: "text-center",
             renderCell({ row }) {
                 return  <i className='inline-block icon-edit h-12 w-5' style={{fontSize:'27px'}} onClick={() => {
                     document.getElementById("modifyType").innerHTML = "Component"
@@ -232,6 +232,12 @@ const ProductDetail = ({route}) => {
                 }}></i>
             }
         },
+        {
+            key: "delete", width: 60, cellClass: "text-center",
+            renderCell({ row }) {
+                return <i className='inline-block icon-trash h-12' style={{fontSize:'26px', color:'rgb(212, 18, 18)'}}></i>
+            }
+        }
     ]
 
     const PCRows = []
@@ -265,13 +271,13 @@ const ProductDetail = ({route}) => {
     }
 
     const PRHeader = [
-        { key: "no", name: "NO", width: 61, cellClass: "text-center", headerCellClass: "text-center" },
-        { key: "resource", name: "Resource" },
-        { key: "Qnty", name: "Qnty[unit/prd]", cellClass: "text-right", headerCellClass: "text-right" },
-        { key: "CO2EQ", name: "CO2EQ[kg/prd]", cellClass: "text-right", headerCellClass: "text-right" },
-        { key: "last_update", name: "Last update", cellClass: "text-center", headerCellClass: "text-center"  },
+        { key: "no", name: "NO", width: 100, cellClass: "text-center", headerCellClass: "text-center" },
+        { key: "resource", name: "Resource", width: 190 },
+        { key: "Qnty", name: "Qnty[unit/prd]", width: 190, cellClass: "text-right", headerCellClass: "text-right" },
+        { key: "CO2EQ", name: "CO2EQ[kg/prd]", width: 190, cellClass: "text-right", headerCellClass: "text-right" },
+        { key: "last_update", name: "Last update", width: 190, cellClass: "text-center", headerCellClass: "text-center"  },
         { 
-            key: "modify", name: "", width: 100, cellClass: "text-left",
+            key: "modify", name: "", cellClass: "text-left",
             renderCell({ row }) {
                 return  <i className='inline-block icon-edit h-12 w-5' style={{fontSize:'27px'}} onClick={() => {
                     document.getElementById("modifyType").innerHTML = "Resource"
@@ -288,6 +294,12 @@ const ProductDetail = ({route}) => {
                 }}></i>
             }
         },
+        {
+            key: "delete", width: 60, cellClass: "text-center",
+            renderCell({ row }) {
+                return <i className='inline-block icon-trash h-12' style={{fontSize:'26px', color:'rgb(212, 18, 18)'}}></i>
+            }
+        }
     ]
 
     const PRRows = []
@@ -308,13 +320,13 @@ const ProductDetail = ({route}) => {
     const PRTotalCount = PRRows.length;
 
     const MPHeader = [
-        { key: "no", name: "NO", width: 61, cellClass: "text-center", headerCellClass: "text-center" },
-        { key: "process", name: "Process" },
-        { key: "Qnty", name: "Qnty[unit/prd]", cellClass: "text-right", headerCellClass: "text-right" },
-        { key: "CO2EQ", name: "CO2EQ[kg/prd]", cellClass: "text-right", headerCellClass: "text-right" },
-        { key: "last_update", name: "Last update", cellClass: "text-center", headerCellClass: "text-center"  },
+        { key: "no", name: "NO", width: 100, cellClass: "text-center", headerCellClass: "text-center" },
+        { key: "process", name: "Process", width: 190 },
+        { key: "Qnty", name: "Qnty[unit/prd]", width: 190, cellClass: "text-right", headerCellClass: "text-right" },
+        { key: "CO2EQ", name: "CO2EQ[kg/prd]", width: 190, cellClass: "text-right", headerCellClass: "text-right" },
+        { key: "last_update", name: "Last update", width: 190, cellClass: "text-center", headerCellClass: "text-center"  },
         { 
-            key: "modify", name: "", width: 100, cellClass: "text-left",
+            key: "modify", name: "", cellClass: "text-left",
             renderCell({ row }) {
                 return <i className='inline-block icon-edit h-12 w-5' style={{fontSize:'27px'}} onClick={() => {
                     document.getElementById("modifyType").innerHTML = "Process"
@@ -331,6 +343,12 @@ const ProductDetail = ({route}) => {
                 }}></i>
             }
         },
+        {
+            key: "delete", width: 60, cellClass: "text-center",
+            renderCell({ row }) {
+                return <i className='inline-block icon-trash h-12' style={{fontSize:'26px', color:'rgb(212, 18, 18)'}}></i>
+            }
+        }
     ]
 
     const MPRows = []
