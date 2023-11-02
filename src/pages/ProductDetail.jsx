@@ -129,6 +129,33 @@ const ProductDetail = ({route}) => {
     }, []);
 
 
+    function goProcessUpdate(supplierId, prdName , prdId, componentId){
+        const goContract = "/dxai/Contract?prvId=" + supplierId + "&prdName=" + prdName + "&prdId="+ prdId;
+
+        axios.post("/product/component/value/update", {
+            componentId : componentId
+            ,productId : prdId
+            ,informationProviderId : sessionStorage.getItem("companyId")
+            ,valueProviderId : supplierId
+        }).then((response) => {
+            if(response.data["rsltCode"] === "C"){
+                if(window.confirm("계약진행이필요합니다.계약페이지로 이동하시겠습니까?")){
+                    document.location.href = goContract;
+                }
+            }else if(response.data["rsltCode"] === "F"){
+                alert("정보업데이트실패 ::: " + response.data["rsltMsg"]);
+            }else if(response.data["rsltCode"] === "W"){
+                alert(response.data["rsltMsg"]);
+            }else if(response.data["rsltCode"] === "S"){
+                alert("정보 갱신이 완료되었습니다");
+                window.location.reload();
+            }
+        })
+        .catch((error) => {
+            alert("정보업데이트실패" + error);
+        });
+    }
+
 
     const STRHeader = [
         { key: "no", name: "NO", width: 61, cellClass: "text-center", headerCellClass: "text-center" },
@@ -179,8 +206,11 @@ const ProductDetail = ({route}) => {
         { 
             key: "update", name: "Update", cellClass: "text-center", headerCellClass: "text-center",
             renderCell({ row }) {
-                const goContract = "/Contract?prvId=" + row.supplier_ID + "&prdName=" + row.component + "&prdId="+state.id;
-                return <Badge value={row.update} isBoolean={true} text="Update" dest={goContract} navigateState={row.state} />;
+                if(componentList[row.no-1].updateYn > 0){
+                    return <button className='block' onClick={() => {goProcessUpdate(row.supplier_ID,row.component,state.id, row.component_ID)}}><b><font color="RED">UPDATE</font></b></button>;
+                }else{
+                    return <b>NONE</b>;
+                }
             },
         },
         { 
@@ -241,12 +271,6 @@ const ProductDetail = ({route}) => {
         { key: "CO2EQ", name: "CO2EQ[kg/prd]", cellClass: "text-right", headerCellClass: "text-right" },
         { key: "last_update", name: "Last update", cellClass: "text-center", headerCellClass: "text-center"  },
         { 
-            key: "update", name: "Update", cellClass: "text-center", headerCellClass: "text-center",
-            renderCell({ row }) {
-                return <Badge value={row.update} isBoolean={true} text="Update" dest="/Contract" navigateState={row.state}/>;
-            },
-        },
-        { 
             key: "modify", name: "", width: 100, cellClass: "text-left",
             renderCell({ row }) {
                 return  <button className='block' onClick={() => {
@@ -290,12 +314,6 @@ const ProductDetail = ({route}) => {
         { key: "CO2EQ", name: "CO2EQ[kg/prd]", cellClass: "text-right", headerCellClass: "text-right" },
         { key: "last_update", name: "Last update", cellClass: "text-center", headerCellClass: "text-center"  },
         { 
-            key: "update", name: "Update", cellClass: "text-center", headerCellClass: "text-center",
-            renderCell({ row }) {
-                return <Badge value={row.update} isBoolean={true} text="Update" dest="/Contract" navigateState={row.state}/>;
-            },
-        },
-        { 
             key: "modify", name: "", width: 100, cellClass: "text-left",
             renderCell({ row }) {
                 return  <button className='block' onClick={() => {
@@ -327,7 +345,6 @@ const ProductDetail = ({route}) => {
                 Qnty: processList[i].qnty ,
                 last_update: processList[i].lastUpdate,
                 equipment: "sdfk",
-                update: false,
                 state : {}
             }
         )
@@ -364,7 +381,6 @@ const ProductDetail = ({route}) => {
                 CO2EQ: resourceCadidateList[i].co2eq,
                 unit: resourceCadidateList[i].unit,
                 last_update: resourceCadidateList[i].lastUpdate,
-                update: false
             }
         )
     }
