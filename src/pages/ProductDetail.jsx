@@ -24,7 +24,7 @@ const ProductDetail = ({route}) => {
     const [componentCadidateList, setComponentCandidateList] = useState([]);
     const [resourceCadidateList, setResourceCandidateList] = useState([]);
     const [processCadidateList, setProcessCandidateList] = useState([]);
-    const [modifyQnty, setModifyQnty] = useState(0);
+    const [renderCnt, setRenderCnt] = useState(0);
     const [productList , setProductList] = useState([]);
 
     const navigate = useNavigate();
@@ -126,7 +126,7 @@ const ProductDetail = ({route}) => {
                 setProcessCandidateList([]);
             });
         }
-    }, []);
+    }, [renderCnt]);
 
 
     function goProcessUpdate(supplierId, prdName , prdId, componentId){
@@ -223,10 +223,7 @@ const ProductDetail = ({route}) => {
                     document.getElementById("modifyCompanyName").classList.remove("hidden")
                     document.getElementById("modifyCompanyName").innerHTML = row.supplier
                     document.getElementById("modifyCo2eqValue").innerHTML = row.CO2EQ
-                    document.getElementById("modifyQnty").classList.add("hidden")
-                    document.getElementById("editButton").classList.add("hidden")
-                    document.getElementById("qntyBold").classList.remove("hidden")
-                    document.getElementById("qntyBold").value = componentList[row.no-1].qnty
+                    document.getElementById("modifyQnty").value = componentList[row.no-1].qnty
                     document.getElementById("componentModifyModal").classList.remove("hidden");
                     sessionStorage.setItem("modifyId", componentList[row.no-1].id)
                 }}></i>
@@ -235,7 +232,22 @@ const ProductDetail = ({route}) => {
         {
             key: "delete", width: 60, cellClass: "text-center",
             renderCell({ row }) {
-                return <i className='inline-block icon-trash h-12' style={{fontSize:'26px', color:'rgb(212, 18, 18)'}}></i>
+                return <i className='inline-block icon-trash h-12' style={{fontSize:'26px', color:'rgb(212, 18, 18)'}} onClick={ () => {
+                    if (window.confirm("정말 삭제하시겠습니까?")) {
+                        axios.post("/product/component/delete", {
+                            productId : state.id,
+                            componentId : componentList[row.no-1].id,
+                        })
+                        .then((response) => {
+                            console.log(response);
+                            setRenderCnt(renderCnt + 1)
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        });
+                    }
+                }
+                }></i>
             }
         }
     ]
@@ -288,16 +300,27 @@ const ProductDetail = ({route}) => {
                     document.getElementById("modifyQnty").value = resourceList[row.no-1].qnty
                     document.getElementById("componentModifyModal").classList.remove("hidden");
                     sessionStorage.setItem("modifyId", resourceList[row.no-1].id)
-                    document.getElementById("modifyQnty").classList.remove("hidden")
-                    document.getElementById("editButton").classList.remove("hidden")
-                    document.getElementById("qntyBold").classList.add("hidden")
                 }}></i>
             }
         },
         {
             key: "delete", width: 60, cellClass: "text-center",
             renderCell({ row }) {
-                return <i className='inline-block icon-trash h-12' style={{fontSize:'26px', color:'rgb(212, 18, 18)'}}></i>
+                return <i className='inline-block icon-trash h-12' style={{fontSize:'26px', color:'rgb(212, 18, 18)'}} onClick={ () => {
+                    if (window.confirm("정말 삭제하시겠습니까?")) {
+                        axios.post("/resource/deleteMapping", {
+                            productId : state.id,
+                            resourceId : resourceList[row.no-1].id,
+                        })
+                        .then((response) => {
+                            console.log(response)
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        });
+                    }
+                }
+            }></i>
             }
         }
     ]
@@ -337,16 +360,28 @@ const ProductDetail = ({route}) => {
                     document.getElementById("modifyQnty").value = processList[row.no-1].qnty
                     document.getElementById("componentModifyModal").classList.remove("hidden");
                     sessionStorage.setItem("modifyId", processList[row.no-1].id)
-                    document.getElementById("modifyQnty").classList.remove("hidden")
-                    document.getElementById("editButton").classList.remove("hidden")
-                    document.getElementById("qntyBold").classList.add("hidden")
                 }}></i>
             }
         },
         {
             key: "delete", width: 60, cellClass: "text-center",
             renderCell({ row }) {
-                return <i className='inline-block icon-trash h-12' style={{fontSize:'26px', color:'rgb(212, 18, 18)'}}></i>
+                return <i className='inline-block icon-trash h-12' style={{fontSize:'26px', color:'rgb(212, 18, 18)'}} onClick={ () => {
+                    if (window.confirm("정말 삭제하시겠습니까?")) {
+                        axios.post("/process/deleteMapping", {
+                            productId : state.id,
+                            processId : processList[row.no-1].id,
+                        })
+                        .then((response) => {
+                            console.log(response)
+                            setComponentList([])
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        });
+                    }
+                }
+                }></i>
             }
         }
     ]
