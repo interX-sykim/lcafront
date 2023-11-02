@@ -168,9 +168,9 @@ const Page200 = ({route}) => {
             },
         },
         { 
-            key: "modify", name: "", width: 100, cellClass: "text-left",
+            key: "modify", name: "", width: 100, cellClass: "text-center",
             renderCell({ row }) {
-                return  <button className='block' onClick={() => {
+                return  <i className='inline-block icon-edit h-12 w-5' style={{fontSize:'27px'}} onClick={() => {
                     document.getElementById("modifyType").innerHTML = "Component"
                     document.getElementById("modifyName").innerHTML = componentList[row.no-1].name
                     document.getElementById("modifyCompany").classList.remove("hidden")
@@ -183,7 +183,7 @@ const Page200 = ({route}) => {
                     document.getElementById("qntyBold").value = componentList[row.no-1].qnty
                     document.getElementById("componentModifyModal").classList.remove("hidden");
                     sessionStorage.setItem("modifyId", componentList[row.no-1].id)
-                }}>modify</button>
+                }}></i>
             }
         },
     ]
@@ -230,7 +230,7 @@ const Page200 = ({route}) => {
         { 
             key: "modify", name: "", width: 100, cellClass: "text-left",
             renderCell({ row }) {
-                return  <button className='block' onClick={() => {
+                return  <i className='inline-block icon-edit h-12 w-5' style={{fontSize:'27px'}} onClick={() => {
                     document.getElementById("modifyType").innerHTML = "Resource"
                     document.getElementById("modifyName").innerHTML = resourceList[row.no-1].name
                     document.getElementById("modifyCompany").classList.add("hidden")
@@ -242,7 +242,7 @@ const Page200 = ({route}) => {
                     document.getElementById("modifyQnty").classList.remove("hidden")
                     document.getElementById("editButton").classList.remove("hidden")
                     document.getElementById("qntyBold").classList.add("hidden")
-                }}>modify</button>
+                }}></i>
             }
         },
     ]
@@ -279,7 +279,7 @@ const Page200 = ({route}) => {
         { 
             key: "modify", name: "", width: 100, cellClass: "text-left",
             renderCell({ row }) {
-                return  <button className='block' onClick={() => {
+                return <i className='inline-block icon-edit h-12 w-5' style={{fontSize:'27px'}} onClick={() => {
                     document.getElementById("modifyType").innerHTML = "Process"
                     document.getElementById("modifyName").innerHTML = processList[row.no-1].name
                     document.getElementById("modifyCompany").classList.add("hidden")
@@ -291,7 +291,7 @@ const Page200 = ({route}) => {
                     document.getElementById("modifyQnty").classList.remove("hidden")
                     document.getElementById("editButton").classList.remove("hidden")
                     document.getElementById("qntyBold").classList.add("hidden")
-                }}>modify</button>
+                }}></i>
             }
         },
     ]
