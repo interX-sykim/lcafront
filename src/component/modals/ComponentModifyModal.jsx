@@ -19,6 +19,7 @@ export default function ComponentModifyModal() {
             .then((response) => {
                 console.log(response)
                 modalClose();
+                window.location.reload();
             })
             .catch((error) => {
                 console.log(error);
@@ -33,6 +34,7 @@ export default function ComponentModifyModal() {
             .then((response) => {
                 console.log(response)
                 modalClose();
+                window.location.reload();
             })
             .catch((error) => {
                 console.log(error);
@@ -46,6 +48,7 @@ export default function ComponentModifyModal() {
             .then((response) => {
                 console.log(response)
                 modalClose();
+                window.location.reload();
             })
             .catch((error) => {
                 console.log(error);
