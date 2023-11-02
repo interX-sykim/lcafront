@@ -72,7 +72,7 @@ const Home = () => {
         { 
             key: "sub", name: "Update", cellClass: "text-center", headerCellClass: "text-center",
             renderCell({ row }) {
-                return <Badge value={(row.updateYn === "1")} isBoolean={(row.updateYn === "1")}  text="Update" dest="/Page200" navigateState={row.state} />;
+                return <Badge value={(row.updateYn > 0)} isBoolean={(row.updateYn > 0)}  text="Update" dest="/ProductDetail" navigateState={row.state} />;
             },
         },
     ];
@@ -86,7 +86,7 @@ const Home = () => {
                 product: productList[i]["name"],
                 product_ID: productList[i]["id"],
                 CO2EQ: productList[i]["co2eq"],
-                last_update: productList[i]['modifiedAt']?.substring(0, 10).replaceAll('-', '.'),
+                last_update: productList[i]['modifiedAt'],
                 updateYn: productList[i]["updateYn"],
                 state: {
                     id: productList[i]["id"],
@@ -96,11 +96,11 @@ const Home = () => {
                     lastUpdate: productList[i]['modifiedAt']
                 },
                 type: "home",
-                click: "/Page200"
+                click: "/ProductDetail"
             }
         )};
     if (rows.length > 0) {
-        rows[0]["click"] = "/Page200"
+        rows[0]["click"] = "/ProductDetail"
     }
 
     const totalCount = productList.length;
@@ -119,9 +119,7 @@ const Home = () => {
             }
         }
     ];
-
-    console.log(processList)
-    
+   
     const PCRows = []
     for (var i=0; i < processList.length; i++) {
         PCRows.push(
@@ -131,7 +129,7 @@ const Home = () => {
                 process_ID: processList[i]["id"],
                 equipment: processList[i]["equipmentName"],
                 CO2EQ: processList[i]["co2eq"],
-                last_update: processList[i]['lastUpdate']?.substring(0, 10).replaceAll('-', '.'),
+                last_update: processList[i]['lastUpdate'],
             }
         )
     }

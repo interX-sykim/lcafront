@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import Badge from "../component/common/atom/Badge";
 import Textbox from "../component/common/atom/Textbox";
 import DataGrid from "../component/common/DataGrid";
@@ -6,9 +6,10 @@ import BetaElectronics from "../content/images/logo-beta_electronics.svg"
 import DeltaPro from "../content/images/logo-deltapro.svg";
 
 import React, { useEffect, useRef, useState } from 'react';
+
 import axios from 'axios'
 
-const Page300 = () => {
+const Contract = () => {
     const [contract, setContract] = useState([]);
     const [valueProvider, setValueProvider] = useState([]);
     const [infoProvider, setInfoProvider] = useState([]);
@@ -18,9 +19,15 @@ const Page300 = () => {
     const [dataTransScope, setDataTransScope] = useState("");
     const [dataTransHistory, setDataTransHistory] = useState([]);
 
+    const [searchParams, setSearchParams]=useSearchParams();
+    console.log(searchParams.get("prvId"));
+
+    const {state} = useLocation();
+
     useEffect(() => {
         axios.post("/contract/list", {
-            id : 1
+            informationProviderId : sessionStorage.getItem("companyId")
+            ,valueProviderId : searchParams.get("prvId")
         })
         .then((response) => {
             setContract(response.data.rsltList[0]);
@@ -34,7 +41,8 @@ const Page300 = () => {
         })
 
         axios.post("/contract/dataHistoryList", {
-            id : 1
+            informationProviderId : sessionStorage.getItem("companyId")
+            ,valueProviderId : searchParams.get("prvId")
         })
         .then((response) => {
             setDataTransHistory(response.data.rsltList)
@@ -63,7 +71,7 @@ const Page300 = () => {
         rows.push({
             no: i+1,
             process_ID: dataTransHistory[i].content,
-            date: dataTransHistory[i].transferDate.substring(0, 10).replaceAll('-', '.')
+            date: dataTransHistory[i].transferDate.substring(0, 10)
         })
     }
 
@@ -84,11 +92,31 @@ const Page300 = () => {
 
     const totalCount = rows.length;
 
+    function goContract(){
+        if(window.confirm("계약진행하시겠습니까?")){
+            axios.post('/contract/insert', {
+                informationProviderId : sessionStorage.getItem("companyId")
+                ,valueProviderId : searchParams.get("prvId")
+            })
+            .then((response) => {
+                //console.log(response);
+
+                if(response.data["rsltCode"] == "S"){
+                    document.location.href = "/dxai/Page200?id="+sessionStorage.getItem("companyId");
+                }else{
+                    alert("계약진행실패" + response.data["rsltMsg"]);
+                }
+            })
+            .catch((error) => {
+                alert("계약진행실패" + error)
+            });
+        }
+    }
     return (
         <>
-            <div className="card h-[3.75rem] px-5 flex items-center select-none cursor-pointer" onClick={() => navigate('/Page201')}>
+            <div className="card h-[3.75rem] px-5 flex items-center select-none cursor-pointer" onClick={() => navigate('/ProductDetail', {state: {id: sessionStorage.getItem("productId")}})}>
                 <i className="icon-chevron_left w-[2.125rem] h-[2.125rem] text-2xl flex items-center justify-center text-default cursor-pointer select-none mr-2"></i>
-                <p className="text-base font-bold">IX Battery Pack A</p>
+                <p className="text-base font-bold">{searchParams.get("prdName")}</p>
             </div>
             <div className="p-[1.875rem]">
                 <div className="flex items-center mb-5">
@@ -120,7 +148,7 @@ const Page300 = () => {
                     </div>
                     <div className="w-[18.75rem] px-10 flex items-center justify-center">
                         <i className="icon-arrow_move_left text-[4.375rem] w-[4.375rem] h-[4.375rem] inline-block text-primary"></i>
-                        <Badge text="Data transmission" mode="primary"/>
+                        <Badge text="Contract" mode="primary" dest={goContract}/>
                     </div>
                     <div className="card h-[15.5rem] w-[calc(50%_-_9.375rem)] px-[1.875rem] py-7 flex justify-between">
                         <div>
@@ -222,4 +250,4 @@ const Page300 = () => {
     )
 }
 
-export default Page300;
+export default Contract;

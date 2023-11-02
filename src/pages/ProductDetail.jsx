@@ -15,7 +15,7 @@ import ComponentModifyModal from '../component/modals/ComponentModifyModal';
 import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios'
 
-const Page200 = ({route}) => {
+const ProductDetail = ({route}) => {
     const state = useLocation().state
     const [superTierList, setSuperTierList] = useState([]);
     const [componentList, setComponentList] = useState([]);
@@ -465,4 +465,4 @@ const Page200 = ({route}) => {
     )
 }
 
-export default Page200;
+export default ProductDetail;
