@@ -99,12 +99,14 @@ const Contract = () => {
             axios.post('/contract/insert', {
                 informationProviderId : sessionStorage.getItem("companyId")
                 ,valueProviderId : searchParams.get("prvId")
+                ,dataTransactionScope : "Test Contract"
+                ,dataTransactionCost : "1 Year 10,000USD"
             })
             .then((response) => {
                 //console.log(response);
 
                 if(response.data["rsltCode"] == "S"){
-                    document.location.href = "/dxai/Page200?id="+sessionStorage.getItem("companyId");
+                    document.location.href = "/dxai/ProductDetail?id="+sessionStorage.getItem("companyId");
                 }else{
                     alert("계약진행실패" + response.data["rsltMsg"]);
                 }
@@ -150,7 +152,9 @@ const Contract = () => {
                     </div>
                     <div className="w-[18.75rem] px-10 flex items-center justify-center">
                         <i className="icon-arrow_move_left text-[4.375rem] w-[4.375rem] h-[4.375rem] inline-block text-primary"></i>
-                        <Badge text="Contract" mode="primary" dest={goContract}/>
+                        <button className='block' onClick={() => {
+                                goContract()
+                            }}>Contract</button> 
                     </div>
                     <div className="card h-[15.5rem] w-[calc(50%_-_9.375rem)] px-[1.875rem] py-7 flex justify-between">
                         <div>
@@ -158,7 +162,7 @@ const Contract = () => {
                                 <Badge text="Sub Tier" mode="dark"/>
                             </div>
                             <ul>
-                                <li className="mb-2 pb-2 flex flex-col">
+                                <li className="mb-2 pb-2 flex flex-col"> 
                                     <span className="text-default text-sm mb-1 leading-none">Company</span>
                                     {/* <p className="text-text-dark text-xl font-extrabold leading-none">Delta Pro</p> */}
                                     <p className="text-text-dark text-xl font-extrabold leading-none">{contract.informationProviderName}</p>
