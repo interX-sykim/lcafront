@@ -3,14 +3,17 @@ import { useLocation } from 'react-router-dom';
 import Badge from "../component/common/atom/Badge";
 import Textbox from "../component/common/atom/Textbox";
 import DataGrid from "../component/common/DataGrid";
-import SankeyChart from "../component/common/SankeyChart";
+//import SankeyChart from "../component/common/SankeyChart";
 import machine from "../content/images/img-machine.jpg";
+//import StreamChart from "../component/common/StreamChart";
+import PieChart from "../component/common/PieChart";
 
 import ComponentAddModal from '../component/modals/ComponentAddModal';
 import ProcessAddModal from '../component/modals/ProcessAddModal';
 import ResourceAddModal from '../component/modals/ResourceAddModal';
 
 import ComponentModifyModal from '../component/modals/ComponentModifyModal';
+
 
 import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios'
@@ -442,7 +445,7 @@ const ProductDetail = ({route}) => {
                     </div>
                 </div>
                 <div className="card h-[25rem] py-5 overflow-hidden mb-5">
-                    <SankeyChart />
+                    <PieChart />
                 </div>
                 <div className="card h-auto mb-5">
                     <div className="h-11 p-4 flex items-center justify-between">
