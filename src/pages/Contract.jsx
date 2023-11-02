@@ -67,12 +67,14 @@ const Contract = () => {
         // { no: 1, process_ID: "CO2EQ requested by BETA electronics.", date: "2023.01.11"},
     ]
 
-    for (var i=0; i < dataTransHistory.length; i++) {
-        rows.push({
-            no: i+1,
-            process_ID: dataTransHistory[i].content,
-            date: dataTransHistory[i].transferDate.substring(0, 10)
-        })
+    if(dataTransHistory !== null){
+        for (var i=0; i < dataTransHistory.length; i++) {
+            rows.push({
+                no: i+1,
+                process_ID: dataTransHistory[i].content,
+                date: dataTransHistory[i]
+            })
+        }
     }
 
     const dataScopeList = dataTransScope.split("\n");
