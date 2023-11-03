@@ -10,10 +10,13 @@ export default function ProcessAddModal(props) {
     const modalClose = () => {
         const processCheckbox = document.getElementsByName("processCheckbox")
         const processQntyInput = document.getElementsByName("process_qnty_input")
+        const headerCheckbox = document.getElementById("processHeaderCheckbox");
 
         for (let i=0; i<processCheckbox.length; i++) {
+            headerCheckbox.checked = false;
             processCheckbox[i].checked = false;
             processQntyInput[i].value = null;
+            processQntyInput[i].disabled = true;
         }
         document.getElementById("processAddModal").classList.add("hidden");
     }
@@ -48,12 +51,44 @@ export default function ProcessAddModal(props) {
         }
     }
 
-    const componentTableRow = rows.map((row, index) => {
+    const changeHeaderCheckbox = () => {
+        const checkbox = document.getElementsByName("processCheckbox");
+        const headerCheckbox = document.getElementById("processHeaderCheckbox");
+        const inputs = document.getElementsByName("process_qnty_input");
+
+        if (headerCheckbox.checked) {
+            for (let i = 0; i < checkbox.length; i++) {
+                checkbox[i].checked = true 
+                inputs[i].disabled = false
+            }
+        } else {
+            for (let i = 0; i < checkbox.length; i++) {
+                checkbox[i].checked = false 
+                inputs[i].value = null
+                inputs[i].disabled = true
+            }
+        }
+    }
+
+    const checkboxChange = (index) => {
+        const checkbox = document.getElementsByName("processCheckbox");
+        const inputs = document.getElementsByName("process_qnty_input");
+        if (checkbox[index].checked) {
+            inputs[index].disabled = false 
+        } else {
+            inputs[index].value = null
+            inputs[index].disabled = true
+        }
+    }
+
+    const processTableRow = rows.map((row, index) => {
     return (
         <tr key={index}>
             <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
                 <div class="inline-flex items-center gap-x-3">
-                    <input name="processCheckbox" type="checkbox" class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700"/>
+                <input name="processCheckbox" type="checkbox" class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" onChange={() => {
+                        checkboxChange(index)
+                    }}/>                    
                     <div class="flex items-center gap-x-2">
                         <div>
                             <p class="text-sm font-normal text-gray-600 dark:text-gray-400">&nbsp;{index+1}</p>
@@ -64,7 +99,7 @@ export default function ProcessAddModal(props) {
             <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">ID#75AC872</td>
             <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{row.process}</td>
             <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{row.CO2EQ}</td>
-            <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"><input name='process_qnty_input' type='number' style={{ width:"58px" }} min={0}></input></td>
+            <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"><input name='process_qnty_input' type='number' style={{ width:"58px" }} min={0} disabled={true} ></input></td>
         </tr>
     )
 })
@@ -88,7 +123,7 @@ export default function ProcessAddModal(props) {
                     <thead>
                         <th scope="col" class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap text-left">
                             <div class="inline-flex items-center gap-x-3">
-                                <input type="checkbox" class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700"/>
+                            <input id='processHeaderCheckbox' type="checkbox" class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" onChange={changeHeaderCheckbox}/>
                                 <span>No.</span>
                             </div>
                         </th>
@@ -102,7 +137,7 @@ export default function ProcessAddModal(props) {
                         </th>
                     </thead>
                     <tbody>
-                        {componentTableRow}
+                        {processTableRow}
                     </tbody>
                 </table>
                 </div>

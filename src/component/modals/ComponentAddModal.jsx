@@ -10,10 +10,13 @@ export default function ComponentAddModal(props) {
     const modalClose = () => {
         const componentCheckbox = document.getElementsByName("componentCheckbox")
         const comopnentQntyInput = document.getElementsByName("component_qnty_input")
+        const headerCheckbox = document.getElementById("componentHeaderCheckbox");
 
         for (let i=0; i<componentCheckbox.length; i++) {
+            headerCheckbox.checked = false;
             componentCheckbox[i].checked = false;
             comopnentQntyInput[i].value = null;
+            comopnentQntyInput[i].disabled = true;
         }
         document.getElementById("componentAddModal").classList.add("hidden");
     }
@@ -46,12 +49,44 @@ export default function ComponentAddModal(props) {
         }
     }
 
+    const changeHeaderCheckbox = () => {
+        const checkbox = document.getElementsByName("componentCheckbox");
+        const headerCheckbox = document.getElementById("componentHeaderCheckbox");
+        const inputs = document.getElementsByName("component_qnty_input");
+
+        if (headerCheckbox.checked) {
+            for (let i = 0; i < checkbox.length; i++) {
+                checkbox[i].checked = true 
+                inputs[i].disabled = false
+            }
+        } else {
+            for (let i = 0; i < checkbox.length; i++) {
+                checkbox[i].checked = false 
+                inputs[i].value = null
+                inputs[i].disabled = true
+            }
+        }
+    }
+
+    const checkboxChange = (index) => {
+        const checkbox = document.getElementsByName("componentCheckbox");
+        const inputs = document.getElementsByName("component_qnty_input");
+        if (checkbox[index].checked) {
+            inputs[index].disabled = false 
+        } else {
+            inputs[index].value = null
+            inputs[index].disabled = true
+        }
+    }
+
     const componentTableRow = rows.map((row, index) => {
     return (
         <tr key={index}>
             <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
                 <div class="inline-flex items-center gap-x-3">
-                    <input name="componentCheckbox" type="checkbox" class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700"/>
+                    <input name="componentCheckbox" type="checkbox" class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" onChange={() => {
+                        checkboxChange(index)
+                    }}/>
                     <div class="flex items-center gap-x-2">
                         <div>
                             <p class="text-sm font-normal text-gray-600 dark:text-gray-400">&nbsp;{index+1}</p>
@@ -63,7 +98,7 @@ export default function ComponentAddModal(props) {
             <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{row.component}</td>
             <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{row.CO2EQ}</td>
             <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{row.supplier}</td>
-            <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"><input name='component_qnty_input' type='number' style={{ width:"58px" }} min={0}></input></td>
+            <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"><input name='component_qnty_input' type='number' style={{ width:"58px" }} min={0} disabled={true} ></input></td>
         </tr>
     )
 })
@@ -85,7 +120,7 @@ export default function ComponentAddModal(props) {
                     <thead>
                         <th scope="col" class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap text-left">
                             <div class="inline-flex items-center gap-x-3">
-                                <input type="checkbox" class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700"/>
+                                <input id='componentHeaderCheckbox' type="checkbox" class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" onChange={changeHeaderCheckbox}/>
                                 <span>No.</span>
                             </div>
                         </th>
