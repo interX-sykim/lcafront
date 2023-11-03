@@ -7,6 +7,8 @@ import DataGrid from "../component/common/DataGrid";
 import machine from "../content/images/img-machine.jpg";
 //import StreamChart from "../component/common/StreamChart";
 import PieChart from "../component/common/PieChart";
+import LineChart from "../component/common/LineChart";
+//import BarChart from "../component/common/BarChart";
 
 import ComponentAddModal from '../component/modals/ComponentAddModal';
 import ProcessAddModal from '../component/modals/ProcessAddModal';
@@ -499,6 +501,9 @@ const ProductDetail = ({route}) => {
                 </div>
                 <div className="card h-[25rem] py-5 overflow-hidden mb-5">
                     <PieChart />
+                </div>
+                <div className="card h-[25rem] py-5 overflow-hidden mb-5">
+                    <LineChart />
                 </div>
                 <div className="card h-auto mb-5">
                     <div className="h-11 p-4 flex items-center justify-between">

@@ -12,7 +12,7 @@ const MyResponsivePie =  () => {
 
     useEffect(() => {
         axios.post("/product/chart",{
-            id: 36 //sessionStorage.getItem("productId")
+            id: sessionStorage.getItem("productId")
         }).then((response) => {
             setChartData(response.data["rsltList"]);
             console.log(chartData);

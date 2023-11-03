@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@nivo/line": "^0.83.0",
     "@nivo/pie": "^0.83.0",
     "@nivo/stream": "^0.83.0",
     "@testing-library/jest-dom": "^5.17.0",
@@ -16,6 +17,7 @@
     "react-router-dom": "^6.16.0",
     "react-scripts": "5.0.1",
     "react-table": "^7.8.0",
+    "recharts": "^2.9.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
