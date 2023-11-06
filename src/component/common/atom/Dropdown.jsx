@@ -7,7 +7,6 @@ const Dropdown = ({ content, children, onDropdownClick = () => {}, onClick = () 
     const targetRef = useRef(null);
     const dropdownRef = useRef();
     const [isVisible, setVisible] = useState(false);
-    const root = document.getElementById('portal-root');
     const [position, setPosition] = useState({});
     const [fullWidth, setFullWidth] = useState();
 
@@ -87,7 +86,7 @@ const Dropdown = ({ content, children, onDropdownClick = () => {}, onClick = () 
     })
 
     return (
-        <>
+        <div id='portal-root' style={{position:"relative", display:"inline-block"}}>
             {React.cloneElement(children, {
                 ref: targetRef,
                 onClick: handleClick,
@@ -98,7 +97,7 @@ const Dropdown = ({ content, children, onDropdownClick = () => {}, onClick = () 
                         style={{ top: position.top, left: position.left, transform: position.transform, width: isFullWidth ? fullWidth : null, maxWidth: isFullWidth ? fullWidth: null}}
                         className={`${type === 'apps' ? 'w-[20rem]' : ''} ${type.includes('pagination') ? 'w-[4.125rem]' : ''} ${
                             !type.includes('pagination') && !isFullWidth && type !== 'apps' ? 'w-fit min-w-[14.375rem] max-w-[20rem]' : ''
-                        } font-pretendard absolute bg-white shadow-ix-lg border border-border-default rounded overflow-hidden z-20`}
+                        } font-pretendard bg-white shadow-ix-lg border border-border-default rounded overflow-hidden z-20`}
                         onClick={(e) => e.stopPropagation()}
                     >
                         {/* dropdown title */}
@@ -171,9 +170,9 @@ const Dropdown = ({ content, children, onDropdownClick = () => {}, onClick = () 
                             </div>
                         )}
                     </div>,
-                    root
+                    targetRef.current.parentNode
                 )}
-        </>
+        </div>
     );
 };
 
