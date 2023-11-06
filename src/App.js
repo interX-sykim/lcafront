@@ -8,7 +8,7 @@ import CompanyRegister from './pages/CompanyRegister';
 import Login from './pages/Login';
 import MemberRegister from './pages/MemberRegister';
 import ProductRegister from './pages/ProductRegister';
-
+import ProcessRegister from './pages/ProcessRegister';
 import ResizablePanel from './component/layer/ResizablePanel';
 
 
@@ -25,6 +25,7 @@ function Root() {
                     <Route path="/Login" element={<Login />} />
                     <Route path="/MemberRegister" element={<MemberRegister />} />
                     <Route path="/ProductRegister" element={<ProductRegister />} />
+                    <Route path="/ProcessRegister" element={<ProcessRegister />} />
                 </Route>
             </Routes>
         </div>);

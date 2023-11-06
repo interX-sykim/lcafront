@@ -33,6 +33,10 @@ const ProcessRegister = () => {
         });
     };
 
+    function goProduct(){
+        document.location.href = "/dxai/" + sessionStorage.getItem("companyId");
+    }
+    
     const { state, handleChange, handleSubmit } = ProcessForm(submit);
     return (
         <>
@@ -70,8 +74,8 @@ const ProcessRegister = () => {
                         </div>
                     </div>
                     <div className="p-4 flex items-center justify-between">
-                        <div className='form-actions'>
-                            <button type="submit" className="submit-btn">Register</button>
+                        <div className='flex form-actions'>
+                            <button type="submit" className="submit-btn">Register</button>&nbsp;<button onClick={() => {goProduct()}} className="submit-btn">Cancle</button>
                         </div>
                     </div>
                 </div>
