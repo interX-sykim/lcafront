@@ -32,13 +32,15 @@ const ProductDetail = ({route}) => {
     const [renderCnt, setRenderCnt] = useState(0);
     const [productList , setProductList] = useState([]);
 
+    const params = useParams();
+
     const navigate = useNavigate();
-    sessionStorage.setItem("productId", state.id)
+    sessionStorage.setItem("productId", params.productId)
     
     useEffect(() => {
 
         axios.post('/product/list', {
-            id : state.id
+            id : params.productId
             ,companyId : sessionStorage.getItem("companyId")
         })
         .then((response) => {
@@ -50,9 +52,9 @@ const ProductDetail = ({route}) => {
             setProductList([]);
         });
         
-        if (state != null) {
+        if (params.productId != null) {
             axios.post('/product/component/List', {
-                id : state.id
+                id : params.productId
                 ,strPageNum : 0
                 ,pageSize : 10
             })
@@ -65,7 +67,7 @@ const ProductDetail = ({route}) => {
             });
     
             axios.post("/resource/ListByProduct", { 
-                id : state.id
+                id : params.productId
             })
             .then((response) => {
                 setResourceList(response.data["rsltList"]);
@@ -76,7 +78,7 @@ const ProductDetail = ({route}) => {
             });
     
             axios.post("/process/ListByProduct", { 
-                id : state.id
+                id : params.productId
             })
             .then((response) => {
                 setProcessList(response.data["rsltList"]);
@@ -87,7 +89,7 @@ const ProductDetail = ({route}) => {
             });
 
             axios.post("/company/superTierList", { 
-                id : state.id
+                id : params.productId
             })
             .then((response) => {
                 setSuperTierList(response.data["rsltList"]);
@@ -98,7 +100,7 @@ const ProductDetail = ({route}) => {
             });
 
             axios.post("/product/component/candid/list", { 
-                id : state.id
+                id : params.productId
             })
             .then((response) => {
                 setComponentCandidateList(response.data["rsltList"]);
@@ -109,7 +111,7 @@ const ProductDetail = ({route}) => {
             });
 
             axios.post("/resource/candidList", { 
-                id : state.id
+                id : params.productId
             })
             .then((response) => {
                 setResourceCandidateList(response.data["rsltList"]);
@@ -121,7 +123,7 @@ const ProductDetail = ({route}) => {
 
             axios.post("/process/candidList", { 
                 companyId: sessionStorage.getItem("companyId"),
-                id : state.id
+                id : params.productId
             })
             .then((response) => {
                 setProcessCandidateList(response.data["rsltList"]);
@@ -167,14 +169,9 @@ const ProductDetail = ({route}) => {
         { key: "no", name: "NO", width: 61, cellClass: "text-center", headerCellClass: "text-center" },
         { key: "buyer", name: "Buyer"},
         { key: "buyer_ID", name: "Buyer ID" },
-        { key: "last_request", name: "Last request", cellClass: "text-center", headerCellClass: "text-center"  },
-        { key: "TX_done", name: "TX done", cellClass: "text-center", headerCellClass: "text-center"  },
-        { 
-            key: "send", name: "Send", cellClass: "text-center", headerCellClass: "text-center",
-            renderCell({ row }) {
-                return <Badge value={row.send} isBoolean={true} text="Send" />;
-            },
-        },
+        { key: "website", name: "WebSite", cellClass: "text-center", headerCellClass: "text-center"  },
+        { key: "email", name: "Email", cellClass: "text-center", headerCellClass: "text-center"  },
+        { key: "last_update", name: "Last Update", cellClass: "text-center", headerCellClass: "text-center"  },
     ];
 
     const STRRows = [
@@ -188,9 +185,9 @@ const ProductDetail = ({route}) => {
                 no: i+1,
                 buyer: superTierList[i].name,
                 buyer_ID: "ID#75AC872",
-                last_request: "2023-10-18",
-                TX_done: "DONE", 
-                send: false
+                website: superTierList[i].website,
+                email: superTierList[i].email, 
+                last_update: superTierList[i].modifiedAt
             }
     )};
 
@@ -213,7 +210,7 @@ const ProductDetail = ({route}) => {
             key: "update", name: "Update", width: 222, cellClass: "text-center", headerCellClass: "text-center",
             renderCell({ row }) {
                 if(componentList[row.no-1].updateYn > 0){
-                    return <button className='block' onClick={() => {goProcessUpdate(row.supplier_ID,row.component,state.id, row.component_ID)}}><b><font color="RED">UPDATE</font></b></button>;
+                    return <button className='block' onClick={() => {goProcessUpdate(row.supplier_ID,row.component,params.productId, row.component_ID)}}><b><font color="RED">UPDATE</font></b></button>;
                 }else{
                     return <b>NONE</b>;
                 }
@@ -241,7 +238,7 @@ const ProductDetail = ({route}) => {
                 return <i className='inline-block icon-trash h-12' style={{fontSize:'26px', color:'rgb(212, 18, 18)'}} onClick={ () => {
                     if (window.confirm("정말 삭제하시겠습니까?")) {
                         axios.post("/product/component/delete", {
-                            productId : state.id,
+                            productId : params.productId,
                             componentId : componentList[row.no-1].id,
                         })
                         .then((response) => {
@@ -315,7 +312,7 @@ const ProductDetail = ({route}) => {
                 return <i className='inline-block icon-trash h-12' style={{fontSize:'26px', color:'rgb(212, 18, 18)'}} onClick={ () => {
                     if (window.confirm("정말 삭제하시겠습니까?")) {
                         axios.post("/resource/deleteMapping", {
-                            productId : state.id,
+                            productId : params.productId,
                             resourceId : resourceList[row.no-1].id,
                         })
                         .then((response) => {
@@ -376,7 +373,7 @@ const ProductDetail = ({route}) => {
                 return <i className='inline-block icon-trash h-12' style={{fontSize:'26px', color:'rgb(212, 18, 18)'}} onClick={ () => {
                     if (window.confirm("정말 삭제하시겠습니까?")) {
                         axios.post("/process/deleteMapping", {
-                            productId : state.id,
+                            productId : params.productId,
                             processId : processList[row.no-1].id,
                         })
                         .then((response) => {
@@ -469,7 +466,7 @@ const ProductDetail = ({route}) => {
 
         document.location.href = "/dxai/";
     }
-    
+
     return (
         <>
             <div className="card h-[3.75rem] px-5 flex items-center cursor-pointer select-none" onClick={() => navigate('/')}>
@@ -477,9 +474,9 @@ const ProductDetail = ({route}) => {
                 <p className="text-base font-bold">Product</p>
                 <p className="text-sm text-text-dark font-bold">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button onClick={() => {goLogOut()}}><b><font color="RED">LOGOUT</font></b></button></p>
             </div>
-            <ComponentAddModal rows={CCRows} productId={state.id}></ComponentAddModal>
-            <ProcessAddModal rows={CPRows} productId={state.id}></ProcessAddModal>
-            <ResourceAddModal rows={CRRows} productId={state.id}></ResourceAddModal>
+            <ComponentAddModal rows={CCRows} productId={params.productId}></ComponentAddModal>
+            <ProcessAddModal rows={CPRows} productId={params.productId}></ProcessAddModal>
+            <ResourceAddModal rows={CRRows} productId={params.productId}></ResourceAddModal>
             <ComponentModifyModal></ComponentModifyModal>
             <div className="p-[1.875rem]">
                 <div className="bg-white w-full h-[15.438rem] py-7 px-[1.875rem] mb-5 shadow-ix rounded flex justify-between">

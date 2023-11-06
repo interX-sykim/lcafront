@@ -72,7 +72,8 @@ const Home = () => {
         { 
             key: "sub", name: "Update", cellClass: "text-center", headerCellClass: "text-center",
             renderCell({ row }) {
-                return <Badge value={(row.updateYn > 0)} isBoolean={(row.updateYn > 0)}  text="Update" dest="/ProductDetail" navigateState={row.state} />;
+                const detailUrl = "/ProductDetail/" + row.product;
+                return <Badge value={(row.updateYn > 0)} isBoolean={(row.updateYn > 0)}  text="Update" dest={detailUrl} navigateState={row.state} />;
             },
         },
     ];
@@ -92,12 +93,12 @@ const Home = () => {
                     id: productList[i]["id"],
                 },
                 type: "home",
-                click: "/ProductDetail"
+                click: "/ProductDetail/"+productList[i]["id"]
             }
         )};
-    if (rows.length > 0) {
-        rows[0]["click"] = "/ProductDetail"
-    }
+    //if (rows.length > 0) {
+    //    rows[0]["click"] = "/ProductDetail/"
+    //}
 
     const totalCount = productList.length;
 

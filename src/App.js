@@ -19,7 +19,7 @@ function Root() {
                 <Route path="/" element={<ResizablePanel />}>
                     <Route path="/" element={<Login />} />
                     <Route path="/:id" element={<Home />} />
-                    <Route path="/ProductDetail" element={<ProductDetail />} />
+                    <Route path="/ProductDetail/:productId" element={<ProductDetail />} />
                     <Route path="/Contract" element={<Contract />} />
                     <Route path="/CompanyRegister" element={<CompanyRegister />} />
                     <Route path="/Login" element={<Login />} />
