@@ -460,11 +460,22 @@ const ProductDetail = ({route}) => {
         )
     }
 
+
+    function goLogOut(){
+        sessionStorage.removeItem('accessToken');
+        sessionStorage.removeItem('refreshToken');
+        sessionStorage.removeItem('memberId');
+        sessionStorage.removeItem('companyId');
+
+        document.location.href = "/dxai/";
+    }
+    
     return (
         <>
             <div className="card h-[3.75rem] px-5 flex items-center cursor-pointer select-none" onClick={() => navigate('/')}>
                 <i className="icon-chevron_left w-[2.125rem] h-[2.125rem] text-2xl flex items-center justify-center text-default cursor-pointer select-none mr-2"></i>
                 <p className="text-base font-bold">Product</p>
+                <p className="text-sm text-text-dark font-bold">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button onClick={() => {goLogOut()}}><b><font color="RED">LOGOUT</font></b></button></p>
             </div>
             <ComponentAddModal rows={CCRows} productId={state.id}></ComponentAddModal>
             <ProcessAddModal rows={CPRows} productId={state.id}></ProcessAddModal>
