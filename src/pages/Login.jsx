@@ -35,7 +35,7 @@ const Login = () => {
             , pwd : values["password"]
         })
         .then((response) => {
-            //console.log(response);
+            console.log(response.data["rsltCode"]);
 
             if(response.data["rsltCode"] == "S"){
                 successLoginProcess(response);

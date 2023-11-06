@@ -7,7 +7,7 @@ import DataGrid from "../component/common/DataGrid";
 import machine from "../content/images/img-machine.jpg";
 //import StreamChart from "../component/common/StreamChart";
 import PieChart from "../component/common/PieChart";
-import LineChart from "../component/common/LineChart";
+//import LineChart from "../component/common/LineChart";
 //import BarChart from "../component/common/BarChart";
 
 import ComponentAddModal from '../component/modals/ComponentAddModal';
@@ -16,7 +16,7 @@ import ResourceAddModal from '../component/modals/ResourceAddModal';
 
 import ComponentModifyModal from '../component/modals/ComponentModifyModal';
 
-
+import {useParams} from "react-router"
 import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios'
 
@@ -151,6 +151,7 @@ const ProductDetail = ({route}) => {
                 alert("정보업데이트실패 ::: " + response.data["rsltMsg"]);
             }else if(response.data["rsltCode"] === "W"){
                 alert(response.data["rsltMsg"]);
+                window.location.reload();
             }else if(response.data["rsltCode"] === "S"){
                 alert("정보 갱신이 완료되었습니다");
                 window.location.reload();
@@ -502,9 +503,6 @@ const ProductDetail = ({route}) => {
                 </div>
                 <div className="card h-[25rem] py-5 overflow-hidden mb-5">
                     <PieChart />
-                </div>
-                <div className="card h-[25rem] py-5 overflow-hidden mb-5">
-                    <LineChart />
                 </div>
                 <div className="card h-auto mb-5">
                     <div className="h-11 p-4 flex items-center justify-between">

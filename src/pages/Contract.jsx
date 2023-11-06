@@ -106,7 +106,8 @@ const Contract = () => {
                 //console.log(response);
 
                 if(response.data["rsltCode"] == "S"){
-                    document.location.href = "/dxai/ProductDetail?id="+sessionStorage.getItem("companyId");
+                    document.location.href = "/dxai/"+sessionStorage.getItem("companyId");
+                    //navigate('/dxai/ProductDetail');
                 }else{
                     alert("계약진행실패" + response.data["rsltMsg"]);
                 }
