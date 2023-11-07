@@ -4,6 +4,7 @@ import Textbox from "../component/common/atom/Textbox";
 import DataGrid from "../component/common/DataGrid";
 import PageTitle from "../component/common/PageTitle";
 import BetaElectronics from "../content/images/logo-beta_electronics.svg"
+import AlphaEnsol from "../content/images/logo-alphaEnsol.svg"
 import { useNavigate } from 'react-router-dom'
 
 import axios from 'axios';
@@ -14,7 +15,10 @@ const Home = () => {
     const [processList, setProcessList] = useState([]);
 
     const navigate = useNavigate();
-    
+    //const [imgName , setImgName] = useState("");
+
+    let imgName = "";
+
     useEffect(() => {
         console.log("accessToken:::::::::::::" + sessionStorage.getItem("accessToken"));
         if(sessionStorage.getItem("accessToken") === null){
@@ -28,6 +32,8 @@ const Home = () => {
         .then((response) => {
             if(response.data["rsltCode"] === "F") setCompanyList([])
             else setCompanyList(response.data["rsltList"][0]);
+
+
         })
         .catch((error) => {
             console.log(error);
@@ -60,6 +66,7 @@ const Home = () => {
         .catch((error) => {
             setProcessList([]);
         });
+
     }, []); 
 
 
@@ -101,6 +108,7 @@ const Home = () => {
     //}
 
     const totalCount = productList.length;
+    
 
     const PCgridHeader = [
         { key: "no", name: "NO", width: 61, cellClass: "text-center", headerCellClass: "text-center" },
@@ -133,8 +141,15 @@ const Home = () => {
 
     const PCcount = processList.length;
 
+    function getImgUrl() {
+        imgName = "../content/images/" + companyList["logImageUrl"] + ".svg";
+        console.log(imgName);
+        return new URL(`${imgName}`, import.meta.url).href
+     }
 
-    
+     const imgItem = companyList["logImageUrl"];
+     const imgSrc = "logo-alphaEnsol.svg";
+
     return (
         <>
             <PageTitle />
@@ -147,16 +162,16 @@ const Home = () => {
                         </li>
                         <li className="mb-2 flex flex-col">
                             <span className="text-default text-sm leading-none">Web Site</span>
-                            <p className="text-text-default text-15 leading-6">{companyList["website"]}</p>
+                            <p className="text-text-default text-15 leading-6">{companyList["website"]} </p>
                         </li>
                         <li className="flex flex-col">
                             <span className="text-default text-sm leading-none">Tier ID</span>
-                            <p className="text-text-default text-15 leading-6">ID#34EF56A</p>
+                            <p className="text-text-default text-15 leading-6">ID#{companyList["companyId"]}</p>
                         </li>
                     </ul>
                     <div className="flex">
                         <div className="h-full w-[18.75rem] pl-[1.875rem] flex flex-col items-center justify-center border-l border-border-light">
-                            <img src={BetaElectronics} alt="beta electronics" className="w-[12.5rem]" />
+                            <img src={require(`../content/images/${imgSrc}`)} className="w-[12.5rem]" />
                         </div>
                     </div>
                 </div>

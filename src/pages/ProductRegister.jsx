@@ -30,7 +30,7 @@ const ProductRegister = () => {
             name : values["product name"]
             , co2eq : values["co2eq"]
             , companyId : sessionStorage.getItem("companyId")
-            , unit: document.getElementById("grid-state").value
+            , unitCd: document.getElementById("grid-state").value
             , createdId : sessionStorage.getItem("memberId")
             , modifiedId : sessionStorage.getItem("memberId")
         })
@@ -48,7 +48,7 @@ const ProductRegister = () => {
 
     const renderCodeList = codeList.map((code) => {
         return (
-            <option>{code.codeName}</option>
+            <option value={code.codeCd}>{code.codeName}</option>
     )})
 
     function goProduct(){

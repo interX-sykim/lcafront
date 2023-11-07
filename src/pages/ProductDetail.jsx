@@ -37,6 +37,8 @@ const ProductDetail = ({route}) => {
     const navigate = useNavigate();
     sessionStorage.setItem("productId", params.productId)
     
+    const scrollRef = useRef();
+
     useEffect(() => {
 
         axios.post('/product/list', {
@@ -184,7 +186,7 @@ const ProductDetail = ({route}) => {
             {
                 no: i+1,
                 buyer: superTierList[i].name,
-                buyer_ID: "ID#75AC872",
+                buyer_ID: "ID#"+superTierList[i].companyId,
                 website: superTierList[i].website,
                 email: superTierList[i].email, 
                 last_update: superTierList[i].modifiedAt
@@ -418,7 +420,7 @@ const ProductDetail = ({route}) => {
                 component: componentCadidateList[i].name,
                 component_ID: componentCadidateList[i].id,
                 supplier: componentCadidateList[i].supplierName,
-                supplier_ID: "ID#30AB117",
+                supplier_ID: "ID#"+componentCadidateList[i].companyId,
                 Qnty: componentCadidateList[i].qnty + " " + componentCadidateList[i].unit,
                 CO2EQ: componentCadidateList[i].co2eq,
                 last_update: componentCadidateList[i].lastUpdate,
@@ -474,7 +476,7 @@ const ProductDetail = ({route}) => {
                 <p className="text-base font-bold">Product</p>
                 <p className="text-sm text-text-dark font-bold">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button onClick={() => {goLogOut()}}><b><font color="RED">LOGOUT</font></b></button></p>
             </div>
-            <ComponentAddModal rows={CCRows} productId={params.productId}></ComponentAddModal>
+            <ComponentAddModal rows={CCRows} productId={params.productId} ></ComponentAddModal>
             <ProcessAddModal rows={CPRows} productId={params.productId}></ProcessAddModal>
             <ResourceAddModal rows={CRRows} productId={params.productId}></ResourceAddModal>
             <ComponentModifyModal></ComponentModifyModal>
