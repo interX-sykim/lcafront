@@ -10,6 +10,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.5.0",
+    "buffer": "^6.0.3",
     "echarts": "^5.4.3",
     "react": "^18.2.0",
     "react-data-grid": "^7.0.0-beta.39",
@@ -44,6 +45,7 @@
       "last 1 safari version"
     ]
   },
+  "proxy": "http://localhost:51000",
   "devDependencies": {
     "tailwindcss": "^3.3.3"
   }

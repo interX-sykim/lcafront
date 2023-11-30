@@ -27,25 +27,33 @@ const Login = () => {
         document.location.href = "/dxai/"+response.data["rsltList"][0]["companyId"];
     }
    const submit = values => {
-        console.log("id" , values["id"]);
-        console.log("password" , values["password"]);
+        // console.log("id" , values["id"]);
+        // console.log("password" , values["password"]);
 
-        axios.post('/member/login', {
-            id : values["id"]  
-            , pwd : values["password"]
-        })
-        .then((response) => {
-            console.log(response.data["rsltCode"]);
+        // axios.post('/member/login', {
+        //     id : values["id"]  
+        //     , pwd : values["password"]
+        // })
+        // .then((response) => {
+        //     console.log(response.data["rsltCode"]);
 
-            if(response.data["rsltCode"] == "S"){
-                successLoginProcess(response);
-            }else{
-                alert("로그인실패" + response.data["rsltMsg"]);
-            }
-        })
-        .catch((error) => {
-            alert("로그인실패" + error)
-        });
+        //     if(response.data["rsltCode"] == "S"){
+        //         successLoginProcess(response);
+        //     }else{
+        //         alert("로그인실패" + response.data["rsltMsg"]);
+        //     }
+        // })
+        // .catch((error) => {
+        //     alert("로그인실패" + error)
+        // });
+
+        sessionStorage.setItem("accessToken", "access");
+        sessionStorage.setItem("refreshToken","refresh");
+
+        sessionStorage.setItem("memberId", "interx2");
+        sessionStorage.setItem("companyId", "26");
+
+        document.location.href = "/dxai/"+"26";
       
     };
 

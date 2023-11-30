@@ -28,6 +28,7 @@ const Dropdown = ({ content, children, onDropdownClick = () => {}, onClick = () 
         }
         setVisible(!isVisible);
         const { top, left, width, height } = targetRef.current.getBoundingClientRect();
+        console.log(targetRef.current)
 
         if (isAlignLeft) {
             setPosition({ top: top + height + 8, left: left, transform: `unset` });
@@ -94,10 +95,10 @@ const Dropdown = ({ content, children, onDropdownClick = () => {}, onClick = () 
             {isVisible &&
                 ReactDOM.createPortal(
                     <div
-                        style={{ top: position.top, left: position.left, transform: position.transform, width: isFullWidth ? fullWidth : null, maxWidth: isFullWidth ? fullWidth: null}}
+                        style={{transform: position.transform, width: isFullWidth ? fullWidth : null, maxWidth: isFullWidth ? fullWidth: null, overflow: "visible"}}
                         className={`${type === 'apps' ? 'w-[20rem]' : ''} ${type.includes('pagination') ? 'w-[4.125rem]' : ''} ${
                             !type.includes('pagination') && !isFullWidth && type !== 'apps' ? 'w-fit min-w-[14.375rem] max-w-[20rem]' : ''
-                        } font-pretendard bg-white shadow-ix-lg border border-border-default rounded overflow-hidden z-20`}
+                        } absolute font-pretendard bg-white shadow-ix-lg border border-border-default rounded z-20`}
                         onClick={(e) => e.stopPropagation()}
                     >
                         {/* dropdown title */}
