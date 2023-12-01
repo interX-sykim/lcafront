@@ -11,6 +11,7 @@ import ProductRegister from './pages/ProductRegister';
 import ProcessRegister from './pages/ProcessRegister';
 import ResizablePanel from './component/layer/ResizablePanel';
 import AASX from './pages/AASX';
+import AASList from './pages/AASList';
 
 
 function Root() {
@@ -28,6 +29,7 @@ function Root() {
                     <Route path="/ProductRegister" element={<ProductRegister />} />
                     <Route path="/ProcessRegister" element={<ProcessRegister />} />
                     <Route path="/aasx/:aasIdentifier" element={<AASX />} />
+                    <Route path="/aasx" element={<AASList />} />
                 </Route>
             </Routes>
         </div>);
