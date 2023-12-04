@@ -36,3 +36,19 @@
     transform: rotate(360deg);
   }
 }
+
+
+table {
+  border: 2px solid forestgreen;
+  width: 800px;
+  margin: 20px;
+}
+
+th {
+  border-bottom: 1px solid black;
+}
+
+td {
+  text-align: left;
+  padding-left: 10px;
+}
