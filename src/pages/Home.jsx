@@ -20,54 +20,37 @@ const Home = () => {
     let imgName = "";
 
     useEffect(() => {
-        console.log("accessToken:::::::::::::" + sessionStorage.getItem("accessToken"));
         if(sessionStorage.getItem("accessToken") === null){
-            document.location.href = "/dxai/login";
-            return ;
-        }
+        //     document.location.href = "/dxai/login";
+        //     return ;
+        // }
 
-        axios.post('/company/list', {
-            id : sessionStorage.getItem("companyId")
+        axios.post("/product/company", { 
+            id : 2,
+            name : ""
         })
         .then((response) => {
-            if(response.data["rsltCode"] === "F") setCompanyList([])
-            else setCompanyList(response.data["rsltList"][0]);
-
-
-        })
-        .catch((error) => {
-            console.log(error);
-            setCompanyList([]);
-        });
-
-        axios.post("/product/list", { 
-            companyId : sessionStorage.getItem("companyId")
-            ,strPageNum : 0
-            ,pageSize : 10
-        })
-        .then((response) => {
-            if(response.data["rsltCode"] === "F") setProductList([])
-            else setProductList(response.data["rsltList"]);
+            setProductList(response.data);
         })
         .catch((error) => {
             console.log(error);
             setProductList([]);
         });
 
-        axios.post("/process/list", { 
-            companyId : sessionStorage.getItem("companyId")
-            ,strPageNum : 0
-            ,pageSize : 10
-        })
-        .then((response) => {
-            if(response.data["rsltCode"] === "F") setProcessList([])
-            else setProcessList(response.data["rsltList"]);
-        })
-        .catch((error) => {
-            setProcessList([]);
-        });
-
-    }, []); 
+        // axios.post("/process/list", { 
+        //     companyId : sessionStorage.getItem("companyId")
+        //     ,strPageNum : 0
+        //     ,pageSize : 10
+        // })
+        // .then((response) => {
+        //     if(response.data["rsltCode"] === "F") setProcessList([])
+        //     else setProcessList(response.data["rsltList"]);
+        // })
+        // .catch((error) => {
+        //     setProcessList([]);
+        // });
+        }
+    }, []);
 
 
     const gridHeader = [

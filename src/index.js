@@ -8,8 +8,8 @@ import axios from "axios";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-axios.defaults.baseURL = "http://localhost:8080/dxai"
-axios.defaults.withCredentials = true;
+axios.defaults.baseURL = "http://localhost:8080"
+// axios.defaults.withCredentials = true;
 
 root.render(
   //<React.StrictMode>
