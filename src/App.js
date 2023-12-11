@@ -10,6 +10,7 @@ import MemberRegister from './pages/MemberRegister';
 import ProductRegister from './pages/ProductRegister';
 import ProcessRegister from './pages/ProcessRegister';
 import ResizablePanel from './component/layer/ResizablePanel';
+import Flow from './processFlow/ProcessFlow';
 
 
 function Root() {
@@ -26,6 +27,7 @@ function Root() {
                     <Route path="/MemberRegister" element={<MemberRegister />} />
                     <Route path="/ProductRegister" element={<ProductRegister />} />
                     <Route path="/ProcessRegister" element={<ProcessRegister />} />
+                    <Route path='/ProcessFlow' element={<Flow/>}/>
                 </Route>
             </Routes>
         </div>);
