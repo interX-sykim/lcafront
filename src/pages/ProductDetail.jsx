@@ -116,6 +116,18 @@ const ProductDetail = ({route}) => {
                     {/* <PieChart/> */}
                     <ResponsiveLine 
                         data={lineChart}
+                        margin={{ top: 50, right: 50, bottom: 50, left: 110 }}
+
+                        pointSize={10}
+                        pointColor="black"
+                        pointBorderWidth={2}
+                        pointBorderColor={{ from: 'serieColor' }}
+                        pointLabelYOffset={-12}
+                        enableArea={true}
+                        areaOpacity={0.65}
+                        useMesh={true}
+                        axisBottom={false}
+
                     />
                 </div>
                 <div className="card h-auto mb-5">
