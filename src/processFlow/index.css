@@ -1,5 +1,4 @@
 .react-flow {
-    height: 500px;
     --bg-color: rgb(17, 17, 17);
     --text-color: rgb(243, 244, 246);
     --node-border-radius: 10px;
@@ -11,7 +10,7 @@
   .react-flow__node-turbo {
     border-radius: var(--node-border-radius);
     display: flex;
-    height: 70px;
+    height: 100px;
     min-width: 150px;
     font-family: 'Fira Mono', Monospace;
     font-weight: 500;
@@ -92,8 +91,8 @@
   }
   
   .react-flow__node-turbo .subline {
-    font-size: 12px;
-    color: #777;
+    font-size: 15px;
+    color: #ffffff;
   }
   
   .react-flow__node-turbo .cloud {
