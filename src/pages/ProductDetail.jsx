@@ -1,7 +1,5 @@
-import { useNavigate } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
-import machine from "../content/images/img-machine.jpg";
 import PieChart from "../component/common/PieChart";
+import { useNavigate } from 'react-router-dom'
 
 import { ResponsiveLine } from '@nivo/line';
 
@@ -11,36 +9,32 @@ import {useParams} from "react-router"
 import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios'
 
-const ProductDetail = ({route}) => {
-    const state = useLocation().state
+const ProductDetail = () => {
     const [elecPowerLogList, setElecPowerLogList] = useState([]);
     const [renderCnt, setRenderCnt] = useState(0);
-    const [productList , setProductList] = useState([]);
+    const [product , setProduct] = useState([]);
+    const [imgUrl, setImgUrl] = useState("");
+    const [company, setCompany] = useState([])
 
-    const params = useParams();
+    const { productId } = useParams();
+    const scrollRef = useRef();
 
     const navigate = useNavigate();
-    sessionStorage.setItem("productId", params.productId)
-    
-    const scrollRef = useRef();
 
     useEffect(() => {
 
-        axios.post('/product/list', {
-            id : params.productId
-            ,companyId : sessionStorage.getItem("companyId")
+        axios.get('/product/' + productId)
+        .then((res) => {
+            setProduct(res.data)
+            setImgUrl("/aasx_images/" + res.data.name + ".png")
+
         })
-        .then((response) => {
-            if(response.data["rsltCode"] === "F") setProductList([])
-            else setProductList(response.data["rsltList"][0]);
+        .catch((err) => {
+            console.log(err)
         })
-        .catch((error) => {
-            console.log(error);
-            setProductList([]);
-        });
 
         axios.post("/resource/list", {
-            id: 3
+            id: productId
         })
         .then((res) => {
             setElecPowerLogList(res.data)
@@ -73,6 +67,7 @@ const ProductDetail = ({route}) => {
         document.location.href = "/dxai/";
     }
 
+    console.log(imgUrl)
     return (
         <>
             <div className="card h-[3.75rem] px-5 flex items-center cursor-pointer select-none" onClick={() => navigate('/')}>
@@ -86,29 +81,29 @@ const ProductDetail = ({route}) => {
                     <ul>
                         <li className="mb-2 pb-2 flex flex-col">
                             <span className="text-default text-sm mb-1 leading-none">Product</span>
-                            <p className="text-text-dark text-xl font-extrabold leading-none">{productList["name"]}</p>
+                            <p className="text-text-dark text-xl font-extrabold leading-none">{product["name"]}</p>
                         </li>
                         <li className="mb-2 flex flex-col">
                             <span className="text-default text-sm leading-none">Company</span>
-                            <p className="text-text-default text-15 leading-6 h-6">{productList["companyName"]}</p>
+                            <p className="text-text-default text-15 leading-6 h-6">{company.name}</p>
                         </li>
                         <li className="mb-2 flex flex-col">
                             <span className="text-default text-sm leading-none">Product ID</span>
-                            <p className="text-text-default text-15 leading-6 h-6">{productList["id"]}</p>
+                            <p className="text-text-default text-15 leading-6 h-6">{product["id"]}</p>
                         </li>
                         <li className="flex flex-col">
                             <span className="text-default text-sm leading-none">Last Update</span>
-                            <p className="text-text-default text-15 leading-6 h-6">{productList["lastUpdate"]}</p>
+                            <p className="text-text-default text-15 leading-6 h-6">{product["lastUpdate"]}</p>
                         </li>
                     </ul>
                     <div className="flex">
                         <div className="h-full px-10 min-w-[18.75rem] flex flex-col items-center justify-center border-l border-border-light">
                             <p className="text-primary font-bold text-xl leading-none mb-1">CO2eq</p>
-                            <p className="text-text-dark text-[3.75rem] font-extrabold leading-none mb-1">{productList["co2eq"]}</p>
+                            <p className="text-text-dark text-[3.75rem] font-extrabold leading-none mb-1">{product["co2eq"]}</p>
                             <p className="text-default text-xl">kg/ea</p>
                         </div>
                         <div className="h-full w-[18.75rem] flex flex-col items-center justify-center">
-                            <img src={machine} alt="machine"/>
+                            <img src={imgUrl}  width="500px" height="600px"/>
                         </div>
                     </div>
                 </div>

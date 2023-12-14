@@ -1,8 +1,6 @@
 import React, { useEffect, useLayoutEffect, useState, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
 
-const Badge = (props) => {
-    const navigate = useNavigate();
+const Badge = (props, navigation) => {
 
     const {
         text,
@@ -15,6 +13,8 @@ const Badge = (props) => {
 
     const [color, setColor] = useState('');
     const [style, setStyle] = useState(mode);
+
+    // console.log(navigateState)
 
     useEffect(() => {
 
@@ -67,7 +67,7 @@ const Badge = (props) => {
 
     const onClick = () => {
         if (value) {
-            navigate(dest, {state : navigateState})
+            navigation.navigate(dest, {params : navigateState})
         }
     }
 

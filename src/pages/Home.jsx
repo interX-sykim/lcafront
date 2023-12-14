@@ -3,19 +3,17 @@ import Badge from "../component/common/atom/Badge";
 import Textbox from "../component/common/atom/Textbox";
 import DataGrid from "../component/common/DataGrid";
 import PageTitle from "../component/common/PageTitle";
-import BetaElectronics from "../content/images/logo-beta_electronics.svg"
-import AlphaEnsol from "../content/images/logo-alphaEnsol.svg"
 import { useNavigate } from 'react-router-dom'
 
 import axios from 'axios';
 
 const Home = () => {
     const [productList, setProductList] = useState([]);
-    const [companyList , setCompanyList] = useState([]);
+    const [company , setCompany] = useState([]);
     const [processList, setProcessList] = useState([]);
+    const [companyImageUrl, setComapnyImageUrl] = useState([]);
 
     const navigate = useNavigate();
-    //const [imgName , setImgName] = useState("");
 
     let imgName = "";
 
@@ -26,7 +24,7 @@ const Home = () => {
         // }
 
         axios.post("/product/company", { 
-            id : 2,
+            id : 3,
             name : ""
         })
         .then((response) => {
@@ -37,18 +35,15 @@ const Home = () => {
             setProductList([]);
         });
 
-        // axios.post("/process/list", { 
-        //     companyId : sessionStorage.getItem("companyId")
-        //     ,strPageNum : 0
-        //     ,pageSize : 10
-        // })
-        // .then((response) => {
-        //     if(response.data["rsltCode"] === "F") setProcessList([])
-        //     else setProcessList(response.data["rsltList"]);
-        // })
-        // .catch((error) => {
-        //     setProcessList([]);
-        // });
+        axios.get("/company/" + 3)
+        .then((response) => {
+            setCompany(response.data);
+            setComapnyImageUrl("/aasx_images/" + response.data.name + ".png");
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+
         }
     }, []);
 
@@ -63,12 +58,13 @@ const Home = () => {
             key: "sub", name: "Update", cellClass: "text-center", headerCellClass: "text-center",
             renderCell({ row }) {
                 const detailUrl = "/ProductDetail/" + row.product;
-                return <Badge value={(row.updateYn > 0)} isBoolean={(row.updateYn > 0)}  text="Update" dest={detailUrl} navigateState={row.state} />;
+                return <Badge value={(row.updateYn > 0)} isBoolean={(row.updateYn > 0)}  text="Update" dest={detailUrl} navigateState={{companyNmae: company["name"]}} />;
             },
         },
     ];
 
     const rows = [];
+    console.log(company)
 
     for (var i=0; i<productList.length; i++) {
         rows.push(
@@ -125,13 +121,10 @@ const Home = () => {
     const PCcount = processList.length;
 
     function getImgUrl() {
-        imgName = "../content/images/" + companyList["logImageUrl"] + ".svg";
+        imgName = "../content/images/" + company["logImageUrl"] + ".svg";
         console.log(imgName);
         return new URL(`${imgName}`, import.meta.url).href
      }
-
-     const imgItem = companyList["logImageUrl"];
-     const imgSrc = "logo-alphaEnsol.svg";
 
     return (
         <>
@@ -141,20 +134,20 @@ const Home = () => {
                     <ul>
                         <li className="mb-2 pb-2 flex flex-col">
                             <span className="text-default text-sm mb-1 leading-none">Company</span>
-                            <p className="text-text-dark text-xl font-extrabold leading-none">{companyList["name"]}</p>
+                            <p className="text-text-dark text-xl font-extrabold leading-none">{company["name"]}</p>
                         </li>
                         <li className="mb-2 flex flex-col">
                             <span className="text-default text-sm leading-none">Web Site</span>
-                            <p className="text-text-default text-15 leading-6">{companyList["website"]} </p>
+                            <p className="text-text-default text-15 leading-6">{company["website"]} </p>
                         </li>
                         <li className="flex flex-col">
                             <span className="text-default text-sm leading-none">Tier ID</span>
-                            <p className="text-text-default text-15 leading-6">ID#{companyList["companyId"]}</p>
+                            <p className="text-text-default text-15 leading-6">ID#{company["companyId"]}</p>
                         </li>
                     </ul>
                     <div className="flex">
                         <div className="h-full w-[18.75rem] pl-[1.875rem] flex flex-col items-center justify-center border-l border-border-light">
-                            <img src={require(`../content/images/${imgSrc}`)} className="w-[12.5rem]" />
+                            <img src={companyImageUrl} className="w-[12.5rem]" />
                         </div>
                     </div>
                 </div>
@@ -162,7 +155,9 @@ const Home = () => {
                     <div className="p-4 flex items-center justify-between">
                         <p className="text-base font-bold text-text-dark pl-[0.875rem]">Product</p>
                         <div className='flex items-center justify-between'>
-                            <button className='block' onClick={() => navigate("/ProductRegister")}>register product</button>
+                            <button className='block' onClick={() => {
+                                    navigate("/ProductRegister")
+                                }}>register product</button>
                         </div>
                     </div>
                     <DataGrid header={gridHeader} rows={rows} totalCount={totalCount} />

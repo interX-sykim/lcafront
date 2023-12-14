@@ -93,8 +93,8 @@ const defaultEdgeOptions = {
 };
 
 const Flow = () => {
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  const [nodes, setNodes, onNodesChange] = useNodesState([]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
   
   const [processList, setProcessList] = useState([]);
@@ -110,7 +110,7 @@ const Flow = () => {
     })
   }, [])
 
-  console.log(processList)
+  // console.log(processList)
   if (processList.length > 0 && initialNodes.length === 0) {
     for (var i = 0; i < processList.length; i++) {
       initialNodes.push({
@@ -118,7 +118,7 @@ const Flow = () => {
         position : { x: 250 * (i / 2), y: 250 * (i % 2) },
         data: { icon: <FunctionIcon/>, title: processList[i].name, subline: 'CO2EQ : ' + processList[i].co2eq + ''},
         type: 'turbo'
-      })
+      }) 
       
       if (processList[i].target !== -1) {
         initialEdges.push({
@@ -126,14 +126,14 @@ const Flow = () => {
           , source: processList[i].id + '',
           target: processList[i].target + ''
         })
-      }
+      } 
     }
     setNodes(initialNodes)
     setEdges(initialEdges)
   }
 
-  console.log(nodes)
-  console.log(edges)
+  // console.log(nodes)
+  // console.log(edges)
 
 
 
@@ -142,6 +142,7 @@ const Flow = () => {
   return (
     <div style={{height:'700px'}}>
       <PageTitle />
+      <p className="text-base font-bold text-text-dark pl-[0.875rem]" style={{marginBottom:'10px', fontSize:'15pt'}}>Process Flow</p>
       <ReactFlow
         style={{height:'500px'}}
         nodes={nodes}
