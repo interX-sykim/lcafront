@@ -27,7 +27,6 @@ function Root() {
                     <Route path="/MemberRegister" element={<MemberRegister />} />
                     <Route path="/ProductRegister" element={<ProductRegister />} />
                     <Route path="/ProcessRegister" element={<ProcessRegister />} />
-                    <Route path='/ProcessFlow' element={<Flow/>}/>
                 </Route>
             </Routes>
         </div>);

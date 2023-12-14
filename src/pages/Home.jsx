@@ -64,7 +64,6 @@ const Home = () => {
     ];
 
     const rows = [];
-    console.log(company)
 
     for (var i=0; i<productList.length; i++) {
         rows.push(
@@ -161,16 +160,6 @@ const Home = () => {
                         </div>
                     </div>
                     <DataGrid header={gridHeader} rows={rows} totalCount={totalCount} />
-                </div>
-                <br></br>
-                <div className="card h-auto mb-5">
-                    <div className="p-4 flex items-center justify-between">
-                        <p className="text-base font-bold text-text-dark pl-[0.875rem]">Process</p>
-                        <div className='flex items-center justify-between'>
-                            <button className='block' onClick={() => navigate("/ProcessRegister")}>register process</button>
-                        </div>
-                    </div>
-                    <DataGrid header={PCgridHeader} rows={PCRows} totalCount={PCcount} />
                 </div>
             </div>
         </>

@@ -8,6 +8,7 @@ import ComponentModifyModal from '../component/modals/ComponentModifyModal';
 import {useParams} from "react-router"
 import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios'
+import Flow from "../processFlow/ProcessFlow";
 
 const ProductDetail = () => {
     const [elecPowerLogList, setElecPowerLogList] = useState([]);
@@ -15,6 +16,7 @@ const ProductDetail = () => {
     const [product , setProduct] = useState([]);
     const [imgUrl, setImgUrl] = useState("");
     const [company, setCompany] = useState([])
+    const [processList, setProcessList] = useState([])
 
     const { productId } = useParams();
     const scrollRef = useRef();
@@ -44,13 +46,21 @@ const ProductDetail = () => {
             console.log(error)
         })
 
+        axios.get("/process")
+        .then((response) => {
+          setProcessList(response.data);
+          renderCnt += 1
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+
     }, []);
 
     const data = []
     for (var i=0; i < elecPowerLogList.length; i++) {
         data.push({x:elecPowerLogList[i]["timestamp"], y:elecPowerLogList[i]["quantity"]})
     }
-    console.log(elecPowerLogList.length)
     const lineChart = [{
         "id": "Power",
         "color": "hsl(205, 70%, 50%)",
@@ -67,10 +77,9 @@ const ProductDetail = () => {
         document.location.href = "/dxai/";
     }
 
-    console.log(imgUrl)
     return (
         <>
-            <div className="card h-[3.75rem] px-5 flex items-center cursor-pointer select-none" onClick={() => navigate('/')}>
+            <div className="card h-[3.75rem] px-5 flex items-center cursor-pointer select-none" onClick={() => navigate('/Home')}>
                 <i className="icon-chevron_left w-[2.125rem] h-[2.125rem] text-2xl flex items-center justify-center text-default cursor-pointer select-none mr-2"></i>
                 <p className="text-base font-bold">Product</p>
                 <p className="text-sm text-text-dark font-bold">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button onClick={() => {goLogOut()}}><b><font color="RED">LOGOUT</font></b></button></p>
@@ -108,6 +117,7 @@ const ProductDetail = () => {
                     </div>
                 </div>
                 <div className="card h-[25rem] py-5 overflow-hidden mb-5">
+                    <p className="text-base font-bold text-text-dark pl-[0.875rem]">Electricity Resource Usage</p>
                     {/* <PieChart/> */}
                     <ResponsiveLine 
                         data={lineChart}
@@ -125,47 +135,10 @@ const ProductDetail = () => {
 
                     />
                 </div>
-                <div className="card h-auto mb-5">
-                    <div className="h-11 p-4 flex items-center justify-between">
-                        <p className="text-base font-bold text-text-dark pl-[0.875rem]">Super Tier Request</p>
-                        <div>
-                        </div>
-                    </div>
-               </div>
-                <div className="card h-auto mb-5">
-                    <div className="p-4 flex items-center justify-between">
-                        <p className="text-base font-bold text-text-dark pl-[0.875rem]">Product Component</p>
-                        <div className='h-11 flex items-center justify-between'>
-                            <button className='block' onClick={() => {
-                                document.getElementById("componentAddModal").classList.remove("hidden");
-                            }}>add component</button> 
-                        </div>
-                    </div>
-                </div>
-                <div className="flex gap-5">
-                    <div className="w-[calc(50%_-_0.625rem)]">
-                        <div className="card h-auto">
-                            <div className="p-4 flex items-center justify-between">
-                                <p className="text-base font-bold text-text-dark pl-[0.875rem]">Product Resource</p>
-                                <div className='h-11 flex items-center justify-between'>
-                                    <button className='block' onClick={() => {
-                                        document.getElementById("resourceAddModal").classList.remove("hidden");
-                                    }}>add resource</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="w-[calc(50%_-_0.625rem)]">
-                        <div className="card h-auto">
-                            <div className="p-4 flex items-center justify-between">
-                                <p className="text-base font-bold text-text-dark pl-[0.875rem]">Manufacturing Process</p>
-                                <div className='h-11 flex items-center justify-between'>
-                                    <button className='block' onClick={() => {
-                                        document.getElementById("processAddModal").classList.remove("hidden");
-                                    }}>add process</button>
-                                </div>
-                            </div>
-                        </div>
+                <div className="card h-[25rem] py-5 overflow-hidden mb-5" style={{height:"800px"}}>
+                    <p className="text-base font-bold text-text-dark pl-[0.875rem]" style={{marginBottom:'20px'}}>Process Flow</p>
+                    <div style={{padding:"30px"}}>
+                        <Flow processList={processList}/>
                     </div>
                 </div>
             </div>
