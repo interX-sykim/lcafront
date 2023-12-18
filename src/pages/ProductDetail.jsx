@@ -77,6 +77,32 @@ const ProductDetail = () => {
         document.location.href = "/dxai/";
     }
 
+    const resourceChart = () => {
+        if (data.length == 0) {
+            return (
+                <p style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height:"80%"}}>No Resource Data</p>
+            )
+        } else {
+            return (
+                <ResponsiveLine 
+                data={lineChart}
+                margin={{ top: 50, right: 50, bottom: 50, left: 110 }}
+
+                pointSize={10}
+                pointColor="black"
+                pointBorderWidth={2}
+                pointBorderColor={{ from: 'serieColor' }}
+                pointLabelYOffset={-12}
+                enableArea={true}
+                areaOpacity={0.65}
+                useMesh={true}
+                axisBottom={false}
+
+            />
+            )
+        }
+    }
+
     return (
         <>
             <div className="card h-[3.75rem] px-5 flex items-center cursor-pointer select-none" onClick={() => navigate('/Home')}>
@@ -119,21 +145,7 @@ const ProductDetail = () => {
                 <div className="card h-[25rem] py-5 overflow-hidden mb-5">
                     <p className="text-base font-bold text-text-dark pl-[0.875rem]">Electricity Resource Usage</p>
                     {/* <PieChart/> */}
-                    <ResponsiveLine 
-                        data={lineChart}
-                        margin={{ top: 50, right: 50, bottom: 50, left: 110 }}
-
-                        pointSize={10}
-                        pointColor="black"
-                        pointBorderWidth={2}
-                        pointBorderColor={{ from: 'serieColor' }}
-                        pointLabelYOffset={-12}
-                        enableArea={true}
-                        areaOpacity={0.65}
-                        useMesh={true}
-                        axisBottom={false}
-
-                    />
+                    {resourceChart()}
                 </div>
                 <div className="card h-[25rem] py-5 overflow-hidden mb-5" style={{height:"800px"}}>
                     <p className="text-base font-bold text-text-dark pl-[0.875rem]" style={{marginBottom:'20px'}}>Process Flow</p>
