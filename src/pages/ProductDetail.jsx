@@ -10,16 +10,17 @@ import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios'
 import Flow from "../processFlow/ProcessFlow";
 
+import DataGrid from "../component/common/DataGrid";
+
 const ProductDetail = () => {
     const [elecPowerLogList, setElecPowerLogList] = useState([]);
-    const [renderCnt, setRenderCnt] = useState(0);
     const [product , setProduct] = useState([]);
     const [imgUrl, setImgUrl] = useState("");
-    const [company, setCompany] = useState([])
-    const [processList, setProcessList] = useState([])
+    const [processList, setProcessList] = useState([]);
+    const [componentList, setComponentList] = useState([]);
+    const [superTierList, setSuperTierList] = useState([]);
 
     const { productId } = useParams();
-    const scrollRef = useRef();
 
     const navigate = useNavigate();
 
@@ -49,13 +50,34 @@ const ProductDetail = () => {
         axios.get("/process")
         .then((response) => {
           setProcessList(response.data);
-          renderCnt += 1
         })
         .catch((error) => {
           console.log(error);
         })
 
+
+        axios.post("/component/super", {id: productId})
+        .then((response) => {
+          setSuperTierList(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+
+        
+        axios.post("/component/sub", {id: productId})
+        .then((response) => {
+          setComponentList(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+
+
     }, []);
+
+    console.log(componentList)
+    console.log(superTierList)
 
     const data = []
     for (var i=0; i < elecPowerLogList.length; i++) {
@@ -103,6 +125,57 @@ const ProductDetail = () => {
         }
     }
 
+
+
+
+
+    const SuperTierHeader = [
+        { key: "no", name: "NO", width: "10%", cellClass: "text-center", headerCellClass: "text-center" },
+        { key: "product", width: "40%", name: "Product"},
+        { key: "company", width: "40%", name: "Company"},
+        { key: "CO2EQ", width: "10%", name: "CO2EQ "},
+    ];
+   
+    const SuperTierRows = []
+    for (var i=0; i < superTierList.length; i++) {
+        SuperTierRows.push(
+            {
+                no: i+1,
+                product: superTierList[i]["name"],
+                company: superTierList[i]["companyName"],
+                CO2EQ: superTierList[i]["co2eq"]
+            }
+        )
+    }
+
+    const ComponentHeader = [
+        { key: "no", name: "NO", width: "10%", cellClass: "text-center", headerCellClass: "text-center" },
+        { key: "product", width: "40%", name: "Product"},
+        { key: "company", width: "40%", name: "Company"},
+        { key: "CO2EQ", width: "10%", name: "CO2EQ "},
+    ];
+   
+    const ComponentRows = []
+    for (var i=0; i < componentList.length; i++) {
+        ComponentRows.push(
+            {
+                no: i+1,
+                product: componentList[i]["name"],
+                company: componentList[i]["companyName"],
+                CO2EQ: componentList[i]["co2eq"]
+            }
+        )
+    }
+
+
+
+
+
+
+
+
+
+
     return (
         <>
             <div className="card h-[3.75rem] px-5 flex items-center cursor-pointer select-none" onClick={() => navigate('/Home')}>
@@ -119,16 +192,8 @@ const ProductDetail = () => {
                             <p className="text-text-dark text-xl font-extrabold leading-none">{product["name"]}</p>
                         </li>
                         <li className="mb-2 flex flex-col">
-                            <span className="text-default text-sm leading-none">Company</span>
-                            <p className="text-text-default text-15 leading-6 h-6">{company.name}</p>
-                        </li>
-                        <li className="mb-2 flex flex-col">
                             <span className="text-default text-sm leading-none">Product ID</span>
                             <p className="text-text-default text-15 leading-6 h-6">{product["id"]}</p>
-                        </li>
-                        <li className="flex flex-col">
-                            <span className="text-default text-sm leading-none">Last Update</span>
-                            <p className="text-text-default text-15 leading-6 h-6">{product["lastUpdate"]}</p>
                         </li>
                     </ul>
                     <div className="flex">
@@ -152,6 +217,20 @@ const ProductDetail = () => {
                     <div style={{padding:"30px"}}>
                         <Flow processList={processList}/>
                     </div>
+                </div>
+                
+
+                <div className="card h-auto">
+                    <div className="p-4 flex items-center justify-between">
+                        <p className="text-base font-bold text-text-dark pl-[0.875rem]">Super Tier List</p>
+                    </div>
+                    <DataGrid header={SuperTierHeader} rows={SuperTierRows} totalCount={superTierList.length} />
+                </div>
+                <div className="card h-auto" style={{marginTop:"20px"}}>
+                    <div className="p-4 flex items-center justify-between">
+                        <p className="text-base font-bold text-text-dark pl-[0.875rem]">Components List</p>
+                    </div>
+                    <DataGrid header={ComponentHeader} rows={ComponentRows} totalCount={componentList.length} />
                 </div>
             </div>
         </>
