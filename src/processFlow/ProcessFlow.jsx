@@ -44,21 +44,31 @@ export default function Flow(props) {
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
   const { processList } = props;
+  const processSortedList = [processList.processData[processList.root]]
 
-  if (processList.length > 0 && nodes.length === 0) {
-    for (var i = 0; i < processList.length; i++) {
+  while (true) {
+    const curProcess = processSortedList[processSortedList.length -1] 
+    if (curProcess.target !== -1) {
+      processSortedList.push(processList.processData[curProcess.target])
+    } else {
+      break
+    }
+  }
+
+  if (processSortedList.length > 0 && nodes.length === 0) {
+    for (var i = 0; i < processSortedList.length; i++) {
       initialNodes.push({
-        id: processList[i].id + '',
-        position : { x: 500 * (-Math.floor(i / 2) + i % 2), y: 0 },
-        data: { icon: <FunctionIcon/>, title: processList[i].name, subline: 'CO2EQ : ' + processList[i].co2eq + ''},
+        id: processSortedList[i].id + '',
+        position : { x: 500 * i, y: 0 },
+        data: { icon: <FunctionIcon/>, title: processSortedList[i].name, subline: 'CO2EQ : ' + processSortedList[i].co2eq + ''},
         type: 'turbo'
       }) 
       
-      if (processList[i].target !== -1) {
+      if (processSortedList[i].target !== -1) {
         initialEdges.push({
-          id: 'e' + processList[i].id + '-' + processList[i].target
-          , source: processList[i].id + '',
-          target: processList[i].target + ''
+          id: 'e' + processSortedList[i].id + '-' + processSortedList[i].target
+          , source: processSortedList[i].id + '',
+          target: processSortedList[i].target + ''
         })
       } 
     }

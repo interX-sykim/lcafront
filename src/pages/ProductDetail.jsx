@@ -47,7 +47,9 @@ const ProductDetail = () => {
             console.log(error)
         })
 
-        axios.get("/process")
+        axios.post("/process/list", {
+            id: productId
+        })
         .then((response) => {
           setProcessList(response.data);
         })
@@ -75,9 +77,6 @@ const ProductDetail = () => {
 
 
     }, []);
-
-    console.log(componentList)
-    console.log(superTierList)
 
     const data = []
     for (var i=0; i < elecPowerLogList.length; i++) {
@@ -122,6 +121,17 @@ const ProductDetail = () => {
 
             />
             )
+        }
+    }
+
+
+    const renderProcessFlow = () => {
+        if (processList.root !== undefined) {
+            return (
+                <Flow processList={processList}/>
+            )
+        } else {
+            return
         }
     }
 
@@ -215,7 +225,7 @@ const ProductDetail = () => {
                 <div className="card h-[25rem] py-5 overflow-hidden mb-5" style={{height:"800px"}}>
                     <p className="text-base font-bold text-text-dark pl-[0.875rem]" style={{marginBottom:'20px'}}>Process Flow</p>
                     <div style={{padding:"30px"}}>
-                        <Flow processList={processList}/>
+                        {renderProcessFlow()}
                     </div>
                 </div>
                 
