@@ -44,15 +44,19 @@ export default function Flow(props) {
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
   const { processList } = props;
-  const processSortedList = [processList.processData[processList.root]]
+  const processSortedList = []
 
-  while (true) {
-    const curProcess = processSortedList[processSortedList.length -1] 
-    if (curProcess.target !== -1) {
-      processSortedList.push(processList.processData[curProcess.target])
-    } else {
-      break
-    }
+  if (processList.processData.length > 0) {
+    processSortedList.push(processList.processData[processList.root])
+    
+      while (true) {
+        const curProcess = processSortedList[processSortedList.length -1] 
+        if (curProcess.target !== -1) {
+          processSortedList.push(processList.processData[curProcess.target])
+        } else {
+          break
+        }
+      }
   }
 
   if (processSortedList.length > 0 && nodes.length === 0) {
